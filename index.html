@@ -149,7 +149,14 @@
       align-items: start;
     }
     .about-foto-wrap { position: relative; }
-    .about-foto-wrap img { width: 100%; display: block; filter: grayscale(15%); }
+    .about-foto-wrap img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: grayscale(15%);
+    }
     .about-foto-placeholder {
       width: 100%;
       aspect-ratio: 3/4;
@@ -407,7 +414,6 @@
   <section id="inicio">
     <div class="hero-linea-top"></div>
     <div>
-      <p class="hero-etiqueta">Portfolio</p>
       <h1>Jorge<br>Care</h1>
       <p class="hero-descripcion">
         Composer <span>/</span> Digital artist <span>/</span> Improviser
@@ -426,20 +432,13 @@
     </div>
     <div class="about-grid">
       <div class="about-foto-wrap">
-        <!-- PARA AGREGAR TU FOTO:
-             1. Crea una carpeta llamada "img" dentro de tu carpeta mamagyorgy.github.io
-             2. Guarda tu foto ahí, por ejemplo como "foto.jpg"
-             3. Borra las 5 líneas del div.about-foto-placeholder
-             4. Escribe en su lugar: <img src="img/foto.jpg" alt="Jorge Care" />
-             El div.foto-borde-rojo de abajo déjalo como está. -->
         <img src="img/bio.jpg" alt="Jorge Care" />
-        </div>
         <div class="foto-borde-rojo"></div>
       </div>
       <div class="about-texto">
-        <h2>BIO</h2>
+        <h2>Composer, digital artist, and improviser</h2>
         <p>
-          Jorge Care (1996) is a composer, digital artist, and improviser
+          Jorge Care (b. 1996) is a composer, digital artist, and improviser
           whose work bridges experimental electronic sound, instrumental
           performance, and the creation of light-driven concert environments.
           His practice is rooted in the interaction between musical gesture,
@@ -447,7 +446,7 @@
           experiences where sound and light form a unified expressive language.
         </p>
         <p>
-          He holds a Bachelor of Arts in Music Composition and a Master of
+          He holds a Bachelor of Arts in Music (Composition) and a Master of
           Arts in Music Composition and Theory, major in Computer Music and
           Live Electronics, both from the Haute école de musique de Genève,
           where he studied with Michael Jarrell, Luis Naón, Gilbert Nouno, and
@@ -469,24 +468,6 @@
           of the saxophone-and-electronics duo Des Visages, alongside César
           Vidal, and of the duo On Press Off with saxophonist Jose Nisa.
         </p>
-        <div class="about-datos">
-          <div class="dato-fila">
-            <span class="etiqueta">Education</span>
-            <span class="valor">MA — HEM Genève</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Award</span>
-            <span class="valor rojo">Prix Contrechamps 2025</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Recognition</span>
-            <span class="valor">Nominated, Pulsar Awards 2025</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Active projects</span>
-            <span class="valor">Des Visages · On Press Off</span>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -503,7 +484,7 @@
       <p>
         A full catalogue of works and projects will be available here soon.
         In the meantime, you can explore performances and recordings
-        on the YouTube channel.
+        on the YouTube channel, or download the artistic dossier below.
       </p>
       <a href="https://youtube.com/@jorgecare" target="_blank" rel="noopener" class="btn-yt">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -611,10 +592,6 @@
     <div class="contact-inner">
       <div class="contact-intro">
         <h2>Get in touch</h2>
-        <p>
-          For artistic proposals, residencies,<br>
-          bookings, or press enquiries.
-        </p>
       </div>
       <div class="contact-links">
         <div class="contact-fila">
