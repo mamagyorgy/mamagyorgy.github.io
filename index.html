@@ -1,619 +1,638 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jorge Care — Compositor</title>
-  <meta name="description" content="Jorge Care es compositor y artista digital. Música mixta, electrónica en vivo y síntesis en tiempo real." />
-
-  <!-- Fuentes de Google: una serif elegante para el nombre, una sans limpia para el cuerpo -->
+  <title>Jorge Care</title>
+  <meta name="description" content="Jorge Care — Composer, digital artist, and improviser." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset y base ─────────────────────────────────── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --negro:      #0d0d0d;
-      --blanco:     #f7f5f0;
-      --gris-claro: #e8e5de;
-      --gris-medio: #a09e99;
-      --acento:     #2a4a3e;   /* verde oscuro profundo */
-      --serif:      'Cormorant Garamond', Georgia, serif;
-      --sans:       'Inter', system-ui, sans-serif;
+      --negro:  #0a0a0a;
+      --blanco: #f0ede8;
+      --gris:   #555552;
+      --rojo:   #c0392b;
+      --rojo2:  #e74c3c;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
     }
-
     html { scroll-behavior: smooth; }
-
     body {
-      background-color: var(--blanco);
-      color: var(--negro);
+      background-color: var(--negro);
+      color: var(--blanco);
       font-family: var(--sans);
       font-size: 16px;
       line-height: 1.7;
       font-weight: 300;
     }
-
-    /* ── Navegación ───────────────────────────────────── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 3rem;
-      background-color: rgba(247, 245, 240, 0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--gris-claro);
+      background-color: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1a1a1a;
     }
-
     nav .logo {
       font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      color: var(--negro);
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--blanco);
       text-decoration: none;
     }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
     nav a {
       text-decoration: none;
-      color: var(--gris-medio);
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      color: var(--gris);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       font-weight: 400;
       transition: color 0.2s;
     }
-
-    nav a:hover { color: var(--negro); }
-
-    /* ── Hero ─────────────────────────────────────────── */
+    nav a:hover { color: var(--blanco); }
     #inicio {
       min-height: 100vh;
       display: flex;
-      align-items: center;
-      padding: 6rem 3rem 4rem;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 5rem;
       position: relative;
+      border-bottom: 1px solid #1a1a1a;
     }
-
-    .hero-inner {
-      max-width: 680px;
+    .hero-linea-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--rojo);
     }
-
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
+    .hero-etiqueta {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--gris-medio);
+      color: var(--rojo);
       margin-bottom: 1.5rem;
     }
-
     h1 {
       font-family: var(--serif);
-      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-size: clamp(4rem, 11vw, 9rem);
       font-weight: 300;
-      line-height: 1.0;
-      letter-spacing: -0.01em;
-      margin-bottom: 1.75rem;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      color: var(--blanco);
     }
-
     .hero-descripcion {
-      font-size: 1.05rem;
-      color: #444;
-      max-width: 480px;
-      line-height: 1.8;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gris);
       margin-bottom: 2.5rem;
     }
-
-    .hero-links {
-      display: flex;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      padding: 0.65rem 1.6rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 400;
-      transition: all 0.2s;
-      border-radius: 2px;
-    }
-
-    .btn-principal {
-      background-color: var(--acento);
-      color: var(--blanco);
-      border: 1px solid var(--acento);
-    }
-
-    .btn-principal:hover {
-      background-color: #1d3329;
-      border-color: #1d3329;
-    }
-
-    .btn-secundario {
-      background-color: transparent;
-      color: var(--negro);
-      border: 1px solid var(--gris-claro);
-    }
-
-    .btn-secundario:hover {
-      border-color: var(--negro);
-    }
-
-    /* línea decorativa lateral */
-    .hero-linea {
-      position: absolute;
-      right: 3rem;
-      top: 50%;
-      transform: translateY(-50%);
-      writing-mode: vertical-rl;
+    .hero-descripcion span { color: var(--rojo); margin: 0 0.75rem; opacity: 0.7; }
+    .hero-bottom { display: flex; justify-content: flex-end; }
+    .hero-scroll {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--gris-claro);
+      color: var(--gris);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
     }
-
-    /* ── Secciones generales ──────────────────────────── */
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 3rem;
+      background: var(--rojo);
+    }
     section {
-      padding: 6rem 3rem;
+      padding: 7rem 3rem;
       max-width: 1100px;
       margin: 0 auto;
     }
-
-    .seccion-etiqueta {
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gris-medio);
-      margin-bottom: 3rem;
+    .seccion-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.25rem;
+      margin-bottom: 4rem;
     }
-
-    .seccion-etiqueta::after {
-      content: '';
-      display: block;
-      height: 1px;
-      width: 3rem;
-      background: var(--gris-claro);
-    }
-
-    h2 {
+    .seccion-num {
       font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 300;
-      line-height: 1.15;
-      margin-bottom: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--rojo);
+      letter-spacing: 0.1em;
     }
-
-    /* ── Sobre mí ─────────────────────────────────────── */
-    .sobre-grid {
+    .seccion-titulo {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gris);
+    }
+    .seccion-linea { flex: 1; height: 1px; background: #1e1e1e; }
+    #about { border-top: 1px solid #1a1a1a; }
+    .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
       align-items: start;
     }
-
-    .sobre-texto p {
-      color: #444;
-      margin-bottom: 1.25rem;
-      font-size: 0.97rem;
+    .about-foto-wrap { position: relative; }
+    .about-foto-wrap img { width: 100%; display: block; filter: grayscale(15%); }
+    .about-foto-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    .sobre-datos {
-      border-top: 1px solid var(--gris-claro);
+    .about-foto-placeholder p {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2a2a2a;
     }
-
+    .foto-borde-rojo {
+      position: absolute;
+      bottom: -10px; right: -10px;
+      width: 55%; height: 55%;
+      border-bottom: 2px solid var(--rojo);
+      border-right: 2px solid var(--rojo);
+      pointer-events: none;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--blanco);
+    }
+    .about-texto p {
+      color: #999;
+      font-size: 0.91rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.9;
+    }
+    .about-texto p em { color: #bbb; font-style: italic; }
+    .about-datos { margin-top: 2.5rem; border-top: 1px solid #1e1e1e; }
     .dato-fila {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--gris-claro);
-      font-size: 0.85rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #141414;
+      gap: 1rem;
     }
-
-    .dato-fila span:first-child {
-      color: var(--gris-medio);
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .dato-fila span:last-child {
-      text-align: right;
-    }
-
-    /* ── Obras ────────────────────────────────────────── */
-    #obras { border-top: 1px solid var(--gris-claro); }
-
-    .obras-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .obra-card {
-      border: 1px solid var(--gris-claro);
-      padding: 1.75rem;
-      transition: border-color 0.2s;
-    }
-
-    .obra-card:hover { border-color: var(--negro); }
-
-    .obra-año {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--gris-medio);
-      margin-bottom: 0.75rem;
-    }
-
-    .obra-card h3 {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-    }
-
-    .obra-card p {
-      font-size: 0.85rem;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .obra-tag {
-      display: inline-block;
-      margin-top: 1rem;
+    .dato-fila .etiqueta {
       font-size: 0.65rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--acento);
-      border: 1px solid var(--acento);
-      padding: 0.2rem 0.6rem;
-      border-radius: 2px;
+      color: var(--gris);
+      white-space: nowrap;
     }
-
-    /* ── Conciertos ───────────────────────────────────── */
-    #conciertos { border-top: 1px solid var(--gris-claro); }
-
+    .dato-fila .valor { color: #aaa; font-size: 0.82rem; text-align: right; }
+    .dato-fila .valor.rojo { color: var(--rojo2); }
+    #works { border-top: 1px solid #1a1a1a; }
+    .works-aviso {
+      border: 1px solid #1a1a1a;
+      padding: 4rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+    .works-aviso::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3.5rem; height: 2px;
+      background: var(--rojo);
+    }
+    .works-aviso::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 3.5rem; height: 2px;
+      background: var(--rojo);
+    }
+    .works-aviso-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      margin-bottom: 1.5rem;
+    }
+    .works-aviso h3 {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 300;
+      color: var(--blanco);
+      margin-bottom: 1rem;
+    }
+    .works-aviso p {
+      color: var(--gris);
+      font-size: 0.88rem;
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.9;
+    }
+    .btn-yt {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--blanco);
+      border: 1px solid #2a2a2a;
+      padding: 0.85rem 2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-yt:hover { border-color: var(--rojo); color: var(--rojo); }
+    .btn-yt svg { width: 13px; height: 13px; fill: currentColor; }
+    .dossier-wrap { margin-top: 2rem; display: flex; justify-content: center; }
+    .btn-dossier {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--gris);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #1e1e1e;
+      padding-bottom: 0.3rem;
+      transition: all 0.2s;
+    }
+    .btn-dossier:hover { color: var(--blanco); border-color: #555; }
+    #concerts { border-top: 1px solid #1a1a1a; }
+    .concerts-intro {
+      margin-bottom: 3rem;
+    }
+    .concerts-intro p {
+      color: var(--gris);
+      font-size: 0.88rem;
+      line-height: 1.9;
+      max-width: 520px;
+    }
+    .concerts-intro p em {
+      color: #aaa;
+      font-style: italic;
+    }
     .concierto-fila {
       display: grid;
-      grid-template-columns: 100px 1fr auto;
+      grid-template-columns: 90px 1fr auto;
       align-items: center;
       gap: 2rem;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--gris-claro);
+      padding: 1.4rem 0;
+      border-bottom: 1px solid #141414;
+      text-decoration: none;
       transition: background 0.15s;
     }
-
-    .concierto-fila:hover {
-      background: rgba(0,0,0,0.02);
-      margin: 0 -1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
+    .concierto-fila:first-of-type { border-top: 1px solid #1e1e1e; }
+    .concierto-fila:hover { background: rgba(255,255,255,0.02); }
     .concierto-fecha {
       font-family: var(--serif);
       font-size: 0.85rem;
-      color: var(--gris-medio);
+      color: var(--gris);
       line-height: 1.4;
     }
-
-    .concierto-info h4 {
-      font-weight: 400;
-      font-size: 0.97rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .concierto-info p {
-      font-size: 0.8rem;
-      color: var(--gris-medio);
-    }
-
-    .concierto-estado {
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.65rem;
-      border-radius: 2px;
-    }
-
-    .estado-confirmado {
-      background: #e8f0ed;
-      color: var(--acento);
-    }
-
-    .estado-proximo {
-      background: var(--gris-claro);
-      color: var(--gris-medio);
-    }
-
-    /* ── Contacto ─────────────────────────────────────── */
-    #contacto {
-      border-top: 1px solid var(--gris-claro);
-      text-align: center;
-    }
-
-    .contacto-interior {
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    .contacto-interior p {
-      color: #555;
-      margin-bottom: 2rem;
-      font-size: 0.97rem;
-    }
-
-    .contacto-email {
+    .concierto-fecha strong {
+      display: block;
       font-family: var(--serif);
       font-size: 1.5rem;
-      font-weight: 400;
-      color: var(--negro);
-      text-decoration: none;
-      border-bottom: 1px solid var(--gris-claro);
-      padding-bottom: 0.25rem;
-      transition: border-color 0.2s;
+      font-weight: 300;
+      color: var(--blanco);
+      line-height: 1;
     }
-
-    .contacto-email:hover { border-color: var(--negro); }
-
-    .redes {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 3rem;
+    .concierto-info { display: flex; flex-direction: column; gap: 0.2rem; }
+    .concierto-evento {
+      font-size: 0.92rem;
+      color: var(--blanco);
+      font-weight: 300;
     }
-
-    .redes a {
+    .concierto-lugar {
+      font-size: 0.78rem;
+      color: var(--gris);
+      letter-spacing: 0.05em;
+    }
+    .concierto-lugar span { color: #555; margin: 0 0.4rem; }
+    .concierto-arrow {
       font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gris-medio);
-      text-decoration: none;
-      transition: color 0.2s;
+      color: var(--rojo);
+      opacity: 0;
+      transition: opacity 0.2s;
+      letter-spacing: 0.1em;
     }
-
-    .redes a:hover { color: var(--negro); }
-
-    /* ── Footer ───────────────────────────────────────── */
+    .concierto-fila:hover .concierto-arrow { opacity: 1; }
+    @media (max-width: 768px) {
+      .concierto-fila {
+        grid-template-columns: 60px 1fr;
+        grid-template-rows: auto auto;
+        gap: 0.5rem 1rem;
+      }
+      .concierto-arrow { display: none; }
+    }
+    #contact { border-top: 1px solid #1a1a1a; }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-intro p { color: var(--gris); font-size: 0.88rem; margin-top: 1rem; line-height: 1.9; }
+    .contact-links { border-top: 1px solid #1e1e1e; }
+    .contact-fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid #141414;
+    }
+    .contact-fila .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gris);
+    }
+    .contact-fila a { text-decoration: none; color: #aaa; font-size: 0.88rem; transition: color 0.2s; }
+    .contact-fila a:hover { color: var(--blanco); }
     footer {
-      border-top: 1px solid var(--gris-claro);
+      border-top: 1px solid #1a1a1a;
       padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.75rem;
-      color: var(--gris-medio);
+      font-size: 0.7rem;
+      color: #2e2e2e;
+      letter-spacing: 0.1em;
     }
-
-    /* ── Responsive ───────────────────────────────────── */
+    footer .rojo { color: var(--rojo); }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       nav ul { gap: 1.25rem; }
-
-      section { padding: 4rem 1.5rem; }
-      #inicio { padding: 5rem 1.5rem 3rem; }
-
-      .hero-linea { display: none; }
-
-      .sobre-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      .concierto-fila {
-        grid-template-columns: 80px 1fr;
-        grid-template-rows: auto auto;
-      }
-
-      .concierto-estado {
-        grid-column: 2;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-        padding: 1.5rem;
-      }
+      #inicio { padding: 0 1.5rem 4rem; }
+      section { padding: 4.5rem 1.5rem; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-foto-wrap { max-width: 300px; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- ── Navegación ────────────────────────────────────── -->
   <nav>
-    <a href="#inicio" class="logo">Jorge Care</a>
+    <a href="#inicio" class="logo">Jorge <span>Care</span></a>
     <ul>
-      <li><a href="#sobre">Sobre mí</a></li>
-      <li><a href="#obras">Obras</a></li>
-      <li><a href="#conciertos">Conciertos</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#concerts">Concerts</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- ── Hero ──────────────────────────────────────────── -->
   <section id="inicio">
-    <div class="hero-inner">
-      <p class="hero-eyebrow">Compositor · Artista digital · Ginebra</p>
+    <div class="hero-linea-top"></div>
+    <div>
+      <p class="hero-etiqueta">Portfolio</p>
       <h1>Jorge<br>Care</h1>
       <p class="hero-descripcion">
-        Trabajo en la intersección de la composición mixta, la electrónica en vivo
-        y la síntesis en tiempo real. Mis obras exploran el espacio sonoro como
-        materia escultórica.
+        Composer <span>/</span> Digital artist <span>/</span> Improviser
       </p>
-      <div class="hero-links">
-        <a href="#obras" class="btn btn-principal">Ver obras</a>
-        <a href="#contacto" class="btn btn-secundario">Contacto</a>
-      </div>
     </div>
-    <span class="hero-linea">Música mixta — Electrónica en vivo</span>
+    <div class="hero-bottom">
+      <div class="hero-scroll">Scroll</div>
+    </div>
   </section>
 
-  <!-- ── Sobre mí ───────────────────────────────────────── -->
-  <section id="sobre">
-    <p class="seccion-etiqueta">Sobre mí</p>
-    <div class="sobre-grid">
-      <div class="sobre-texto">
-        <h2>Compositor e investigador del sonido y el espacio</h2>
+  <section id="about">
+    <div class="seccion-header">
+      <span class="seccion-num">01</span>
+      <span class="seccion-titulo">About</span>
+      <div class="seccion-linea"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-foto-wrap">
+        <!-- PARA AGREGAR TU FOTO:
+             1. Crea una carpeta llamada "img" dentro de tu carpeta mamagyorgy.github.io
+             2. Guarda tu foto ahí, por ejemplo como "foto.jpg"
+             3. Borra las 5 líneas del div.about-foto-placeholder
+             4. Escribe en su lugar: <img src="img/foto.jpg" alt="Jorge Care" />
+             El div.foto-borde-rojo de abajo déjalo como está. -->
+        <div class="about-foto-placeholder">
+          <p>Photo coming soon</p>
+        </div>
+        <div class="foto-borde-rojo"></div>
+      </div>
+      <div class="about-texto">
+        <h2>Composer, digital artist, and improviser</h2>
         <p>
-          Completé un bachelor y un máster en composición mixta (música por computadora
-          y electrónica en vivo) en la Haute école de musique de Genève (HEM),
-          donde recibí el Prix Contrechamps.
+          Jorge Care (b. 1996) is a composer, digital artist, and improviser
+          whose work bridges experimental electronic sound, instrumental
+          performance, and the creation of light-driven concert environments.
+          His practice is rooted in the interaction between musical gesture,
+          real-time electronics, and spatial design, crafting immersive
+          experiences where sound and light form a unified expressive language.
         </p>
         <p>
-          Mi práctica está centrada en la síntesis sonora en tiempo real,
-          la espacialización multicanal y el video generativo, buscando crear
-          experiencias que integran lo acústico, lo electrónico y lo visual
-          como un todo indivisible.
+          He holds a Bachelor of Arts in Music (Composition) and a Master of
+          Arts in Music Composition and Theory, major in Computer Music and
+          Live Electronics, both from the Haute école de musique de Genève,
+          where he studied with Michael Jarrell, Luis Naón, Gilbert Nouno, and
+          Katharina Rosenberger. He has also taken part in masterclasses with
+          Georges Aperghis, Rebecca Saunders, Stefano Gervasoni, Clara
+          Iannotta, and José Miguel Fernández.
         </p>
         <p>
-          Formo parte del dúo de performance electrónico Des Visages,
-          junto al saxofonista César Vidal, y del dúo On press Off
-          con el saxofonista Jose Nisa.
+          His work has been presented at Festival Archipel, Fête de la Musique
+          Genève, and Festival KorSonoR. He has held artistic residencies in
+          Switzerland and Finland, and contributed to two electroacoustic albums
+          produced in Switzerland. At the end of his studies at HEM, he was
+          awarded the Prix Contrechamps, which includes a commission for the
+          ensemble's 2026-2027 concert season.
+        </p>
+        <p>
+          He is currently developing <em>Séismes</em>, a performance piece for
+          vocal duo, electronics, lights, and video. He is also an active member
+          of the saxophone-and-electronics duo Des Visages, alongside César
+          Vidal, and of the duo On Press Off with saxophonist Jose Nisa.
+        </p>
+        <div class="about-datos">
+          <div class="dato-fila">
+            <span class="etiqueta">Education</span>
+            <span class="valor">MA — HEM Genève</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Award</span>
+            <span class="valor rojo">Prix Contrechamps 2025</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Recognition</span>
+            <span class="valor">Nominated, Pulsar Awards 2025</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Active projects</span>
+            <span class="valor">Des Visages · On Press Off</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="seccion-header">
+      <span class="seccion-num">02</span>
+      <span class="seccion-titulo">Works</span>
+      <div class="seccion-linea"></div>
+    </div>
+    <div class="works-aviso">
+      <p class="works-aviso-label">— In progress —</p>
+      <h3>This section is under construction</h3>
+      <p>
+        A full catalogue of works and projects will be available here soon.
+        In the meantime, you can explore performances and recordings
+        on the YouTube channel.
+      </p>
+      <a href="https://youtube.com/@jorgecare" target="_blank" rel="noopener" class="btn-yt">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/>
+        </svg>
+        YouTube — @jorgecare
+      </a>
+      <div class="dossier-wrap">
+        <a href="dossier.pdf" target="_blank" rel="noopener" class="btn-dossier">
+          &#8595; &nbsp; Download artistic dossier (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="concerts">
+    <div class="seccion-header">
+      <span class="seccion-num">03</span>
+      <span class="seccion-titulo">Concerts</span>
+      <div class="seccion-linea"></div>
+    </div>
+
+    <div class="concerts-intro">
+      <p>
+        European tour — June 2026 with <em>Des Visages</em>,
+        a duo for saxophone and live electronics by César Vidal and Jorge Care.
+        Supported by the Chilean Ministry of Culture.
+      </p>
+    </div>
+
+    <a href="https://pakt-bern.ch/de/veranstaltungen/impaktjam-mit-des-visages-ft-cesar-vidal-and-jorge-care/" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fecha">
+        <strong>01</strong>Jun 2026
+      </div>
+      <div class="concierto-info">
+        <span class="concierto-evento">Impakt Jam — Des Visages</span>
+        <span class="concierto-lugar">Pakt Bern <span>/</span> Bern, Switzerland</span>
+      </div>
+      <span class="concierto-arrow">&#8599;</span>
+    </a>
+
+    <a href="https://www.instagram.com/p/DY2k9OYOg2j/" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fecha">
+        <strong>03</strong>Jun 2026
+      </div>
+      <div class="concierto-info">
+        <span class="concierto-evento">Café Heloïse — Des Visages</span>
+        <span class="concierto-lugar">Beaux-Arts <span>/</span> Paris, France</span>
+      </div>
+      <span class="concierto-arrow">&#8599;</span>
+    </a>
+
+    <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=5" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fecha">
+        <strong>05</strong>Jun 2026
+      </div>
+      <div class="concierto-info">
+        <span class="concierto-evento">DATA — Des Visages</span>
+        <span class="concierto-lugar">DATA <span>/</span> Marseille, France</span>
+      </div>
+      <span class="concierto-arrow">&#8599;</span>
+    </a>
+
+    <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=6" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fecha">
+        <strong>13</strong>Jun 2026
+      </div>
+      <div class="concierto-info">
+        <span class="concierto-evento">SubWaves — Des Visages</span>
+        <span class="concierto-lugar">SubWaves <span>/</span> Amsterdam, Netherlands</span>
+      </div>
+      <span class="concierto-arrow">&#8599;</span>
+    </a>
+
+    <a href="https://www.thehorsehospital.com/events/dirarkalash-momokogill-desvisages" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fecha">
+        <strong>15</strong>Jun 2026
+      </div>
+      <div class="concierto-info">
+        <span class="concierto-evento">The Horse Hospital — Des Visages</span>
+        <span class="concierto-lugar">The Horse Hospital <span>/</span> London, England</span>
+      </div>
+      <span class="concierto-arrow">&#8599;</span>
+    </a>
+
+    <a href="https://mayhemkbh.dk/" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fecha">
+        <strong>26</strong>Jun 2026
+      </div>
+      <div class="concierto-info">
+        <span class="concierto-evento">Mayhem — Des Visages</span>
+        <span class="concierto-lugar">Mayhem <span>/</span> Copenhagen, Denmark</span>
+      </div>
+      <span class="concierto-arrow">&#8599;</span>
+    </a>
+
+  </section>
+
+  <section id="contact">
+    <div class="seccion-header">
+      <span class="seccion-num">04</span>
+      <span class="seccion-titulo">Contact</span>
+      <div class="seccion-linea"></div>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-intro">
+        <h2>Get in touch</h2>
+        <p>
+          For artistic proposals, residencies,<br>
+          bookings, or press enquiries.
         </p>
       </div>
-
-      <div class="sobre-datos">
-        <div class="dato-fila">
-          <span>Basado en</span>
-          <span>Ginebra, Suiza</span>
+      <div class="contact-links">
+        <div class="contact-fila">
+          <span class="label">Email</span>
+          <a href="mailto:jorgecare@yahoo.es">jorgecare@yahoo.es</a>
         </div>
-        <div class="dato-fila">
-          <span>Formación</span>
-          <span>HEM Genève — Máster en composición mixta</span>
-        </div>
-        <div class="dato-fila">
-          <span>Premio</span>
-          <span>Prix Contrechamps</span>
-        </div>
-        <div class="dato-fila">
-          <span>Áreas</span>
-          <span>Música mixta, electrónica en vivo, MAX/MSP, espacialización</span>
-        </div>
-        <div class="dato-fila">
-          <span>Proyectos activos</span>
-          <span>Des Visages, On press Off</span>
+        <div class="contact-fila">
+          <span class="label">Instagram</span>
+          <a href="https://www.instagram.com/mama.gyorgy/" target="_blank" rel="noopener">@mama.gyorgy</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Obras ──────────────────────────────────────────── -->
-  <section id="obras">
-    <p class="seccion-etiqueta">Obras seleccionadas</p>
-    <div class="obras-grid">
-
-      <div class="obra-card">
-        <p class="obra-año">2024</p>
-        <h3>Bilis Negra, Solitude</h3>
-        <p>Para flauta, 13 instrumentos y electrónica cuadrafónica. Segundo movimiento del ciclo Bilis Negra.</p>
-        <span class="obra-tag">Música mixta</span>
-      </div>
-
-      <div class="obra-card">
-        <p class="obra-año">2023</p>
-        <h3>Séismes</h3>
-        <p>Datos sísmicos en tiempo real controlan el sonido y la luz. Una exploración de la tierra como partitura.</p>
-        <span class="obra-tag">Electrónica en vivo</span>
-      </div>
-
-      <div class="obra-card">
-        <p class="obra-año">2023</p>
-        <h3>Bilis Negra, Mélancolie</h3>
-        <p>Para saxofón alto, ensamble y electrónica cuadrafónica. Politempismo en relaciones 4:3.</p>
-        <span class="obra-tag">Música mixta</span>
-      </div>
-
-      <div class="obra-card">
-        <p class="obra-año">2022</p>
-        <h3>Morbus Sacer</h3>
-        <p>Pianista-vocalista, Disklavier controlado por sensores de movimiento y electrónica ambisonique.</p>
-        <span class="obra-tag">Instalación sonora</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── Conciertos ─────────────────────────────────────── -->
-  <section id="conciertos">
-    <p class="seccion-etiqueta">Próximas fechas</p>
-    <h2>Gira europea 2026<br>Des Visages</h2>
-
-    <div class="concierto-fila">
-      <div class="concierto-fecha">Jun<br>2026</div>
-      <div class="concierto-info">
-        <h4>Des Visages</h4>
-        <p>Suiza — ciudad por confirmar</p>
-      </div>
-      <span class="concierto-estado estado-confirmado">Confirmado</span>
-    </div>
-
-    <div class="concierto-fila">
-      <div class="concierto-fecha">Jun<br>2026</div>
-      <div class="concierto-info">
-        <h4>Des Visages</h4>
-        <p>París, Francia — Beaux-Arts</p>
-      </div>
-      <span class="concierto-estado estado-confirmado">Confirmado</span>
-    </div>
-
-    <div class="concierto-fila">
-      <div class="concierto-fecha">Jun<br>2026</div>
-      <div class="concierto-info">
-        <h4>Des Visages</h4>
-        <p>Países Bajos — ciudad por confirmar</p>
-      </div>
-      <span class="concierto-estado estado-confirmado">Confirmado</span>
-    </div>
-
-  </section>
-
-  <!-- ── Contacto ───────────────────────────────────────── -->
-  <section id="contacto">
-    <div class="contacto-interior">
-      <p class="seccion-etiqueta" style="justify-content: center;">Contacto</p>
-      <h2>Colaboraciones,<br>bookings y prensa</h2>
-      <p>Para propuestas artísticas, residencias, booking o consultas de prensa.</p>
-      <a href="mailto:tu@email.com" class="contacto-email">tu@email.com</a>
-
-      <div class="redes">
-        <a href="#">Instagram</a>
-        <a href="#">SoundCloud</a>
-        <a href="#">Vimeo</a>
-        <a href="#">Bandcamp</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Footer ─────────────────────────────────────────── -->
   <footer>
-    <span>© 2026 Jorge Care</span>
-    <span>Compositor · Ginebra</span>
+    <span>2026 Jorge Care</span>
+    <span><span class="rojo">—</span> Composer · Digital artist · Improviser</span>
   </footer>
 
 </body>
