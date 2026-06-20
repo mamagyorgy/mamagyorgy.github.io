@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Concerts — Jorge Care</title>
+  <meta name="description" content="Concerts and performances by Jorge Care." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro:  #0a0a0a;
+      --blanco: #f0ede8;
+      --gris:   #555552;
+      --rojo:   #c0392b;
+      --rojo2:  #e74c3c;
+      --cian:   #00b8c8;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--negro);
+      color: var(--blanco);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background-color: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1a1a1a;
+    }
+    nav .logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--blanco);
+      text-decoration: none;
+    }
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      text-decoration: none;
+      color: var(--gris);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--cian); }
+    nav a.active { color: var(--blanco); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding-top: 7rem;
+      border-bottom: 1px solid #141414;
+    }
+    .page-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 3rem 2.5rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .page-header-inner h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--blanco);
+      flex: none;
+    }
+    .header-accent-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #2a2a2a, transparent);
+      margin-bottom: 0.6rem;
+    }
+    .header-breadcrumb {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333;
+      white-space: nowrap;
+      margin-bottom: 0.5rem;
+    }
+    .header-breadcrumb a { color: #333; text-decoration: none; transition: color 0.2s; }
+    .header-breadcrumb a:hover { color: var(--cian); }
+    .header-breadcrumb .sep { color: #222; margin: 0 0.5rem; }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 3rem 7rem;
+    }
+
+    /* ── SECTION LABELS ── */
+    .seccion-label {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .seccion-label-text {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      white-space: nowrap;
+    }
+    .seccion-label-text.cian { color: var(--cian); }
+    .seccion-linea { flex: 1; height: 1px; background: #1e1e1e; }
+
+    /* ── TOUR INTRO ── */
+    .concerts-tour-block {
+      margin-bottom: 5rem;
+    }
+    .concerts-intro {
+      margin-bottom: 2.5rem;
+    }
+    .concerts-intro p {
+      color: var(--gris);
+      font-size: 0.88rem;
+      line-height: 1.9;
+      max-width: 520px;
+    }
+    .concerts-intro p em { color: #aaa; font-style: italic; }
+    .concerts-intro .tour-tag {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cian);
+      border: 1px solid rgba(0,184,200,0.3);
+      padding: 0.25rem 0.6rem;
+    }
+
+    /* ── CONCERT ROW (linked) ── */
+    a.concierto-fila {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid #141414;
+      text-decoration: none;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    a.concierto-fila:first-of-type,
+    .concierto-fila-first { border-top: 1px solid #1e1e1e; }
+    a.concierto-fila:hover { background: rgba(255,255,255,0.02); }
+
+    /* Concert row — not linked (past concerts without link) */
+    .concierto-fila-static {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid #141414;
+    }
+
+    .concierto-fecha {
+      font-family: var(--serif);
+      font-size: 0.85rem;
+      color: var(--gris);
+      line-height: 1.4;
+    }
+    .concierto-fecha strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--blanco);
+      line-height: 1;
+    }
+    .concierto-fecha .year {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: #333;
+      margin-top: 0.1rem;
+    }
+    .concierto-info { display: flex; flex-direction: column; gap: 0.2rem; }
+    .concierto-evento {
+      font-size: 0.92rem;
+      color: var(--blanco);
+      font-weight: 300;
+    }
+    .concierto-lugar {
+      font-size: 0.78rem;
+      color: var(--gris);
+      letter-spacing: 0.05em;
+    }
+    .concierto-lugar span { color: #333; margin: 0 0.4rem; }
+    .concierto-arrow {
+      font-size: 0.7rem;
+      color: var(--rojo);
+      opacity: 0;
+      transition: opacity 0.2s;
+      letter-spacing: 0.1em;
+    }
+    a.concierto-fila:hover .concierto-arrow { opacity: 1; }
+
+    /* ── PAST CONCERTS BLOCK ── */
+    .concerts-past-block {
+      margin-top: 0;
+    }
+
+    /* Past concert rows — slightly muted */
+    .concierto-fila-static .concierto-evento { color: #aaa; }
+    .concierto-fila-static .concierto-fecha strong { color: #888; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid #1a1a1a;
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: #2e2e2e;
+      letter-spacing: 0.1em;
+    }
+    footer .rojo { color: var(--rojo); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.25rem; }
+      main { padding: 4rem 1.5rem 5rem; }
+      .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
+      a.concierto-fila,
+      .concierto-fila-static {
+        grid-template-columns: 70px 1fr;
+        gap: 1rem;
+      }
+      .concierto-arrow { display: none; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Jorge <span>Care</span></a>
+    <ul>
+      <li><a href="about.html">About</a></li>
+      <li><a href="works.html">Works</a></li>
+      <li><a href="concerts.html" class="active">Concerts</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h1>Concerts</h1>
+      <div class="header-accent-line"></div>
+      <div class="header-breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        Concerts
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ── UPCOMING / TOUR ── -->
+    <div class="concerts-tour-block">
+      <div class="seccion-label">
+        <span class="seccion-label-text">Upcoming</span>
+        <div class="seccion-linea"></div>
+      </div>
+      <div class="concerts-intro">
+        <span class="tour-tag">European tour — June 2026</span>
+        <p>
+          <em>Des Visages</em>, a duo for saxophone and live electronics
+          by César Vidal and Jorge Care. Supported by the Chilean Ministry of Culture.
+        </p>
+      </div>
+
+      <a href="https://pakt-bern.ch/de/veranstaltungen/impaktjam-mit-des-visages-ft-cesar-vidal-and-jorge-care/" target="_blank" rel="noopener" class="concierto-fila concierto-fila-first">
+        <div class="concierto-fecha">
+          <strong>01</strong>Jun 2026
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">Impakt Jam — Des Visages</span>
+          <span class="concierto-lugar">Pakt Bern <span>/</span> Bern, Switzerland</span>
+        </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
+
+      <a href="https://www.instagram.com/p/DY2k9OYOg2j/" target="_blank" rel="noopener" class="concierto-fila">
+        <div class="concierto-fecha">
+          <strong>03</strong>Jun 2026
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">Café Heloïse — Des Visages</span>
+          <span class="concierto-lugar">Beaux-Arts <span>/</span> Paris, France</span>
+        </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
+
+      <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=5" target="_blank" rel="noopener" class="concierto-fila">
+        <div class="concierto-fecha">
+          <strong>05</strong>Jun 2026
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">DATA — Des Visages</span>
+          <span class="concierto-lugar">DATA <span>/</span> Marseille, France</span>
+        </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
+
+      <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=6" target="_blank" rel="noopener" class="concierto-fila">
+        <div class="concierto-fecha">
+          <strong>13</strong>Jun 2026
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">SubWaves — Des Visages</span>
+          <span class="concierto-lugar">SubWaves <span>/</span> Amsterdam, Netherlands</span>
+        </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
+
+      <a href="https://www.thehorsehospital.com/events/dirarkalash-momokogill-desvisages" target="_blank" rel="noopener" class="concierto-fila">
+        <div class="concierto-fecha">
+          <strong>15</strong>Jun 2026
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">The Horse Hospital — Des Visages</span>
+          <span class="concierto-lugar">The Horse Hospital <span>/</span> London, England</span>
+        </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
+
+      <a href="https://mayhemkbh.dk/" target="_blank" rel="noopener" class="concierto-fila">
+        <div class="concierto-fecha">
+          <strong>26</strong>Jun 2026
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">Mayhem — Des Visages</span>
+          <span class="concierto-lugar">Mayhem <span>/</span> Copenhagen, Denmark</span>
+        </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
+    </div>
+
+    <!-- ── PAST CONCERTS ── -->
+    <div class="concerts-past-block">
+      <div class="seccion-label">
+        <span class="seccion-label-text cian">Past</span>
+        <div class="seccion-linea"></div>
+      </div>
+
+      <div class="concierto-fila-static concierto-fila-first">
+        <div class="concierto-fecha">
+          <strong>08</strong>May 2025
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">TMG</span>
+          <span class="concierto-lugar">Thelonious, Lugar de Jazz <span>/</span> Santiago, Chile</span>
+        </div>
+      </div>
+
+      <div class="concierto-fila-static">
+        <div class="concierto-fecha">
+          <strong>13</strong>Jan
+          <span class="year">2026</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">Séismes</span>
+          <span class="concierto-lugar">Auditorium HKB <span>/</span> Bern, Switzerland</span>
+        </div>
+      </div>
+
+      <div class="concierto-fila-static">
+        <div class="concierto-fecha">
+          <strong>08</strong>Nov
+          <span class="year">2025</span>
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">Live Set</span>
+          <span class="concierto-lugar">Festival KorSonoR <span>/</span> Geneva, Switzerland</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <span>2026 Jorge Care</span>
+    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+  </footer>
+
+</body>
+</html>

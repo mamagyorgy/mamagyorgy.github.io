@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Jorge Care</title>
+  <meta name="description" content="Jorge Care — Composer, digital artist, and improviser based in Geneva." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro:  #0a0a0a;
+      --blanco: #f0ede8;
+      --gris:   #555552;
+      --rojo:   #c0392b;
+      --rojo2:  #e74c3c;
+      --cian:   #00b8c8;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--negro);
+      color: var(--blanco);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background-color: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1a1a1a;
+    }
+    nav .logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--blanco);
+      text-decoration: none;
+    }
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      text-decoration: none;
+      color: var(--gris);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--cian); }
+    nav a.active { color: var(--blanco); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding-top: 7rem;
+      padding-bottom: 0;
+      border-bottom: 1px solid #141414;
+    }
+    .page-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 3rem 2.5rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .page-header-inner h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--blanco);
+      flex: none;
+    }
+    .header-accent-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #2a2a2a, transparent);
+      margin-bottom: 0.6rem;
+    }
+    .header-breadcrumb {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333;
+      white-space: nowrap;
+      margin-bottom: 0.5rem;
+    }
+    .header-breadcrumb a { color: #333; text-decoration: none; transition: color 0.2s; }
+    .header-breadcrumb a:hover { color: var(--cian); }
+    .header-breadcrumb .sep { color: #222; margin: 0 0.5rem; }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 3rem 7rem;
+    }
+
+    /* INVERTED grid: text left, photo right */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-texto h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.8rem;
+      color: var(--blanco);
+      letter-spacing: 0.02em;
+    }
+    .about-texto p {
+      color: #999;
+      font-size: 0.91rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.9;
+    }
+    .about-texto p em { color: #bbb; font-style: italic; }
+
+    /* Subtle cian inline accent */
+    .about-texto p strong { color: var(--cian); font-weight: 300; }
+
+    .about-datos { margin-top: 2.5rem; border-top: 1px solid #1e1e1e; }
+    .dato-fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #141414;
+      gap: 1rem;
+    }
+    .dato-fila .etiqueta {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gris);
+      white-space: nowrap;
+    }
+    .dato-fila .valor { color: #aaa; font-size: 0.82rem; text-align: right; }
+    .dato-fila .valor.rojo { color: var(--rojo2); }
+    .dato-fila .valor.cian { color: var(--cian); }
+
+    /* ── PHOTO ── */
+    .about-foto-col { position: relative; }
+    .about-foto-wrap { position: relative; }
+    .about-foto-wrap img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: grayscale(15%);
+    }
+    .about-foto-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-foto-placeholder p {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2a2a2a;
+    }
+
+    /* Cian corner accent (top-left) */
+    .foto-borde-cian {
+      position: absolute;
+      top: -10px; left: -10px;
+      width: 55%; height: 55%;
+      border-top: 2px solid var(--cian);
+      border-left: 2px solid var(--cian);
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    /* Red corner accent (bottom-right) */
+    .foto-borde-rojo {
+      position: absolute;
+      bottom: -10px; right: -10px;
+      width: 55%; height: 55%;
+      border-bottom: 2px solid var(--rojo);
+      border-right: 2px solid var(--rojo);
+      pointer-events: none;
+    }
+
+    /* Small label below photo */
+    .foto-label {
+      margin-top: 1rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #333;
+    }
+    .foto-label span { color: var(--cian); opacity: 0.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid #1a1a1a;
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: #2e2e2e;
+      letter-spacing: 0.1em;
+      max-width: none;
+    }
+    footer .rojo { color: var(--rojo); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .about-foto-col { order: -1; max-width: 360px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.25rem; }
+      main { padding: 4rem 1.5rem 5rem; }
+      .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Jorge <span>Care</span></a>
+    <ul>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="works.html">Works</a></li>
+      <li><a href="concerts.html">Concerts</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h1>About</h1>
+      <div class="header-accent-line"></div>
+      <div class="header-breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        About
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="about-grid">
+
+      <!-- TEXT COLUMN (left) -->
+      <div class="about-texto">
+        <h2>BIO</h2>
+        <p>
+          Jorge Care (1996) is a composer, digital artist, and improviser
+          whose work bridges experimental electronic sound, instrumental
+          performance, and the creation of light-driven concert environments.
+          His practice is rooted in the interaction between musical gesture,
+          real-time electronics, and spatial design, crafting immersive
+          experiences where sound and light form a unified expressive language.
+        </p>
+        <p>
+          He holds a Bachelor of Arts in Music (Composition) and a Master of
+          Arts in Music Composition and Theory, major in Computer Music and
+          Live Electronics, both from the <strong>Haute école de musique de Genève</strong>,
+          where he studied with Michael Jarrell, Luis Naón, Gilbert Nouno, and
+          Katharina Rosenberger. He has also taken part in masterclasses with
+          Georges Aperghis, Rebecca Saunders, Stefano Gervasoni, Clara
+          Iannotta, and José Miguel Fernández.
+        </p>
+        <p>
+          His work has been presented at Festival Archipel, Fête de la Musique
+          Genève, and Festival KorSonoR. He has held artistic residencies in
+          Switzerland and Finland, and contributed to two electroacoustic albums
+          produced in Switzerland. At the end of his studies at HEM, he was
+          awarded the <strong>Prix Contrechamps</strong>, which includes a commission for the
+          ensemble's 2026–2027 concert season.
+        </p>
+        <p>
+          He is currently developing <em>Séismes</em>, a performance piece for
+          vocal duo, electronics, lights, and video. He is also an active member
+          of the saxophone-and-electronics duo <em>Des Visages</em>, alongside César
+          Vidal.
+        </p>
+
+        <div class="about-datos">
+          <div class="dato-fila">
+            <span class="etiqueta">Based in</span>
+            <span class="valor">Geneva, Switzerland</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Origin</span>
+            <span class="valor">Santiago, Chile</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Degree</span>
+            <span class="valor">MA — HEM Genève</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Distinction</span>
+            <span class="valor cian">Prix Contrechamps 2025</span>
+          </div>
+          <div class="dato-fila">
+            <span class="etiqueta">Active project</span>
+            <span class="valor rojo">Des Visages</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHOTO COLUMN (right) -->
+      <div class="about-foto-col">
+        <div class="about-foto-wrap">
+          <img src="img/bio.jpg" alt="Jorge Care" />
+          <div class="foto-borde-cian"></div>
+          <div class="foto-borde-rojo"></div>
+        </div>
+        <p class="foto-label">Jorge Care <span>/</span> Geneva, 2025</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <span>2026 Jorge Care</span>
+    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+  </footer>
+
+</body>
+</html>

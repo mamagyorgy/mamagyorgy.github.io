@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Works — Jorge Care</title>
+  <meta name="description" content="Works and projects by Jorge Care — Composer, digital artist, and improviser." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro:  #0a0a0a;
+      --blanco: #f0ede8;
+      --gris:   #555552;
+      --rojo:   #c0392b;
+      --rojo2:  #e74c3c;
+      --cian:   #00b8c8;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--negro);
+      color: var(--blanco);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background-color: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1a1a1a;
+    }
+    nav .logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--blanco);
+      text-decoration: none;
+    }
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      text-decoration: none;
+      color: var(--gris);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--cian); }
+    nav a.active { color: var(--blanco); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding-top: 7rem;
+      border-bottom: 1px solid #141414;
+    }
+    .page-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 3rem 2.5rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .page-header-inner h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--blanco);
+      flex: none;
+    }
+    .header-accent-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #2a2a2a, transparent);
+      margin-bottom: 0.6rem;
+    }
+    .header-breadcrumb {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333;
+      white-space: nowrap;
+      margin-bottom: 0.5rem;
+    }
+    .header-breadcrumb a { color: #333; text-decoration: none; transition: color 0.2s; }
+    .header-breadcrumb a:hover { color: var(--cian); }
+    .header-breadcrumb .sep { color: #222; margin: 0 0.5rem; }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 3rem 7rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── WORKS AVISO ── */
+    .works-aviso {
+      border: 1px solid #1a1a1a;
+      padding: 5rem 4rem;
+      text-align: center;
+      position: relative;
+      max-width: 600px;
+      width: 100%;
+    }
+    /* Four corner accents */
+    .works-aviso::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 3.5rem; height: 2px;
+      background: var(--rojo);
+    }
+    .works-aviso::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 3.5rem; height: 2px;
+      background: var(--cian);
+    }
+    .corner-tl-v {
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 2px; height: 3.5rem;
+      background: var(--rojo);
+    }
+    .corner-br-v {
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 2px; height: 3.5rem;
+      background: var(--cian);
+    }
+
+    .works-aviso-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      margin-bottom: 1.5rem;
+    }
+    .works-aviso h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 300;
+      color: var(--blanco);
+      margin-bottom: 1rem;
+      letter-spacing: 0.01em;
+    }
+    .works-aviso p {
+      color: var(--gris);
+      font-size: 0.88rem;
+      max-width: 380px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.9;
+    }
+
+    .btn-yt {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--blanco);
+      border: 1px solid #2a2a2a;
+      padding: 0.85rem 2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-yt:hover { border-color: var(--rojo); color: var(--rojo); }
+    .btn-yt svg { width: 13px; height: 13px; fill: currentColor; }
+
+    .dossier-wrap { margin-top: 1.5rem; display: flex; justify-content: center; }
+    .btn-dossier {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--gris);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #1e1e1e;
+      padding-bottom: 0.3rem;
+      transition: all 0.2s;
+    }
+    .btn-dossier:hover { color: var(--cian); border-color: var(--cian); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid #1a1a1a;
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: #2e2e2e;
+      letter-spacing: 0.1em;
+    }
+    footer .rojo { color: var(--rojo); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.25rem; }
+      main { padding: 4rem 1.5rem 5rem; }
+      .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
+      .works-aviso { padding: 3.5rem 2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Jorge <span>Care</span></a>
+    <ul>
+      <li><a href="about.html">About</a></li>
+      <li><a href="works.html" class="active">Works</a></li>
+      <li><a href="concerts.html">Concerts</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h1>Works</h1>
+      <div class="header-accent-line"></div>
+      <div class="header-breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        Works
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="works-aviso">
+      <div class="corner-tl-v"></div>
+      <div class="corner-br-v"></div>
+      <p class="works-aviso-label">— In progress —</p>
+      <h2>This section is under construction</h2>
+      <p>
+        A full catalogue of works and projects will be available here soon.
+        In the meantime, you can explore performances and recordings
+        on the YouTube channel, or download the artistic dossier below.
+      </p>
+      <a href="https://youtube.com/@jorgecare" target="_blank" rel="noopener" class="btn-yt">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/>
+        </svg>
+        YouTube — @jorgecare
+      </a>
+      <div class="dossier-wrap">
+        <a href="dossier.pdf" target="_blank" rel="noopener" class="btn-dossier">
+          &#8595; &nbsp; Download artistic dossier (PDF)
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>2026 Jorge Care</span>
+    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+  </footer>
+
+</body>
+</html>
