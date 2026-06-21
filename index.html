@@ -12,11 +12,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --negro:  #0a0a0a;
-      --blanco: #f0ede8;
-      --gris:   #555552;
-      --rojo:   #c0392b;
-      --rojo2:  #e74c3c;
-      --cian:   #00b8c8;
+      --blanco: #f8f5f0;
+      --gris:   #6b6b68;
+      --rojo:   #e63946;
+      --rojo2:  #ff4d5a;
+      --cian:   #00d4e8;
       --serif:  'Cormorant Garamond', Georgia, serif;
       --sans:   'Inter', system-ui, sans-serif;
     }
@@ -182,22 +182,33 @@
       color: #333;
     }
     .hero-location span { color: var(--cian); opacity: 0.7; }
-    .hero-scroll {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gris);
+    .hero-location-block {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
+      gap: 0.35rem;
+      align-items: flex-end;
     }
-    .hero-scroll::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 3rem;
-      background: linear-gradient(to bottom, transparent, var(--rojo));
+
+    @keyframes wave-shift {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes wave-shift-slow {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes wave-fade {
+      0%, 100% { opacity: 0.18; }
+      50%       { opacity: 0.38; }
+    }
+    .geo-wave-1 {
+      animation: wave-shift 18s linear infinite, wave-fade 9s ease-in-out infinite;
+    }
+    .geo-wave-2 {
+      animation: wave-shift-slow 28s linear infinite, wave-fade 12s ease-in-out 3s infinite;
+    }
+    .geo-wave-3 {
+      animation: wave-shift 22s linear infinite reverse, wave-fade 10s ease-in-out 6s infinite;
     }
 
     @media (max-width: 768px) {
@@ -227,25 +238,25 @@
       <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
         <!-- Outer slow-rotating ring -->
         <g class="geo-ring-outer">
-          <circle cx="816" cy="336" r="280" fill="none" stroke="#00b8c8" stroke-width="0.6" opacity="0.12"/>
-          <circle cx="816" cy="336" r="320" fill="none" stroke="#c0392b" stroke-width="0.4" opacity="0.08"/>
+          <circle cx="816" cy="336" r="280" fill="none" stroke="#00d4e8" stroke-width="0.6" opacity="0.14"/>
+          <circle cx="816" cy="336" r="320" fill="none" stroke="#e63946" stroke-width="0.4" opacity="0.1"/>
           <!-- tick marks on outer ring -->
-          <line x1="816" y1="16" x2="816" y2="36" stroke="#00b8c8" stroke-width="0.8" opacity="0.25"/>
-          <line x1="816" y1="636" x2="816" y2="656" stroke="#00b8c8" stroke-width="0.8" opacity="0.25"/>
-          <line x1="496" y1="336" x2="516" y2="336" stroke="#00b8c8" stroke-width="0.8" opacity="0.25"/>
-          <line x1="1116" y1="336" x2="1136" y2="336" stroke="#00b8c8" stroke-width="0.8" opacity="0.25"/>
+          <line x1="816" y1="16" x2="816" y2="36" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
+          <line x1="816" y1="636" x2="816" y2="656" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
+          <line x1="496" y1="336" x2="516" y2="336" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
+          <line x1="1116" y1="336" x2="1136" y2="336" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
         </g>
         <!-- Inner counter-rotating ring -->
         <g class="geo-ring-inner">
-          <circle cx="816" cy="336" r="180" fill="none" stroke="#f0ede8" stroke-width="0.4" opacity="0.05"/>
-          <polygon points="816,156 964,486 668,486" fill="none" stroke="#c0392b" stroke-width="0.7" opacity="0.15"/>
+          <circle cx="816" cy="336" r="180" fill="none" stroke="#f8f5f0" stroke-width="0.4" opacity="0.06"/>
+          <polygon points="816,156 964,486 668,486" fill="none" stroke="#e63946" stroke-width="0.7" opacity="0.18"/>
         </g>
         <!-- Slowly drifting triangle group top-right -->
         <g class="geo-tri-group">
-          <polygon points="864,80 920,180 808,180" fill="none" stroke="#00b8c8" stroke-width="1" opacity="0.2"/>
-          <polygon points="864,100 900,160 828,160" fill="none" stroke="#00b8c8" stroke-width="0.5" opacity="0.12"/>
+          <polygon points="864,80 920,180 808,180" fill="none" stroke="#00d4e8" stroke-width="1" opacity="0.25"/>
+          <polygon points="864,100 900,160 828,160" fill="none" stroke="#00d4e8" stroke-width="0.5" opacity="0.15"/>
           <!-- cian dot at apex -->
-          <circle cx="864" cy="80" r="2.5" fill="#00b8c8" opacity="0.5" class="geo-dot"/>
+          <circle cx="864" cy="80" r="2.5" fill="#00d4e8" opacity="0.6" class="geo-dot"/>
         </g>
         <!-- Static diagonal accent lines -->
         <line x1="0" y1="800" x2="400" y2="400" stroke="#1e1e1e" stroke-width="1" class="geo-line-1"/>
@@ -258,9 +269,60 @@
           <line x1="1155" y1="685" x2="1155" y2="715"/>
         </g>
         <!-- Cian accent dots scattered -->
-        <circle cx="200" cy="650" r="1.5" fill="#00b8c8" opacity="0.4" class="geo-dot"/>
-        <circle cx="950" cy="550" r="1.5" fill="#00b8c8" opacity="0.3" class="geo-dot"/>
-        <circle cx="1050" cy="200" r="1"   fill="#c0392b" opacity="0.5" class="geo-dot"/>
+        <circle cx="200" cy="650" r="1.5" fill="#00d4e8" opacity="0.4" class="geo-dot"/>
+        <circle cx="950" cy="550" r="1.5" fill="#00d4e8" opacity="0.3" class="geo-dot"/>
+        <circle cx="1050" cy="200" r="1"   fill="#e63946" opacity="0.5" class="geo-dot"/>
+
+        <!-- Animated sinusoidal waves – bottom-left zone -->
+        <!-- Wave 1: cian, gentle sine, lower area -->
+        <g class="geo-wave-1" style="overflow:visible">
+          <path d="M-1200,680 C-1140,655 -1080,705 -1020,680 C-960,655 -900,705 -840,680
+                   C-780,655 -720,705 -660,680 C-600,655 -540,705 -480,680
+                   C-420,655 -360,705 -300,680 C-240,655 -180,705 -120,680
+                   C-60,655 0,705 60,680 C120,655 180,705 240,680
+                   C300,655 360,705 420,680 C480,655 540,705 600,680
+                   C660,655 720,705 780,680 C840,655 900,705 960,680
+                   C1020,655 1080,705 1140,680 C1200,655 1260,705 1320,680
+                   C1380,655 1440,705 1500,680 C1560,655 1620,705 1680,680
+                   C1740,655 1800,705 1860,680 C1920,655 1980,705 2040,680
+                   C2100,655 2160,705 2220,680 C2280,655 2340,705 2400,680"
+                fill="none" stroke="#00d4e8" stroke-width="0.9" opacity="0.22"/>
+        </g>
+        <!-- Wave 2: rojo, tighter frequency, mid-lower area -->
+        <g class="geo-wave-2" style="overflow:visible">
+          <path d="M-1200,590 C-1110,558 -1020,622 -930,590 C-840,558 -750,622 -660,590
+                   C-570,558 -480,622 -390,590 C-300,558 -210,622 -120,590
+                   C-30,558 60,622 150,590 C240,558 330,622 420,590
+                   C510,558 600,622 690,590 C780,558 870,622 960,590
+                   C1050,558 1140,622 1230,590 C1320,558 1410,622 1500,590
+                   C1590,558 1680,622 1770,590 C1860,558 1950,622 2040,590
+                   C2130,558 2220,622 2310,590 C2400,558 2490,622 2580,590"
+                fill="none" stroke="#e63946" stroke-width="0.7" opacity="0.14"/>
+        </g>
+        <!-- Wave 3: blanco, complex/irregular shape, mid area -->
+        <g class="geo-wave-3" style="overflow:visible">
+          <path d="M-1200,520 C-1170,505 -1140,498 -1110,520 C-1080,542 -1050,560 -1020,520
+                   C-990,480 -960,495 -930,520 C-900,545 -870,558 -840,520
+                   C-810,482 -780,497 -750,520 C-720,543 -690,556 -660,520
+                   C-630,484 -600,499 -570,520 C-540,541 -510,554 -480,520
+                   C-450,486 -420,501 -390,520 C-360,539 -330,552 -300,520
+                   C-270,488 -240,503 -210,520 C-180,537 -150,550 -120,520
+                   C-90,490 -60,505 -30,520 C0,535 30,548 60,520
+                   C90,492 120,507 150,520 C180,533 210,546 240,520
+                   C270,494 300,509 330,520 C360,531 390,544 420,520
+                   C450,496 480,511 510,520 C540,529 570,542 600,520
+                   C630,498 660,513 690,520 C720,527 750,540 780,520
+                   C810,500 840,515 870,520 C900,525 930,538 960,520
+                   C990,502 1020,517 1050,520 C1080,523 1110,536 1140,520
+                   C1170,504 1200,519 1230,520 C1260,521 1290,534 1320,520
+                   C1350,506 1380,521 1410,520 C1440,519 1470,532 1500,520
+                   C1530,508 1560,523 1590,520 C1620,517 1650,530 1680,520
+                   C1710,510 1740,525 1770,520 C1800,515 1830,528 1860,520
+                   C1890,512 1920,527 1950,520 C1980,513 2010,526 2040,520
+                   C2070,514 2100,527 2130,520 C2160,513 2190,526 2220,520
+                   C2250,514 2280,527 2310,520 C2340,513 2370,526 2400,520"
+                fill="none" stroke="#f8f5f0" stroke-width="0.5" opacity="0.09"/>
+        </g>
       </svg>
     </div>
 
@@ -272,10 +334,15 @@
       </p>
     </div>
     <div class="hero-bottom">
-      <div class="hero-location">
-        46°12'N <span>·</span> 6°09'E
+      <div style="flex:1"></div>
+      <div class="hero-location-block">
+        <div class="hero-location">
+          33°27'S <span>·</span> 70°40'W
+        </div>
+        <div class="hero-location">
+          46°12'N <span>·</span> 6°09'E
+        </div>
       </div>
-      <div class="hero-scroll">Scroll</div>
     </div>
   </section>
 

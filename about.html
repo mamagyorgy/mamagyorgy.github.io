@@ -12,11 +12,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --negro:  #0a0a0a;
-      --blanco: #f0ede8;
-      --gris:   #555552;
-      --rojo:   #c0392b;
-      --rojo2:  #e74c3c;
-      --cian:   #00b8c8;
+      --blanco: #f8f5f0;
+      --gris:   #6b6b68;
+      --rojo:   #e63946;
+      --rojo2:  #ff4d5a;
+      --cian:   #00d4e8;
       --serif:  'Cormorant Garamond', Georgia, serif;
       --sans:   'Inter', system-ui, sans-serif;
     }
@@ -141,26 +141,6 @@
 
     /* Subtle cian inline accent */
     .about-texto p strong { color: var(--cian); font-weight: 300; }
-
-    .about-datos { margin-top: 2.5rem; border-top: 1px solid #1e1e1e; }
-    .dato-fila {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid #141414;
-      gap: 1rem;
-    }
-    .dato-fila .etiqueta {
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--gris);
-      white-space: nowrap;
-    }
-    .dato-fila .valor { color: #aaa; font-size: 0.82rem; text-align: right; }
-    .dato-fila .valor.rojo { color: var(--rojo2); }
-    .dato-fila .valor.cian { color: var(--cian); }
 
     /* ── PHOTO ── */
     .about-foto-col { position: relative; }
@@ -312,28 +292,6 @@
           Vidal.
         </p>
 
-        <div class="about-datos">
-          <div class="dato-fila">
-            <span class="etiqueta">Based in</span>
-            <span class="valor">Geneva, Switzerland</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Origin</span>
-            <span class="valor">Santiago, Chile</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Degree</span>
-            <span class="valor">MA — HEM Genève</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Distinction</span>
-            <span class="valor cian">Prix Contrechamps 2025</span>
-          </div>
-          <div class="dato-fila">
-            <span class="etiqueta">Active project</span>
-            <span class="valor rojo">Des Visages</span>
-          </div>
-        </div>
       </div>
 
       <!-- PHOTO COLUMN (right) -->
@@ -343,7 +301,7 @@
           <div class="foto-borde-cian"></div>
           <div class="foto-borde-rojo"></div>
         </div>
-        <p class="foto-label">Jorge Care <span>/</span> Geneva, 2025</p>
+        <p class="foto-label">Photo <span>/</span> Julie Brice</p>
       </div>
 
     </div>
