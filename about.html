@@ -42,7 +42,7 @@
       padding: 1.25rem 3rem;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid #252525;
     }
     nav .logo {
       font-family: var(--serif);
@@ -66,11 +66,20 @@
     nav a:hover { color: var(--cian); }
     nav a.active { color: var(--blanco); }
 
-    /* ── PAGE HEADER ── */
+    /* Decorative page-header top line */
     .page-header {
       padding-top: 7rem;
       padding-bottom: 0;
-      border-bottom: 1px solid #141414;
+      border-bottom: 1px solid #252525;
+      position: relative;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--cian) 40%, transparent);
+      opacity: 0.3;
     }
     .page-header-inner {
       max-width: 1100px;
@@ -92,20 +101,20 @@
     .header-accent-line {
       flex: 1;
       height: 1px;
-      background: linear-gradient(to right, #2a2a2a, transparent);
+      background: linear-gradient(to right, #333, transparent);
       margin-bottom: 0.6rem;
     }
     .header-breadcrumb {
       font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #333;
+      color: #444;
       white-space: nowrap;
       margin-bottom: 0.5rem;
     }
-    .header-breadcrumb a { color: #333; text-decoration: none; transition: color 0.2s; }
+    .header-breadcrumb a { color: #444; text-decoration: none; transition: color 0.2s; }
     .header-breadcrumb a:hover { color: var(--cian); }
-    .header-breadcrumb .sep { color: #222; margin: 0 0.5rem; }
+    .header-breadcrumb .sep { color: #333; margin: 0 0.5rem; }
 
     /* ── MAIN CONTENT ── */
     main {
@@ -132,12 +141,12 @@
       letter-spacing: 0.02em;
     }
     .about-texto p {
-      color: #999;
+      color: #b0b0ae;
       font-size: 0.91rem;
       margin-bottom: 1.2rem;
       line-height: 1.9;
     }
-    .about-texto p em { color: #bbb; font-style: italic; }
+    .about-texto p em { color: #d0d0ce; font-style: italic; }
 
     /* Subtle cian inline accent */
     .about-texto p strong { color: var(--cian); font-weight: 300; }
@@ -177,7 +186,7 @@
       border-top: 2px solid var(--cian);
       border-left: 2px solid var(--cian);
       pointer-events: none;
-      opacity: 0.6;
+      opacity: 0.85;
     }
     /* Red corner accent (bottom-right) */
     .foto-borde-rojo {
@@ -187,6 +196,7 @@
       border-bottom: 2px solid var(--rojo);
       border-right: 2px solid var(--rojo);
       pointer-events: none;
+      opacity: 0.85;
     }
 
     /* Small label below photo */
@@ -201,13 +211,13 @@
 
     /* ── FOOTER ── */
     footer {
-      border-top: 1px solid #1a1a1a;
+      border-top: 1px solid #252525;
       padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.7rem;
-      color: #2e2e2e;
+      color: #3a3a3a;
       letter-spacing: 0.1em;
       max-width: none;
     }

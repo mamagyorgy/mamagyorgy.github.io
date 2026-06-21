@@ -42,7 +42,7 @@
       padding: 1.25rem 3rem;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid #252525;
     }
     nav .logo {
       font-family: var(--serif);
@@ -77,97 +77,128 @@
       overflow: hidden;
     }
 
-    /* Animated geometric background */
+    /* ── CANVAS BACKGROUND ── */
     .geo-canvas {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      overflow: hidden;
     }
-    .geo-canvas svg {
+    .geo-canvas canvas {
       width: 100%;
       height: 100%;
+      display: block;
     }
 
-    /* Slow rotation on the triangle group */
-    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes spin-rev  { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-    @keyframes drift {
-      0%   { transform: translate(0px, 0px) rotate(0deg); }
-      33%  { transform: translate(14px, -8px) rotate(120deg); }
-      66%  { transform: translate(-8px, 12px) rotate(240deg); }
-      100% { transform: translate(0px, 0px) rotate(360deg); }
-    }
-    @keyframes pulse-opacity {
-      0%, 100% { opacity: 0.18; }
-      50%       { opacity: 0.35; }
-    }
-    @keyframes draw-line {
-      from { stroke-dashoffset: 300; }
-      to   { stroke-dashoffset: 0; }
-    }
-    @keyframes fade-in-hero {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ── SCAN LINE OVERLAY ── */
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.04) 3px,
+        rgba(0,0,0,0.04) 4px
+      );
+      z-index: 1;
     }
 
-    .geo-ring-outer {
-      transform-origin: 68% 42%;
-      animation: spin-slow 90s linear infinite;
+    /* ── CORNER HUD ELEMENTS ── */
+    .hud-corner {
+      position: absolute;
+      pointer-events: none;
+      z-index: 3;
     }
-    .geo-ring-inner {
-      transform-origin: 68% 42%;
-      animation: spin-rev 60s linear infinite;
+    .hud-tl { top: 5rem; left: 3rem; }
+    .hud-tr { top: 5rem; right: 3rem; text-align: right; }
+    .hud-bl { bottom: 5rem; left: 3rem; }
+    .hud-label {
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      line-height: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
     }
-    .geo-tri-group {
-      transform-origin: 72% 30%;
-      animation: drift 40s ease-in-out infinite;
-    }
-    .geo-line-1 {
-      stroke-dasharray: 300;
-      animation: draw-line 4s ease-out forwards, pulse-opacity 12s ease-in-out 4s infinite;
-    }
-    .geo-line-2 {
-      stroke-dasharray: 300;
-      animation: draw-line 5s ease-out 0.5s forwards, pulse-opacity 14s ease-in-out 5.5s infinite;
-    }
-    .geo-dot { animation: pulse-opacity 8s ease-in-out infinite; }
+    .hud-label .accent { color: var(--cian); opacity: 0.55; }
+    .hud-label .accent-r { color: var(--rojo); opacity: 0.55; }
 
+    /* Corner bracket SVG */
+    .hud-bracket {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .hud-tr .hud-bracket { margin-left: auto; }
+
+    /* ── HERO TOP LINE ── */
     .hero-linea-top {
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(to right, var(--rojo), var(--cian) 60%, transparent);
+      background: linear-gradient(to right, var(--rojo), var(--cian) 55%, transparent);
+      z-index: 4;
     }
+    /* Subtle left vertical accent */
+    .hero-linea-left {
+      position: absolute;
+      top: 0; left: 0;
+      width: 1px;
+      height: 40vh;
+      background: linear-gradient(to bottom, var(--rojo), transparent);
+      z-index: 4;
+    }
+
+    /* ── HERO CONTENT ── */
     .hero-etiqueta {
-      font-size: 0.68rem;
-      letter-spacing: 0.22em;
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--rojo);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-etiqueta::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--rojo);
+      opacity: 0.7;
     }
     .hero-content {
       position: relative;
       z-index: 2;
-      animation: fade-in-hero 1.2s ease-out forwards;
+      animation: fade-in-hero 1.4s ease-out forwards;
+    }
+    @keyframes fade-in-hero {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     h1 {
       font-family: var(--serif);
-      font-size: clamp(4rem, 11vw, 9rem);
+      font-size: clamp(4.5rem, 12vw, 10rem);
       font-weight: 300;
-      line-height: 0.92;
+      line-height: 0.9;
       letter-spacing: -0.02em;
       margin-bottom: 2rem;
       color: var(--blanco);
+      text-shadow: 0 0 80px rgba(0,212,232,0.08);
     }
     .hero-descripcion {
-      font-size: 0.82rem;
-      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--gris);
+      color: #888;
       margin-bottom: 2.5rem;
     }
-    .hero-descripcion span { color: var(--rojo); margin: 0 0.75rem; opacity: 0.7; }
+    .hero-descripcion span { color: var(--rojo); margin: 0 0.75rem; opacity: 0.8; }
+
+    /* ── HERO BOTTOM ── */
     .hero-bottom {
       display: flex;
       justify-content: space-between;
@@ -176,45 +207,29 @@
       z-index: 2;
     }
     .hero-location {
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #333;
+      color: #3a3a3a;
     }
     .hero-location span { color: var(--cian); opacity: 0.7; }
     .hero-location-block {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.3rem;
       align-items: flex-end;
     }
-
-    @keyframes wave-shift {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @keyframes wave-shift-slow {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @keyframes wave-fade {
-      0%, 100% { opacity: 0.18; }
-      50%       { opacity: 0.38; }
-    }
-    .geo-wave-1 {
-      animation: wave-shift 18s linear infinite, wave-fade 9s ease-in-out infinite;
-    }
-    .geo-wave-2 {
-      animation: wave-shift-slow 28s linear infinite, wave-fade 12s ease-in-out 3s infinite;
-    }
-    .geo-wave-3 {
-      animation: wave-shift 22s linear infinite reverse, wave-fade 10s ease-in-out 6s infinite;
+    /* City label beside coord */
+    .coord-city {
+      color: #2a2a2a;
+      margin-right: 0.5rem;
     }
 
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       nav ul { gap: 1.25rem; }
       #inicio { padding: 0 1.5rem 4rem; }
+      .hud-tl, .hud-tr { display: none; }
     }
   </style>
 </head>
@@ -232,119 +247,396 @@
 
   <section id="inicio">
     <div class="hero-linea-top"></div>
+    <div class="hero-linea-left"></div>
 
-    <!-- Geometric animated background -->
+    <!-- Animated canvas background -->
     <div class="geo-canvas" aria-hidden="true">
-      <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-        <!-- Outer slow-rotating ring -->
-        <g class="geo-ring-outer">
-          <circle cx="816" cy="336" r="280" fill="none" stroke="#00d4e8" stroke-width="0.6" opacity="0.14"/>
-          <circle cx="816" cy="336" r="320" fill="none" stroke="#e63946" stroke-width="0.4" opacity="0.1"/>
-          <!-- tick marks on outer ring -->
-          <line x1="816" y1="16" x2="816" y2="36" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
-          <line x1="816" y1="636" x2="816" y2="656" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
-          <line x1="496" y1="336" x2="516" y2="336" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
-          <line x1="1116" y1="336" x2="1136" y2="336" stroke="#00d4e8" stroke-width="0.8" opacity="0.3"/>
-        </g>
-        <!-- Inner counter-rotating ring -->
-        <g class="geo-ring-inner">
-          <circle cx="816" cy="336" r="180" fill="none" stroke="#f8f5f0" stroke-width="0.4" opacity="0.06"/>
-          <polygon points="816,156 964,486 668,486" fill="none" stroke="#e63946" stroke-width="0.7" opacity="0.18"/>
-        </g>
-        <!-- Slowly drifting triangle group top-right -->
-        <g class="geo-tri-group">
-          <polygon points="864,80 920,180 808,180" fill="none" stroke="#00d4e8" stroke-width="1" opacity="0.25"/>
-          <polygon points="864,100 900,160 828,160" fill="none" stroke="#00d4e8" stroke-width="0.5" opacity="0.15"/>
-          <!-- cian dot at apex -->
-          <circle cx="864" cy="80" r="2.5" fill="#00d4e8" opacity="0.6" class="geo-dot"/>
-        </g>
-        <!-- Static diagonal accent lines -->
-        <line x1="0" y1="800" x2="400" y2="400" stroke="#1e1e1e" stroke-width="1" class="geo-line-1"/>
-        <line x1="100" y1="800" x2="550" y2="200" stroke="#1e1e1e" stroke-width="0.5" class="geo-line-2"/>
-        <!-- Corner cross-hairs -->
-        <g opacity="0.2" stroke="#555552" stroke-width="0.6">
-          <line x1="40" y1="80" x2="70" y2="80"/>
-          <line x1="55" y1="65" x2="55" y2="95"/>
-          <line x1="1140" y1="700" x2="1170" y2="700"/>
-          <line x1="1155" y1="685" x2="1155" y2="715"/>
-        </g>
-        <!-- Cian accent dots scattered -->
-        <circle cx="200" cy="650" r="1.5" fill="#00d4e8" opacity="0.4" class="geo-dot"/>
-        <circle cx="950" cy="550" r="1.5" fill="#00d4e8" opacity="0.3" class="geo-dot"/>
-        <circle cx="1050" cy="200" r="1"   fill="#e63946" opacity="0.5" class="geo-dot"/>
+      <canvas id="bgCanvas"></canvas>
+    </div>
 
-        <!-- Animated sinusoidal waves – bottom-left zone -->
-        <!-- Wave 1: cian, gentle sine, lower area -->
-        <g class="geo-wave-1" style="overflow:visible">
-          <path d="M-1200,680 C-1140,655 -1080,705 -1020,680 C-960,655 -900,705 -840,680
-                   C-780,655 -720,705 -660,680 C-600,655 -540,705 -480,680
-                   C-420,655 -360,705 -300,680 C-240,655 -180,705 -120,680
-                   C-60,655 0,705 60,680 C120,655 180,705 240,680
-                   C300,655 360,705 420,680 C480,655 540,705 600,680
-                   C660,655 720,705 780,680 C840,655 900,705 960,680
-                   C1020,655 1080,705 1140,680 C1200,655 1260,705 1320,680
-                   C1380,655 1440,705 1500,680 C1560,655 1620,705 1680,680
-                   C1740,655 1800,705 1860,680 C1920,655 1980,705 2040,680
-                   C2100,655 2160,705 2220,680 C2280,655 2340,705 2400,680"
-                fill="none" stroke="#00d4e8" stroke-width="0.9" opacity="0.22"/>
-        </g>
-        <!-- Wave 2: rojo, tighter frequency, mid-lower area -->
-        <g class="geo-wave-2" style="overflow:visible">
-          <path d="M-1200,590 C-1110,558 -1020,622 -930,590 C-840,558 -750,622 -660,590
-                   C-570,558 -480,622 -390,590 C-300,558 -210,622 -120,590
-                   C-30,558 60,622 150,590 C240,558 330,622 420,590
-                   C510,558 600,622 690,590 C780,558 870,622 960,590
-                   C1050,558 1140,622 1230,590 C1320,558 1410,622 1500,590
-                   C1590,558 1680,622 1770,590 C1860,558 1950,622 2040,590
-                   C2130,558 2220,622 2310,590 C2400,558 2490,622 2580,590"
-                fill="none" stroke="#e63946" stroke-width="0.7" opacity="0.14"/>
-        </g>
-        <!-- Wave 3: blanco, complex/irregular shape, mid area -->
-        <g class="geo-wave-3" style="overflow:visible">
-          <path d="M-1200,520 C-1170,505 -1140,498 -1110,520 C-1080,542 -1050,560 -1020,520
-                   C-990,480 -960,495 -930,520 C-900,545 -870,558 -840,520
-                   C-810,482 -780,497 -750,520 C-720,543 -690,556 -660,520
-                   C-630,484 -600,499 -570,520 C-540,541 -510,554 -480,520
-                   C-450,486 -420,501 -390,520 C-360,539 -330,552 -300,520
-                   C-270,488 -240,503 -210,520 C-180,537 -150,550 -120,520
-                   C-90,490 -60,505 -30,520 C0,535 30,548 60,520
-                   C90,492 120,507 150,520 C180,533 210,546 240,520
-                   C270,494 300,509 330,520 C360,531 390,544 420,520
-                   C450,496 480,511 510,520 C540,529 570,542 600,520
-                   C630,498 660,513 690,520 C720,527 750,540 780,520
-                   C810,500 840,515 870,520 C900,525 930,538 960,520
-                   C990,502 1020,517 1050,520 C1080,523 1110,536 1140,520
-                   C1170,504 1200,519 1230,520 C1260,521 1290,534 1320,520
-                   C1350,506 1380,521 1410,520 C1440,519 1470,532 1500,520
-                   C1530,508 1560,523 1590,520 C1620,517 1650,530 1680,520
-                   C1710,510 1740,525 1770,520 C1800,515 1830,528 1860,520
-                   C1890,512 1920,527 1950,520 C1980,513 2010,526 2040,520
-                   C2070,514 2100,527 2130,520 C2160,513 2190,526 2220,520
-                   C2250,514 2280,527 2310,520 C2340,513 2370,526 2400,520"
-                fill="none" stroke="#f8f5f0" stroke-width="0.5" opacity="0.09"/>
-        </g>
+    <!-- CRT scan-line texture -->
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <!-- HUD corners -->
+    <div class="hud-corner hud-tl" aria-hidden="true">
+      <svg class="hud-bracket" width="22" height="22" viewBox="0 0 22 22">
+        <path d="M1 22 L1 1 L22 1" fill="none" stroke="#e63946" stroke-width="1.2" opacity="0.5"/>
       </svg>
+      <div class="hud-label">
+        <span class="accent">sys / active</span>
+        <span>Composer</span>
+        <span>Digital artist</span>
+        <span>Improviser</span>
+      </div>
+    </div>
+
+    <div class="hud-corner hud-tr" aria-hidden="true">
+      <svg class="hud-bracket" width="22" height="22" viewBox="0 0 22 22">
+        <path d="M1 1 L22 1 L22 22" fill="none" stroke="#00d4e8" stroke-width="1.2" opacity="0.5"/>
+      </svg>
+      <div class="hud-label" style="align-items:flex-end">
+        <span class="accent">Geneva · CH</span>
+        <span class="accent-r">Santiago · CL</span>
+        <span>Mixed music</span>
+        <span>Live electronics</span>
+      </div>
     </div>
 
     <div class="hero-content">
-      <p class="hero-etiqueta">Chile - Switzerland</p>
+      <p class="hero-etiqueta">Chile — Switzerland</p>
       <h1>Jorge<br>Care</h1>
       <p class="hero-descripcion">
         Composer <span>/</span> Digital artist <span>/</span> Improviser
       </p>
     </div>
+
     <div class="hero-bottom">
       <div style="flex:1"></div>
       <div class="hero-location-block">
         <div class="hero-location">
-          33°27'S <span>·</span> 70°40'W
+          <span class="coord-city">SCL</span>33°27'S <span>·</span> 70°40'W
         </div>
         <div class="hero-location">
-          46°12'N <span>·</span> 6°09'E
+          <span class="coord-city">GVA</span>46°12'N <span>·</span> 6°09'E
         </div>
       </div>
     </div>
   </section>
+
+  <script>
+  (function() {
+    const canvas = document.getElementById('bgCanvas');
+    const parent = canvas.parentElement;
+    const ctx = canvas.getContext('2d');
+
+    // Colors
+    const CIAN  = { r:0,   g:212, b:232 };
+    const ROJO  = { r:230, g:57,  b:70  };
+    const WHITE = { r:248, g:245, b:240 };
+
+    let W, H, t = 0, raf;
+
+    function resize() {
+      W = canvas.width  = parent.offsetWidth;
+      H = canvas.height = parent.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // ── RINGS ──
+    const rings = [
+      { cx: 0.68, cy: 0.44, r: 0.28, speed:  0.0004, color: CIAN,  lw: 0.8, op: 0.28 },
+      { cx: 0.68, cy: 0.44, r: 0.34, speed: -0.00025, color: ROJO, lw: 0.5, op: 0.18 },
+      { cx: 0.68, cy: 0.44, r: 0.20, speed:  0.0007, color: WHITE, lw: 0.4, op: 0.10 },
+      { cx: 0.68, cy: 0.44, r: 0.42, speed: -0.00015,color: CIAN,  lw: 0.3, op: 0.10 },
+    ];
+
+    // ── ORBITING PARTICLES on rings ──
+    const orbiters = [
+      { ringIdx:0, angle:0,    speed:0.0012,  size:2.5, color:CIAN,  op:0.9 },
+      { ringIdx:0, angle:Math.PI, speed:0.0012, size:1.5, color:WHITE, op:0.6},
+      { ringIdx:1, angle:1.2,  speed:-0.0008, size:2,   color:ROJO,  op:0.9 },
+      { ringIdx:1, angle:3.8,  speed:-0.0008, size:1.2, color:ROJO,  op:0.5 },
+      { ringIdx:2, angle:0.5,  speed:0.002,   size:1.5, color:CIAN,  op:0.7 },
+      { ringIdx:3, angle:2.1,  speed:-0.0005, size:1,   color:CIAN,  op:0.4 },
+    ];
+
+    // ── DRIFTING TRIANGLES ──
+    const triangles = [
+      { cx:0.72, cy:0.12, r:60, angle:0, driftX:0, driftY:0, speed:0.0003, color:CIAN, lw:0.9, op:0.32 },
+      { cx:0.72, cy:0.12, r:40, angle:Math.PI, driftX:0, driftY:0, speed:-0.0005, color:CIAN, lw:0.5, op:0.18 },
+      { cx:0.20, cy:0.70, r:45, angle:0.3, driftX:0, driftY:0, speed:0.0004, color:ROJO, lw:0.7, op:0.20 },
+      { cx:0.88, cy:0.75, r:30, angle:1.0, driftX:0, driftY:0, speed:-0.0003, color:WHITE, lw:0.4, op:0.12 },
+    ];
+    // give each triangle a drift offset
+    triangles.forEach((tr, i) => {
+      tr._phase = i * 1.3;
+    });
+
+    // ── GRID LINES (faint) ──
+    function drawGrid() {
+      ctx.save();
+      ctx.strokeStyle = '#1c1c1c';
+      ctx.lineWidth = 0.5;
+      // subtle perspective grid bottom-left
+      const vx = W * 0.1, vy = H * 0.9;
+      const lines = 12;
+      for (let i = 0; i <= lines; i++) {
+        const px = (W * 0.05) + (W * 0.55) * (i / lines);
+        ctx.beginPath();
+        ctx.moveTo(px, H * 0.55);
+        ctx.lineTo(vx + (px - vx) * 0.15, vy);
+        ctx.stroke();
+      }
+      for (let j = 0; j <= 8; j++) {
+        const t2 = j / 8;
+        const y = H * 0.55 + (vy - H * 0.55) * t2;
+        const xL = W * 0.05 + (vx - W * 0.05) * t2;
+        const xR = W * 0.60 + (vx - W * 0.60) * t2;
+        ctx.beginPath();
+        ctx.moveTo(xL, y);
+        ctx.lineTo(xR, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // ── IRREGULAR WAVEFORMS (3 passes per wave) ──
+    // Each wave has base params; amplitude and frequency modulate over time
+    const waves = [
+      // cian, bottom zone
+      { y: 0.84, baseAmp: 28, freqBase: 0.012, freqMod: 0.004,
+        ampMod: 12, speed: 0.00018, speedMod: 0.00005,
+        phase: 0, color: CIAN, lw: 1.0, op: 0.30 },
+      // rojo, mid-low
+      { y: 0.70, baseAmp: 22, freqBase: 0.018, freqMod: 0.007,
+        ampMod: 16, speed: -0.00012, speedMod: 0.00007,
+        phase: 1.2, color: ROJO, lw: 0.7, op: 0.20 },
+      // white, mid (complex)
+      { y: 0.61, baseAmp: 14, freqBase: 0.024, freqMod: 0.01,
+        ampMod: 20, speed: 0.00022, speedMod: -0.00003,
+        phase: 2.6, color: WHITE, lw: 0.5, op: 0.10 },
+      // second cian, upper-mid (sparse)
+      { y: 0.50, baseAmp: 10, freqBase: 0.008, freqMod: 0.012,
+        ampMod: 18, speed: -0.00008, speedMod: 0.00004,
+        phase: 4.1, color: CIAN, lw: 0.4, op: 0.10 },
+    ];
+
+    function drawWave(wave, time) {
+      const baseY = wave.y * H;
+      ctx.save();
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 2) {
+        const nx = x / W;
+        // Two sinusoids at different frequencies summed for complexity
+        const freq1 = wave.freqBase + wave.freqMod * Math.sin(time * 0.3 + wave.phase);
+        const freq2 = freq1 * 1.618;
+        const amp1 = wave.baseAmp + wave.ampMod * Math.sin(time * 0.17 + wave.phase * 1.3);
+        const amp2 = amp1 * 0.4;
+        // Traveling speed also modulates
+        const spd = wave.speed + wave.speedMod * Math.sin(time * 0.11);
+        const y = baseY
+          + amp1 * Math.sin(nx * W * freq1 * 0.06 + time * spd * 1000)
+          + amp2 * Math.sin(nx * W * freq2 * 0.06 + time * spd * 1000 * 1.3 + 1.1)
+          + amp1 * 0.15 * Math.sin(nx * W * 0.003 + time * spd * 200); // slow envelope
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = `rgba(${wave.color.r},${wave.color.g},${wave.color.b},${wave.op})`;
+      ctx.lineWidth = wave.lw;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // ── FLOATING DOTS ──
+    const dots = Array.from({ length: 22 }, (_, i) => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: 0.8 + Math.random() * 1.6,
+      color: i % 3 === 0 ? ROJO : i % 3 === 1 ? CIAN : WHITE,
+      op: 0.15 + Math.random() * 0.45,
+      phase: Math.random() * Math.PI * 2,
+      freq: 0.0004 + Math.random() * 0.0008,
+    }));
+
+    // ── GLITCH ACCENT LINES (fast diagonal flickers) ──
+    let glitchTimer = 0;
+    let glitchLines = [];
+    function spawnGlitch() {
+      glitchLines = Array.from({ length: 2 + Math.floor(Math.random() * 3) }, () => ({
+        x1: Math.random() * W * 0.5,
+        y1: 0.3 * H + Math.random() * 0.4 * H,
+        len: 40 + Math.random() * 120,
+        angle: -Math.PI / 4 + (Math.random() - 0.5) * 0.5,
+        color: Math.random() > 0.5 ? CIAN : ROJO,
+        op: 0.4 + Math.random() * 0.4,
+        life: 0, maxLife: 0.08 + Math.random() * 0.12,
+      }));
+    }
+
+    // ── DRAW TRIANGLE ──
+    function drawTriangle(cx, cy, r, angle, color, lw, op) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      for (let i = 0; i < 3; i++) {
+        const a = (i / 3) * Math.PI * 2 - Math.PI / 2;
+        const px = Math.cos(a) * r;
+        const py = Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = `rgba(${color.r},${color.g},${color.b},${op})`;
+      ctx.lineWidth = lw;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // ── DRAW TICK MARKS ON RING ──
+    function drawRingTicks(cx, cy, r, angle, color, op) {
+      ctx.save();
+      [0, Math.PI/2, Math.PI, Math.PI*1.5].forEach(a => {
+        const ra = a + angle;
+        const x1 = cx + Math.cos(ra) * (r - 8);
+        const y1 = cy + Math.sin(ra) * (r - 8);
+        const x2 = cx + Math.cos(ra) * (r + 8);
+        const y2 = cy + Math.sin(ra) * (r + 8);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = `rgba(${color.r},${color.g},${color.b},${op * 1.5})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+      ctx.restore();
+    }
+
+    function draw(timestamp) {
+      t = timestamp * 0.001;
+      ctx.clearRect(0, 0, W, H);
+
+      // Grid
+      drawGrid();
+
+      // Rings
+      rings.forEach(rng => {
+        const angle = t * rng.speed * 1000;
+        const cx = rng.cx * W, cy = rng.cy * H, r = rng.r * Math.min(W, H);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${rng.color.r},${rng.color.g},${rng.color.b},${rng.op})`;
+        ctx.lineWidth = rng.lw;
+        ctx.stroke();
+        ctx.restore();
+        drawRingTicks(cx, cy, r, angle, rng.color, rng.op);
+      });
+
+      // Inner polygon (rotates with ring 1)
+      {
+        const rng = rings[1];
+        const angle = t * rng.speed * 1000;
+        const cx = rng.cx * W, cy = rng.cy * H, r = rng.r * Math.min(W, H) * 0.75;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        for (let i = 0; i < 3; i++) {
+          const a = (i / 3) * Math.PI * 2;
+          if (i === 0) ctx.moveTo(Math.cos(a)*r, Math.sin(a)*r);
+          else ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},0.22)`;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // Orbiting particles
+      orbiters.forEach(ob => {
+        const rng = rings[ob.ringIdx];
+        const angle = (ob.angle += ob.speed);
+        const cx = rng.cx * W, cy = rng.cy * H;
+        const r = rng.r * Math.min(W, H);
+        const px = cx + Math.cos(angle) * r;
+        const py = cy + Math.sin(angle) * r;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, ob.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},${ob.op})`;
+        ctx.fill();
+        // glow
+        ctx.beginPath();
+        ctx.arc(px, py, ob.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},0.06)`;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // Drifting triangles
+      triangles.forEach(tr => {
+        tr.angle += tr.speed;
+        const driftX = 18 * Math.sin(t * 0.23 + tr._phase);
+        const driftY = 12 * Math.cos(t * 0.17 + tr._phase * 1.2);
+        drawTriangle(
+          tr.cx * W + driftX, tr.cy * H + driftY,
+          tr.r, tr.angle,
+          tr.color, tr.lw, tr.op
+        );
+      });
+
+      // Diagonal accent lines (left quadrant)
+      ctx.save();
+      ctx.strokeStyle = '#1e1e1e';
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+      ctx.lineTo(W * 0.35, H * 0.45);
+      ctx.stroke();
+      ctx.strokeStyle = '#181818';
+      ctx.lineWidth = 0.4;
+      ctx.beginPath();
+      ctx.moveTo(W * 0.05, H);
+      ctx.lineTo(W * 0.48, H * 0.25);
+      ctx.stroke();
+      ctx.restore();
+
+      // Waves
+      waves.forEach(w => drawWave(w, t));
+
+      // Floating dots
+      dots.forEach(d => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * d.freq * 1000 + d.phase);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(d.x * W, d.y * H, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${d.color.r},${d.color.g},${d.color.b},${d.op * pulse})`;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // Crosshairs (corners)
+      [[40, 80], [W - 40, H - 80]].forEach(([cx2, cy2]) => {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(80,80,80,0.3)';
+        ctx.lineWidth = 0.6;
+        ctx.beginPath(); ctx.moveTo(cx2 - 12, cy2); ctx.lineTo(cx2 + 12, cy2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx2, cy2 - 12); ctx.lineTo(cx2, cy2 + 12); ctx.stroke();
+        ctx.restore();
+      });
+
+      // Glitch lines
+      glitchTimer += 0.016;
+      if (glitchTimer > (1.5 + Math.random() * 2)) {
+        spawnGlitch();
+        glitchTimer = 0;
+      }
+      glitchLines.forEach(gl => {
+        gl.life += 0.016;
+        if (gl.life < gl.maxLife) {
+          const prog = gl.life / gl.maxLife;
+          const fade = 1 - prog;
+          ctx.save();
+          ctx.translate(gl.x1, gl.y1);
+          ctx.rotate(gl.angle);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(gl.len, 0);
+          ctx.strokeStyle = `rgba(${gl.color.r},${gl.color.g},${gl.color.b},${gl.op * fade})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.restore();
+        }
+      });
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    raf = requestAnimationFrame(draw);
+  })();
+  </script>
 
 </body>
 </html>
