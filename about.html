@@ -42,7 +42,7 @@
       padding: 1.25rem 3rem;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #3a3a3a;
+      border-bottom: 1px solid #252525;
     }
     nav .logo {
       font-family: var(--serif);
@@ -70,13 +70,16 @@
     .page-header {
       padding-top: 7rem;
       padding-bottom: 0;
-      border-bottom: 1px solid #3a3a3a;
+      border-bottom: 1px solid #252525;
+      position: relative;
+    }
+    .page-header::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
       background: linear-gradient(to right, transparent, var(--cian) 40%, transparent);
-      opacity: 0.6;
+      opacity: 0.3;
     }
     .page-header-inner {
       max-width: 1100px;
@@ -98,20 +101,20 @@
     .header-accent-line {
       flex: 1;
       height: 1px;
-      background: linear-gradient(to right, #666, transparent);
+      background: linear-gradient(to right, #333, transparent);
       margin-bottom: 0.6rem;
     }
     .header-breadcrumb {
       font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #777;
+      color: #444;
       white-space: nowrap;
       margin-bottom: 0.5rem;
     }
-    .header-breadcrumb a { color: #777; text-decoration: none; transition: color 0.2s; }
+    .header-breadcrumb a { color: #444; text-decoration: none; transition: color 0.2s; }
     .header-breadcrumb a:hover { color: var(--cian); }
-    .header-breadcrumb .sep { color: #555; margin: 0 0.5rem; }
+    .header-breadcrumb .sep { color: #333; margin: 0 0.5rem; }
 
     /* ── MAIN CONTENT ── */
     main {
@@ -138,12 +141,12 @@
       letter-spacing: 0.02em;
     }
     .about-texto p {
-      color: #c8c8c6;
+      color: #b0b0ae;
       font-size: 0.91rem;
       margin-bottom: 1.2rem;
       line-height: 1.9;
     }
-    .about-texto p em { color: #e0e0de; font-style: italic; }
+    .about-texto p em { color: #d0d0ce; font-style: italic; }
 
     /* Subtle cian inline accent */
     .about-texto p strong { color: var(--cian); font-weight: 300; }
@@ -202,17 +205,19 @@
       font-size: 0.62rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #666;
+      color: #333;
+    }
+    .foto-label span { color: var(--cian); opacity: 0.6; }
 
     /* ── FOOTER ── */
     footer {
-      border-top: 1px solid #3a3a3a;
+      border-top: 1px solid #252525;
       padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.7rem;
-      color: #777;
+      color: #3a3a3a;
       letter-spacing: 0.1em;
       max-width: none;
     }
