@@ -42,7 +42,7 @@
       padding: 1.25rem 3rem;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #252525;
+      border-bottom: 1px solid #3a3a3a;
     }
     nav .logo {
       font-family: var(--serif);
@@ -69,9 +69,7 @@
     /* ── PAGE HEADER ── */
     .page-header {
       padding-top: 7rem;
-      border-bottom: 1px solid #252525;
-      position: relative;
-      overflow: hidden;
+      border-bottom: 1px solid #3a3a3a;
     }
     /* Decorative cian line at very top of header */
     .page-header::before {
@@ -80,10 +78,7 @@
       top: 0; left: 0; right: 0;
       height: 1px;
       background: linear-gradient(to right, transparent, var(--cian) 40%, transparent);
-      opacity: 0.3;
-    }
-    .page-header-inner {
-      max-width: 1100px;
+      opacity: 0.6;
       margin: 0 auto;
       padding: 3rem 3rem 2.5rem;
       display: flex;
@@ -102,20 +97,16 @@
     .header-accent-line {
       flex: 1;
       height: 1px;
-      background: linear-gradient(to right, #333, transparent);
-      margin-bottom: 0.6rem;
-    }
-    .header-breadcrumb {
-      font-size: 0.62rem;
+      background: linear-gradient(to right, #666, transparent);
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #444;
+      color: #777;
       white-space: nowrap;
       margin-bottom: 0.5rem;
     }
-    .header-breadcrumb a { color: #444; text-decoration: none; transition: color 0.2s; }
+    .header-breadcrumb a { color: #777; text-decoration: none; transition: color 0.2s; }
     .header-breadcrumb a:hover { color: var(--cian); }
-    .header-breadcrumb .sep { color: #333; margin: 0 0.5rem; }
+    .header-breadcrumb .sep { color: #555; margin: 0 0.5rem; }
 
     /* ── MAIN ── */
     main {
@@ -139,7 +130,7 @@
       white-space: nowrap;
     }
     .seccion-label-text.cian { color: var(--cian); }
-    .seccion-linea { flex: 1; height: 1px; background: #252525; }
+    .seccion-linea { flex: 1; height: 1px; background: #444; }
 
     /* ── TOUR INTRO ── */
     .concerts-tour-block {
@@ -174,10 +165,7 @@
       margin-top: 0.6rem;
       font-size: 0.75rem;
       letter-spacing: 0.06em;
-      color: #555;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      color: #888;
     }
     .concerts-intro .ministry-note::before {
       content: '';
@@ -196,14 +184,14 @@
       align-items: center;
       gap: 2rem;
       padding: 1.4rem 0.75rem;
-      border-bottom: 1px solid #1e1e1e;
+      border-bottom: 1px solid #333;
       text-decoration: none;
       transition: background 0.18s, border-color 0.18s;
       cursor: pointer;
       position: relative;
     }
     a.concierto-fila:first-of-type,
-    .concierto-fila-first { border-top: 1px solid #252525; }
+    .concierto-fila-first { border-top: 1px solid #444; }
 
     /* Hover: cian left accent bar */
     a.concierto-fila::before {
@@ -230,13 +218,13 @@
       align-items: center;
       gap: 2rem;
       padding: 1.4rem 0.75rem;
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid #2e2e2e;
     }
 
     .concierto-fecha {
       font-family: var(--serif);
       font-size: 0.82rem;
-      color: #555;
+      color: #888;
       line-height: 1.35;
       transition: color 0.18s;
     }
@@ -258,10 +246,10 @@
     }
     .concierto-lugar {
       font-size: 0.76rem;
-      color: #555;
+      color: #888;
       letter-spacing: 0.05em;
     }
-    .concierto-lugar span { color: #333; margin: 0 0.4rem; }
+    .concierto-lugar span { color: #555; margin: 0 0.4rem; }
 
     /* Arrow indicator */
     .concierto-arrow {
@@ -278,19 +266,94 @@
 
     /* ── PAST CONCERTS ── */
     .concerts-past-block { margin-top: 0; }
-    .concierto-fila-static .concierto-evento { color: #888; }
-    .concierto-fila-static .concierto-fecha strong { color: #666; }
-    .concierto-fila-static .concierto-fecha { color: #3a3a3a; }
+    .concierto-fila-static .concierto-evento { color: #c0c0bd; }
+    .concierto-fila-static .concierto-fecha strong { color: #aaa; }
+    .concierto-fila-static .concierto-fecha { color: #777; }
+
+    /* Linked past concert rows — same style as static but clickable */
+    a.concierto-fila-past {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.4rem 0.75rem;
+      border-bottom: 1px solid #2e2e2e;
+      text-decoration: none;
+      transition: background 0.18s;
+      cursor: pointer;
+      position: relative;
+    }
+    a.concierto-fila-past::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--rojo);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+    a.concierto-fila-past:hover::before { opacity: 1; }
+    a.concierto-fila-past:hover { background: rgba(230,57,70,0.04); }
+    a.concierto-fila-past .concierto-evento { color: #c0c0bd; transition: color 0.18s; }
+    a.concierto-fila-past .concierto-fecha strong { color: #aaa; transition: color 0.18s; }
+    a.concierto-fila-past .concierto-fecha { color: #777; transition: color 0.18s; }
+    a.concierto-fila-past:hover .concierto-evento { color: var(--rojo); }
+    a.concierto-fila-past:hover .concierto-fecha strong { color: var(--rojo); }
+    a.concierto-fila-past:hover .concierto-fecha { color: #aaa; }
+    a.concierto-fila-past .concierto-arrow { font-size: 1rem; color: var(--rojo); opacity: 0; transition: opacity 0.18s, transform 0.18s; }
+    a.concierto-fila-past:hover .concierto-arrow { opacity: 1; transform: translate(2px, -2px); }
+
+    /* Recording sub-link inside a concert info block */
+    .concierto-recording {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.3rem;
+      font-size: 0.64rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cian);
+      opacity: 0.65;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      pointer-events: auto;
+    }
+    .concierto-recording:hover { opacity: 1; }
+    .concierto-recording svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    /* YouTube icon uses fill */
+    .concierto-recording svg.yt-icon { fill: currentColor; stroke: none; }
+
+    /* Multi-link past row: two links stacked */
+    .concierto-links-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.4rem;
+    }
+    .concierto-link-extra {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cian);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .concierto-link-extra:hover { opacity: 1; }
+    .concierto-link-extra svg { width: 9px; height: 9px; fill: currentColor; }
 
     /* ── FOOTER ── */
     footer {
-      border-top: 1px solid #252525;
+      border-top: 1px solid #3a3a3a;
       padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.7rem;
-      color: #3a3a3a;
+      color: #777;
       letter-spacing: 0.1em;
     }
     footer .rojo { color: var(--rojo); }
@@ -302,11 +365,13 @@
       main { padding: 4rem 1.5rem 5rem; }
       .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
       a.concierto-fila,
-      .concierto-fila-static {
+      .concierto-fila-static,
+      a.concierto-fila-past {
         grid-template-columns: 70px 1fr;
         gap: 1rem;
       }
       .concierto-arrow { display: none; }
+      .concierto-links-col { align-items: flex-start; margin-top: 0.3rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
     }
   </style>
@@ -345,10 +410,10 @@
       </div>
 
       <div class="concerts-intro">
-        <span class="tour-tag">European tour — June 2026</span>
+        <span class="tour-tag">European Tour — June 2026</span>
         <p>
           <em>Des Visages</em>, a saxophone and live electronics duo by César Vidal and Jorge Care,
-          presents their <strong>European Gira 2026</strong>, six concert dates across Europe in June 2026.
+          presents their <strong>European Tour 2026</strong>, six concert dates across Europe in June 2026.
         </p>
         <p class="ministry-note">
           Tour supported by the Chilean Ministry of Culture, the Arts and Heritage.
@@ -431,15 +496,16 @@
         <div class="seccion-linea"></div>
       </div>
 
-      <div class="concierto-fila-static concierto-fila-first">
+      <a href="https://www.instagram.com/p/DX9yT94OZfM/" target="_blank" rel="noopener" class="concierto-fila-past concierto-fila-first">
         <div class="concierto-fecha">
           <strong>08</strong>May 2026
         </div>
         <div class="concierto-info">
-          <span class="concierto-evento">TMG — Des Visages</span>
+          <span class="concierto-evento">TMG</span>
           <span class="concierto-lugar">Thelonious, Lugar de Jazz <span>/</span> Santiago, Chile</span>
         </div>
-      </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
 
       <div class="concierto-fila-static">
         <div class="concierto-fecha">
@@ -448,20 +514,29 @@
         <div class="concierto-info">
           <span class="concierto-evento"><em>Séismes</em> for 2 voices, electronics, lights and video</span>
           <span class="concierto-lugar">Auditorium HKB <span>/</span> Bern, Switzerland</span>
+          <a href="https://www.hkb.bfh.ch/de/aktuell/kulturelle-veranstaltungen/konzerte/playtime-trafic-2026-01-13/" target="_blank" rel="noopener" class="concierto-recording">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Event page
+          </a>
+          <a href="https://youtu.be/sJKRYyJyNEU?si=6t0ifAx1qiTrH-7a" target="_blank" rel="noopener" class="concierto-recording">
+            <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+            Recording
+          </a>
         </div>
       </div>
 
-      <div class="concierto-fila-static">
+      <a href="https://artasperto.ch/en/evenement/niemandsland-a-journey-to-what-lies-between-us/" target="_blank" rel="noopener" class="concierto-fila-past">
         <div class="concierto-fecha">
           <strong>08</strong>Nov 2025
         </div>
         <div class="concierto-info">
-          <span class="concierto-evento">Live Set — Des Visages</span>
+          <span class="concierto-evento">Live Set</span>
           <span class="concierto-lugar">Festival KorSonoR <span>/</span> Geneva, Switzerland</span>
         </div>
-      </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
 
-      <div class="concierto-fila-static">
+      <a href="https://www.hesge.ch/hem/evenements/air-2" target="_blank" rel="noopener" class="concierto-fila-past">
         <div class="concierto-fecha">
           <strong>03</strong>Oct 2025
         </div>
@@ -469,7 +544,8 @@
           <span class="concierto-evento"><em>Senderos ... que se extienden</em> for soprano saxophone and orchestra</span>
           <span class="concierto-lugar">Salle Palladium <span>/</span> Geneva, Switzerland</span>
         </div>
-      </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
 
       <div class="concierto-fila-static">
         <div class="concierto-fecha">
@@ -478,6 +554,14 @@
         <div class="concierto-info">
           <span class="concierto-evento">César Vidal &amp; Artikulation Band — Getxo Jazz 2025</span>
           <span class="concierto-lugar">Muxikebarri <span>/</span> Basque Country, Spain</span>
+          <a href="https://getxo-kultura.eus/es/getxo-jazz-2025/cecile-mclorin-salvant-cesar-vidal-artikulation-band/" target="_blank" rel="noopener" class="concierto-recording">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Event page
+          </a>
+          <a href="https://www.youtube.com/live/2qCtj3kKSb4?si=xe7AeLNcyrfUnxu8" target="_blank" rel="noopener" class="concierto-recording">
+            <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+            Recording
+          </a>
         </div>
       </div>
 
@@ -488,10 +572,18 @@
         <div class="concierto-info">
           <span class="concierto-evento">César Vidal &amp; Artikulation Band — Jazzber 2025</span>
           <span class="concierto-lugar">Bermeoko Kafe Antzokia <span>/</span> Bermeo, Spain</span>
+          <a href="https://www.kulturklik.euskadi.eus/evento/2025/07/02/jazzber-2025-festival-de-jazz-de-bermeo/webkklik00-detalle/es/" target="_blank" rel="noopener" class="concierto-recording">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Event page
+          </a>
+          <a href="https://www.oizmendi.eus/herriak/bermeo/jazzber-2025-cesar-vidal-artikulation-band/" target="_blank" rel="noopener" class="concierto-recording">
+            <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+            Recording
+          </a>
         </div>
       </div>
 
-      <div class="concierto-fila-static">
+      <a href="https://www.hesge.ch/hem/evenements/fete-la-musique-6" target="_blank" rel="noopener" class="concierto-fila-past">
         <div class="concierto-fecha">
           <strong>20</strong>Jun 2025
         </div>
@@ -499,7 +591,8 @@
           <span class="concierto-evento">Des Visages + On Press Off — Fête de la Musique</span>
           <span class="concierto-lugar">Black Box HEM <span>/</span> Geneva, Switzerland</span>
         </div>
-      </div>
+        <span class="concierto-arrow">&#8599;</span>
+      </a>
 
       <div class="concierto-fila-static">
         <div class="concierto-fecha">
@@ -508,6 +601,14 @@
         <div class="concierto-info">
           <span class="concierto-evento"><em>Bilis Negra — Mélancolie</em> for alto saxophone soloist, ensemble and electronics</span>
           <span class="concierto-lugar">Auditorium Ansermet <span>/</span> Geneva, Switzerland</span>
+          <a href="https://www.hesge.ch/hem/evenements/test-flight-1" target="_blank" rel="noopener" class="concierto-recording">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Event page
+          </a>
+          <a href="https://youtu.be/QPFHcKHXep4?si=4VKaF1O6xzkbckEo" target="_blank" rel="noopener" class="concierto-recording">
+            <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+            Recording
+          </a>
         </div>
       </div>
 

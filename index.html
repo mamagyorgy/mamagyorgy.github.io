@@ -42,10 +42,7 @@
       padding: 1.25rem 3rem;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #252525;
-    }
-    nav .logo {
-      font-family: var(--serif);
+      border-bottom: 1px solid #3a3a3a;
       font-size: 1rem;
       font-weight: 300;
       letter-spacing: 0.08em;
@@ -181,7 +178,7 @@
     }
     h1 {
       font-family: var(--serif);
-      font-size: clamp(4.5rem, 12vw, 10rem);
+      font-size: clamp(3.2rem, 8.5vw, 7rem);
       font-weight: 300;
       line-height: 0.9;
       letter-spacing: -0.02em;
@@ -193,8 +190,7 @@
       font-size: 0.78rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #888;
-      margin-bottom: 2.5rem;
+      color: #aaa;
     }
     .hero-descripcion span { color: var(--rojo); margin: 0 0.75rem; opacity: 0.8; }
 
@@ -210,10 +206,7 @@
       font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #3a3a3a;
-    }
-    .hero-location span { color: var(--cian); opacity: 0.7; }
-    .hero-location-block {
+      color: #666;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
@@ -221,7 +214,7 @@
     }
     /* City label beside coord */
     .coord-city {
-      color: #2a2a2a;
+      color: #555;
       margin-right: 0.5rem;
     }
 
@@ -262,24 +255,12 @@
       <svg class="hud-bracket" width="22" height="22" viewBox="0 0 22 22">
         <path d="M1 22 L1 1 L22 1" fill="none" stroke="#e63946" stroke-width="1.2" opacity="0.5"/>
       </svg>
-      <div class="hud-label">
-        <span class="accent">sys / active</span>
-        <span>Composer</span>
-        <span>Digital artist</span>
-        <span>Improviser</span>
-      </div>
     </div>
 
     <div class="hud-corner hud-tr" aria-hidden="true">
       <svg class="hud-bracket" width="22" height="22" viewBox="0 0 22 22">
         <path d="M1 1 L22 1 L22 22" fill="none" stroke="#00d4e8" stroke-width="1.2" opacity="0.5"/>
       </svg>
-      <div class="hud-label" style="align-items:flex-end">
-        <span class="accent">Geneva · CH</span>
-        <span class="accent-r">Santiago · CL</span>
-        <span>Mixed music</span>
-        <span>Live electronics</span>
-      </div>
     </div>
 
     <div class="hero-content">
@@ -325,28 +306,28 @@
 
     // ── RINGS ──
     const rings = [
-      { cx: 0.68, cy: 0.44, r: 0.28, speed:  0.0004, color: CIAN,  lw: 0.8, op: 0.28 },
-      { cx: 0.68, cy: 0.44, r: 0.34, speed: -0.00025, color: ROJO, lw: 0.5, op: 0.18 },
-      { cx: 0.68, cy: 0.44, r: 0.20, speed:  0.0007, color: WHITE, lw: 0.4, op: 0.10 },
-      { cx: 0.68, cy: 0.44, r: 0.42, speed: -0.00015,color: CIAN,  lw: 0.3, op: 0.10 },
+      { cx: 0.68, cy: 0.44, r: 0.28, speed:  0.0004, color: CIAN,  lw: 1.2, op: 0.55 },
+      { cx: 0.68, cy: 0.44, r: 0.34, speed: -0.00025, color: ROJO, lw: 0.9, op: 0.40 },
+      { cx: 0.68, cy: 0.44, r: 0.20, speed:  0.0007, color: WHITE, lw: 0.7, op: 0.28 },
+      { cx: 0.68, cy: 0.44, r: 0.42, speed: -0.00015,color: CIAN,  lw: 0.5, op: 0.25 },
     ];
 
     // ── ORBITING PARTICLES on rings ──
     const orbiters = [
-      { ringIdx:0, angle:0,    speed:0.0012,  size:2.5, color:CIAN,  op:0.9 },
-      { ringIdx:0, angle:Math.PI, speed:0.0012, size:1.5, color:WHITE, op:0.6},
-      { ringIdx:1, angle:1.2,  speed:-0.0008, size:2,   color:ROJO,  op:0.9 },
-      { ringIdx:1, angle:3.8,  speed:-0.0008, size:1.2, color:ROJO,  op:0.5 },
-      { ringIdx:2, angle:0.5,  speed:0.002,   size:1.5, color:CIAN,  op:0.7 },
-      { ringIdx:3, angle:2.1,  speed:-0.0005, size:1,   color:CIAN,  op:0.4 },
+      { ringIdx:0, angle:0,    speed:0.0012,  size:3.0, color:CIAN,  op:1.0 },
+      { ringIdx:0, angle:Math.PI, speed:0.0012, size:2.0, color:WHITE, op:0.85},
+      { ringIdx:1, angle:1.2,  speed:-0.0008, size:2.5, color:ROJO,  op:1.0 },
+      { ringIdx:1, angle:3.8,  speed:-0.0008, size:1.5, color:ROJO,  op:0.75 },
+      { ringIdx:2, angle:0.5,  speed:0.002,   size:2.0, color:CIAN,  op:0.9 },
+      { ringIdx:3, angle:2.1,  speed:-0.0005, size:1.5, color:CIAN,  op:0.65 },
     ];
 
     // ── DRIFTING TRIANGLES ──
     const triangles = [
-      { cx:0.72, cy:0.12, r:60, angle:0, driftX:0, driftY:0, speed:0.0003, color:CIAN, lw:0.9, op:0.32 },
-      { cx:0.72, cy:0.12, r:40, angle:Math.PI, driftX:0, driftY:0, speed:-0.0005, color:CIAN, lw:0.5, op:0.18 },
-      { cx:0.20, cy:0.70, r:45, angle:0.3, driftX:0, driftY:0, speed:0.0004, color:ROJO, lw:0.7, op:0.20 },
-      { cx:0.88, cy:0.75, r:30, angle:1.0, driftX:0, driftY:0, speed:-0.0003, color:WHITE, lw:0.4, op:0.12 },
+      { cx:0.72, cy:0.12, r:60, angle:0, driftX:0, driftY:0, speed:0.0003, color:CIAN, lw:1.4, op:0.60 },
+      { cx:0.72, cy:0.12, r:40, angle:Math.PI, driftX:0, driftY:0, speed:-0.0005, color:CIAN, lw:0.8, op:0.40 },
+      { cx:0.20, cy:0.70, r:45, angle:0.3, driftX:0, driftY:0, speed:0.0004, color:ROJO, lw:1.1, op:0.45 },
+      { cx:0.88, cy:0.75, r:30, angle:1.0, driftX:0, driftY:0, speed:-0.0003, color:WHITE, lw:0.7, op:0.30 },
     ];
     // give each triangle a drift offset
     triangles.forEach((tr, i) => {
@@ -356,8 +337,8 @@
     // ── GRID LINES (faint) ──
     function drawGrid() {
       ctx.save();
-      ctx.strokeStyle = '#1c1c1c';
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = '#2e2e2e';
+      ctx.lineWidth = 0.6;
       // subtle perspective grid bottom-left
       const vx = W * 0.1, vy = H * 0.9;
       const lines = 12;
@@ -383,42 +364,86 @@
 
     // ── IRREGULAR WAVEFORMS (3 passes per wave) ──
     // Each wave has base params; amplitude and frequency modulate over time
+    // ── IRREGULAR WAVEFORMS — complex, inharmonic, electric ──
     const waves = [
-      // cian, bottom zone
-      { y: 0.84, baseAmp: 28, freqBase: 0.012, freqMod: 0.004,
-        ampMod: 12, speed: 0.00018, speedMod: 0.00005,
-        phase: 0, color: CIAN, lw: 1.0, op: 0.30 },
-      // rojo, mid-low
-      { y: 0.70, baseAmp: 22, freqBase: 0.018, freqMod: 0.007,
-        ampMod: 16, speed: -0.00012, speedMod: 0.00007,
-        phase: 1.2, color: ROJO, lw: 0.7, op: 0.20 },
-      // white, mid (complex)
-      { y: 0.61, baseAmp: 14, freqBase: 0.024, freqMod: 0.01,
-        ampMod: 20, speed: 0.00022, speedMod: -0.00003,
-        phase: 2.6, color: WHITE, lw: 0.5, op: 0.10 },
-      // second cian, upper-mid (sparse)
-      { y: 0.50, baseAmp: 10, freqBase: 0.008, freqMod: 0.012,
-        ampMod: 18, speed: -0.00008, speedMod: 0.00004,
-        phase: 4.1, color: CIAN, lw: 0.4, op: 0.10 },
+      // cian, bottom zone — energetic + noisy
+      { y: 0.84, baseAmp: 38, freqBase: 0.014, freqMod: 0.007,
+        ampMod: 22, speed: 0.00022, speedMod: 0.00008,
+        phase: 0, color: CIAN, lw: 1.4, op: 0.55 },
+      // rojo, mid-low — jagged + inharmonic
+      { y: 0.70, baseAmp: 30, freqBase: 0.021, freqMod: 0.012,
+        ampMod: 28, speed: -0.00016, speedMod: 0.00012,
+        phase: 1.2, color: ROJO, lw: 1.0, op: 0.40 },
+      // white, mid — complex spectrum
+      { y: 0.61, baseAmp: 20, freqBase: 0.028, freqMod: 0.016,
+        ampMod: 32, speed: 0.00030, speedMod: -0.00006,
+        phase: 2.6, color: WHITE, lw: 0.7, op: 0.25 },
+      // second cian, upper-mid — sparse, erratic
+      { y: 0.50, baseAmp: 14, freqBase: 0.010, freqMod: 0.018,
+        ampMod: 26, speed: -0.00010, speedMod: 0.00007,
+        phase: 4.1, color: CIAN, lw: 0.5, op: 0.20 },
     ];
+
+    // Per-wave noise state for stochastic bursts
+    waves.forEach((w, i) => {
+      w._noisePhase = i * 2.7;
+      w._burstTimer = Math.random() * 2;
+      w._burstAmp = 0;
+      w._burstDecay = 0;
+    });
 
     function drawWave(wave, time) {
       const baseY = wave.y * H;
+
+      // Stochastic burst: randomly adds a short noisy amplitude spike
+      wave._burstTimer -= 0.016;
+      if (wave._burstTimer <= 0) {
+        wave._burstAmp   = 25 + Math.random() * 60;
+        wave._burstDecay = 0.06 + Math.random() * 0.20;
+        wave._burstTimer = 0.6 + Math.random() * 2.0;
+      }
+      wave._burstAmp *= (1 - 0.016 / Math.max(wave._burstDecay, 0.001));
+      if (wave._burstAmp < 0.5) wave._burstAmp = 0;
+
+      // Slowly varying noise seed
+      const noiseBase = Math.sin(time * 1.37 + wave._noisePhase) *
+                        Math.cos(time * 0.89 + wave._noisePhase * 1.6);
+
       ctx.save();
       ctx.beginPath();
       for (let x = 0; x <= W; x += 2) {
         const nx = x / W;
-        // Two sinusoids at different frequencies summed for complexity
-        const freq1 = wave.freqBase + wave.freqMod * Math.sin(time * 0.3 + wave.phase);
-        const freq2 = freq1 * 1.618;
+
+        const freq1 = wave.freqBase + wave.freqMod * Math.sin(time * 0.31 + wave.phase);
+        const freq2 = freq1 * 1.618;  // golden ratio — inharmonic
+        const freq3 = freq1 * 6.87;   // 7th harmonic — dissonant
+        const freq4 = freq1 * 0.11;   // very slow envelope
+
         const amp1 = wave.baseAmp + wave.ampMod * Math.sin(time * 0.17 + wave.phase * 1.3);
-        const amp2 = amp1 * 0.4;
-        // Traveling speed also modulates
+        const amp2 = amp1 * 0.45;
+        const amp3 = amp1 * 0.22 * (0.5 + 0.5 * Math.abs(noiseBase));
+        const amp4 = amp1 * 0.30;
+
         const spd = wave.speed + wave.speedMod * Math.sin(time * 0.11);
+        const T   = time * spd * 1000;
+
+        // High-freq noisy term
+        const noisy = Math.sin(nx * W * freq3 * 0.06 + T * 1.9 + wave._noisePhase)
+                    * Math.cos(nx * W * freq3 * 0.041 + T * 2.3);
+
+        // Localized burst spike
+        const burstCenter = 0.3 + 0.4 * Math.abs(Math.sin(wave._noisePhase + time * 0.5));
+        const burstShape  = wave._burstAmp
+          * Math.exp(-Math.pow(nx - burstCenter, 2) * 18)
+          * Math.sin(nx * W * 0.08 + T * 4.1);
+
         const y = baseY
-          + amp1 * Math.sin(nx * W * freq1 * 0.06 + time * spd * 1000)
-          + amp2 * Math.sin(nx * W * freq2 * 0.06 + time * spd * 1000 * 1.3 + 1.1)
-          + amp1 * 0.15 * Math.sin(nx * W * 0.003 + time * spd * 200); // slow envelope
+          + amp1 * Math.sin(nx * W * freq1 * 0.06 + T)
+          + amp2 * Math.sin(nx * W * freq2 * 0.06 + T * 1.3 + 1.1)
+          + amp3 * noisy
+          + amp4 * Math.sin(nx * W * freq4 * 0.06 + T * 0.3)
+          + burstShape;
+
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
@@ -434,23 +459,29 @@
       y: Math.random(),
       r: 0.8 + Math.random() * 1.6,
       color: i % 3 === 0 ? ROJO : i % 3 === 1 ? CIAN : WHITE,
-      op: 0.15 + Math.random() * 0.45,
+      op: 0.25 + Math.random() * 0.55,
       phase: Math.random() * Math.PI * 2,
       freq: 0.0004 + Math.random() * 0.0008,
     }));
 
-    // ── GLITCH ACCENT LINES (fast diagonal flickers) ──
+    // ── GLITCH ACCENT LINES — more aggressive, more frequent ──
     let glitchTimer = 0;
     let glitchLines = [];
+    // Screen-tear glitch: displaces a horizontal strip of the canvas
+    let tearTimer = 0;
+    let tearActive = false;
+    let tearY = 0, tearH2 = 0, tearShift = 0, tearLife = 0, tearMaxLife = 0;
+
     function spawnGlitch() {
-      glitchLines = Array.from({ length: 2 + Math.floor(Math.random() * 3) }, () => ({
-        x1: Math.random() * W * 0.5,
-        y1: 0.3 * H + Math.random() * 0.4 * H,
-        len: 40 + Math.random() * 120,
-        angle: -Math.PI / 4 + (Math.random() - 0.5) * 0.5,
+      const count = 3 + Math.floor(Math.random() * 5);
+      glitchLines = Array.from({ length: count }, () => ({
+        x1: Math.random() * W * 0.7,
+        y1: 0.2 * H + Math.random() * 0.6 * H,
+        len: 30 + Math.random() * 200,
+        angle: -Math.PI / 4 + (Math.random() - 0.5) * 1.2,
         color: Math.random() > 0.5 ? CIAN : ROJO,
-        op: 0.4 + Math.random() * 0.4,
-        life: 0, maxLife: 0.08 + Math.random() * 0.12,
+        op: 0.5 + Math.random() * 0.5,
+        life: 0, maxLife: 0.04 + Math.random() * 0.14,
       }));
     }
 
@@ -528,8 +559,8 @@
           else ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
         }
         ctx.closePath();
-        ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},0.22)`;
-        ctx.lineWidth = 0.7;
+        ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},0.45)`;
+        ctx.lineWidth = 0.9;
         ctx.stroke();
         ctx.restore();
       }
@@ -569,14 +600,14 @@
 
       // Diagonal accent lines (left quadrant)
       ctx.save();
-      ctx.strokeStyle = '#1e1e1e';
-      ctx.lineWidth = 0.7;
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 0.8;
       ctx.beginPath();
       ctx.moveTo(0, H);
       ctx.lineTo(W * 0.35, H * 0.45);
       ctx.stroke();
-      ctx.strokeStyle = '#181818';
-      ctx.lineWidth = 0.4;
+      ctx.strokeStyle = '#282828';
+      ctx.lineWidth = 0.5;
       ctx.beginPath();
       ctx.moveTo(W * 0.05, H);
       ctx.lineTo(W * 0.48, H * 0.25);
@@ -600,24 +631,23 @@
       // Crosshairs (corners)
       [[40, 80], [W - 40, H - 80]].forEach(([cx2, cy2]) => {
         ctx.save();
-        ctx.strokeStyle = 'rgba(80,80,80,0.3)';
-        ctx.lineWidth = 0.6;
-        ctx.beginPath(); ctx.moveTo(cx2 - 12, cy2); ctx.lineTo(cx2 + 12, cy2); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(cx2, cy2 - 12); ctx.lineTo(cx2, cy2 + 12); ctx.stroke();
+        ctx.strokeStyle = 'rgba(120,120,120,0.45)';
+        ctx.lineWidth = 0.7;
+        ctx.beginPath(); ctx.moveTo(cx2 - 14, cy2); ctx.lineTo(cx2 + 14, cy2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx2, cy2 - 14); ctx.lineTo(cx2, cy2 + 14); ctx.stroke();
         ctx.restore();
       });
 
-      // Glitch lines
+      // Glitch lines — more frequent, more intense
       glitchTimer += 0.016;
-      if (glitchTimer > (1.5 + Math.random() * 2)) {
+      if (glitchTimer > (0.6 + Math.random() * 1.4)) {
         spawnGlitch();
         glitchTimer = 0;
       }
       glitchLines.forEach(gl => {
         gl.life += 0.016;
         if (gl.life < gl.maxLife) {
-          const prog = gl.life / gl.maxLife;
-          const fade = 1 - prog;
+          const fade = 1 - gl.life / gl.maxLife;
           ctx.save();
           ctx.translate(gl.x1, gl.y1);
           ctx.rotate(gl.angle);
@@ -625,11 +655,40 @@
           ctx.moveTo(0, 0);
           ctx.lineTo(gl.len, 0);
           ctx.strokeStyle = `rgba(${gl.color.r},${gl.color.g},${gl.color.b},${gl.op * fade})`;
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 1.2;
           ctx.stroke();
           ctx.restore();
         }
       });
+
+      // Screen-tear glitch — occasional horizontal strip displacement
+      tearTimer += 0.016;
+      if (tearTimer > (2.0 + Math.random() * 4.0) && !tearActive) {
+        tearActive  = true;
+        tearY       = H * (0.25 + Math.random() * 0.5);
+        tearH2      = 4 + Math.random() * 18;
+        tearShift   = (Math.random() > 0.5 ? 1 : -1) * (8 + Math.random() * 40);
+        tearLife    = 0;
+        tearMaxLife = 0.04 + Math.random() * 0.08;
+        tearTimer   = 0;
+      }
+      if (tearActive) {
+        tearLife += 0.016;
+        if (tearLife < tearMaxLife) {
+          const imageData = ctx.getImageData(0, tearY, W, tearH2);
+          ctx.putImageData(imageData, tearShift, tearY);
+          // Chromatic fringe on the tear edge
+          ctx.save();
+          ctx.strokeStyle = `rgba(${CIAN.r},${CIAN.g},${CIAN.b},0.5)`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(0, tearY); ctx.lineTo(W, tearY); ctx.stroke();
+          ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},0.4)`;
+          ctx.beginPath(); ctx.moveTo(0, tearY + tearH2); ctx.lineTo(W, tearY + tearH2); ctx.stroke();
+          ctx.restore();
+        } else {
+          tearActive = false;
+        }
+      }
 
       raf = requestAnimationFrame(draw);
     }
