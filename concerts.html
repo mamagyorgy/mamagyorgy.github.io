@@ -70,6 +70,7 @@
     .page-header {
       padding-top: 7rem;
       border-bottom: 1px solid #3a3a3a;
+      position: relative;
     }
     /* Decorative cian line at very top of header */
     .page-header::before {
@@ -79,6 +80,9 @@
       height: 1px;
       background: linear-gradient(to right, transparent, var(--cian) 40%, transparent);
       opacity: 0.6;
+    }
+    .page-header-inner {
+      max-width: 1100px;
       margin: 0 auto;
       padding: 3rem 3rem 2.5rem;
       display: flex;
@@ -98,6 +102,10 @@
       flex: 1;
       height: 1px;
       background: linear-gradient(to right, #666, transparent);
+      margin-bottom: 0.6rem;
+    }
+    .header-breadcrumb {
+      font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #777;

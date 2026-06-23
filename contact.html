@@ -73,6 +73,15 @@
     .page-header {
       padding-top: 7rem;
       border-bottom: 1px solid #3a3a3a;
+      position: relative;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--cian) 40%, transparent);
+      opacity: 0.6;
     }
     .page-header-inner {
       max-width: 1100px;
