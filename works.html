@@ -34,7 +34,7 @@
       flex-direction: column;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -69,7 +69,7 @@
     nav a:hover { color: var(--cian); }
     nav a.active { color: var(--blanco); }
 
-    /* ── PAGE HEADER ── */
+    /* PAGE HEADER */
     .page-header {
       padding-top: 7rem;
       border-bottom: 1px solid #3a3a3a;
@@ -118,76 +118,155 @@
     .header-breadcrumb a:hover { color: var(--cian); }
     .header-breadcrumb .sep { color: #555; margin: 0 0.5rem; }
 
-    /* ── MAIN ── */
+    /* MAIN */
     main {
       flex: 1;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 6rem 3rem 7rem;
+      padding: 5rem 3rem 7rem;
       width: 100%;
+    }
+
+    /* WORKS GRID */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5px;
+      margin-bottom: 5rem;
+    }
+
+    .work-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      background: #111;
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.4s ease;
+      filter: brightness(0.55) saturate(0.7);
+    }
+
+    .work-card:hover img {
+      transform: scale(1.04);
+      filter: brightness(0.35) saturate(0.4);
+    }
+
+    /* Accent line top */
+    .work-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--rojo);
+      z-index: 3;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .work-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .work-card-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem 1.75rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    }
+
+    .work-card-type {
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cian);
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+
+    .work-card-title {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+      font-weight: 300;
+      color: var(--blanco);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+    }
+
+    .work-card-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .work-card-year {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+
+    .work-card-arrow {
+      position: absolute;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      width: 28px;
+      height: 28px;
+      border: 1px solid #555;
       display: flex;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      transform: translate(4px, 4px);
+      transition: all 0.3s ease;
+    }
+    .work-card-arrow svg {
+      width: 10px;
+      height: 10px;
+      fill: none;
+      stroke: var(--blanco);
+      stroke-width: 1.5;
+    }
+    .work-card:hover .work-card-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+      border-color: var(--cian);
+    }
+    .work-card:hover .work-card-arrow svg {
+      stroke: var(--cian);
     }
 
-    /* ── WORKS AVISO ── */
-    .works-aviso {
-      border: 1px solid #3a3a3a;
-      padding: 5rem 4rem;
-      text-align: center;
-      position: relative;
-      max-width: 600px;
-      width: 100%;
-    }
-    /* Four corner accents */
-    .works-aviso::before {
-      content: '';
-      position: absolute;
-      top: -1px; left: -1px;
-      width: 3.5rem; height: 2px;
-      background: var(--rojo);
-    }
-    .works-aviso::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; right: -1px;
-      width: 3.5rem; height: 2px;
-      background: var(--cian);
-    }
-    .corner-tl-v {
-      position: absolute;
-      top: -1px; left: -1px;
-      width: 2px; height: 3.5rem;
-      background: var(--rojo);
-    }
-    .corner-br-v {
-      position: absolute;
-      bottom: -1px; right: -1px;
-      width: 2px; height: 3.5rem;
-      background: var(--cian);
+    /* LOWER LINKS */
+    .works-links {
+      border-top: 1px solid #2a2a2a;
+      padding-top: 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
     }
 
-    .works-aviso-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
+    .works-links-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--rojo);
-      margin-bottom: 1.5rem;
+      color: #555;
     }
-    .works-aviso h2 {
-      font-family: var(--serif);
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 300;
-      color: var(--blanco);
-      margin-bottom: 1rem;
-      letter-spacing: 0.01em;
-    }
-    .works-aviso p {
-      color: #aaa;
-      font-size: 0.88rem;
-      max-width: 380px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.9;
+
+    .works-links-actions {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
     }
 
     .btn-yt {
@@ -206,7 +285,6 @@
     .btn-yt:hover { border-color: var(--rojo); color: var(--rojo); }
     .btn-yt svg { width: 13px; height: 13px; fill: currentColor; }
 
-    .dossier-wrap { margin-top: 1.5rem; display: flex; justify-content: center; }
     .btn-dossier {
       display: inline-flex;
       align-items: center;
@@ -222,7 +300,7 @@
     }
     .btn-dossier:hover { color: var(--cian); border-color: var(--cian); }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer {
       border-top: 1px solid #3a3a3a;
       padding: 2rem 3rem;
@@ -235,13 +313,26 @@
     }
     footer .rojo { color: var(--rojo); }
 
+    @media (max-width: 900px) {
+      .works-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .work-card { aspect-ratio: 4/5; }
+    }
+
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       nav ul { gap: 1.25rem; }
       main { padding: 4rem 1.5rem 5rem; }
       .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
-      .works-aviso { padding: 3.5rem 2rem; }
+      .works-links { flex-direction: column; align-items: flex-start; }
+      .works-links-actions { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .works-grid { grid-template-columns: 1fr; gap: 1px; }
+      .work-card { aspect-ratio: 16/9; }
     }
   </style>
 </head>
@@ -270,23 +361,83 @@
   </div>
 
   <main>
-    <div class="works-aviso">
-      <div class="corner-tl-v"></div>
-      <div class="corner-br-v"></div>
-      <p class="works-aviso-label">— In progress —</p>
-      <h2>This section is under construction</h2>
-      <p>
-        A full catalogue of works and projects will be available here soon.
-        In the meantime, you can explore performances and recordings
-        on the YouTube channel, or download the artistic dossier below.
-      </p>
-      <a href="https://youtube.com/@jorgecare" target="_blank" rel="noopener" class="btn-yt">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/>
-        </svg>
-        YouTube — @jorgecare
+    <div class="works-grid">
+
+      <!-- Des Visages — aleas -->
+      <a href="works/desvisages_aleas.html" class="work-card">
+        <img src="works/1__aleas.png" alt="Des Visages — aleas" />
+        <div class="work-card-overlay">
+          <span class="work-card-type">Improvisation · Album</span>
+          <div class="work-card-title">Des Visages<br><em>aleas</em></div>
+          <div class="work-card-year">2026</div>
+        </div>
+        <div class="work-card-arrow">
+          <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+            <line x1="1" y1="9" x2="9" y2="1"/>
+            <polyline points="3,1 9,1 9,7"/>
+          </svg>
+        </div>
       </a>
-      <div class="dossier-wrap">
+
+      <!-- Séismes -->
+      <a href="works/seismes.html" class="work-card">
+        <img src="works/1__seismes.jpg" alt="Séismes" />
+        <div class="work-card-overlay">
+          <span class="work-card-type">Mixed music · Performance</span>
+          <div class="work-card-title"><em>Séismes</em></div>
+          <div class="work-card-year">2024</div>
+        </div>
+        <div class="work-card-arrow">
+          <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+            <line x1="1" y1="9" x2="9" y2="1"/>
+            <polyline points="3,1 9,1 9,7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Ciclo Bilis Negra -->
+      <a href="works/bilis_negra.html" class="work-card">
+        <img src="works/1__bilis_negra.png" alt="Ciclo Bilis Negra" />
+        <div class="work-card-overlay">
+          <span class="work-card-type">Mixed music · Cycle</span>
+          <div class="work-card-title">Ciclo<br><em>Bilis Negra</em></div>
+          <div class="work-card-year">2022 – 2024</div>
+        </div>
+        <div class="work-card-arrow">
+          <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+            <line x1="1" y1="9" x2="9" y2="1"/>
+            <polyline points="3,1 9,1 9,7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Morbus Sacer -->
+      <a href="works/morbus_sacer.html" class="work-card">
+        <img src="works/1__morbus_sacer.png" alt="Morbus Sacer" />
+        <div class="work-card-overlay">
+          <span class="work-card-type">Mixed music</span>
+          <div class="work-card-title"><em>Morbus Sacer</em></div>
+          <div class="work-card-year">2025</div>
+        </div>
+        <div class="work-card-arrow">
+          <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+            <line x1="1" y1="9" x2="9" y2="1"/>
+            <polyline points="3,1 9,1 9,7"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="works-links">
+      <span class="works-links-label">Explore more</span>
+      <div class="works-links-actions">
+        <a href="https://youtube.com/@jorgecare" target="_blank" rel="noopener" class="btn-yt">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/>
+          </svg>
+          YouTube — @jorgecare
+        </a>
         <a href="dossier.pdf" target="_blank" rel="noopener" class="btn-dossier">
           &#8595; &nbsp; Download artistic dossier (PDF)
         </a>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Séismes · Jorge Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro:  #0a0a0a;
+      --blanco: #f8f5f0;
+      --gris:   #6b6b68;
+      --rojo:   #e63946;
+      --cian:   #00d4e8;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--negro);
+      color: var(--blanco);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background-color: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #3a3a3a;
+    }
+    nav .logo { font-family: var(--serif); font-size: 1rem; font-weight: 300; letter-spacing: 0.08em; color: var(--blanco); text-decoration: none; }
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { text-decoration: none; color: var(--gris); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; transition: color 0.2s; }
+    nav a:hover { color: var(--cian); }
+    nav a.active { color: var(--blanco); }
+
+    .hero {
+      position: relative;
+      height: 70vh;
+      min-height: 480px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.35) saturate(0.5); }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 60%, transparent 100%); }
+    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--cian) 30%, transparent); }
+    .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
+    .hero-breadcrumb { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: #666; margin-bottom: 1.2rem; }
+    .hero-breadcrumb a { color: #666; text-decoration: none; transition: color 0.2s; }
+    .hero-breadcrumb a:hover { color: var(--cian); }
+    .hero-breadcrumb .sep { margin: 0 0.5rem; color: #444; }
+    .hero-type { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cian); margin-bottom: 0.75rem; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; font-style: italic; }
+
+    main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 7rem; width: 100%; }
+
+    .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 6rem; align-items: start; }
+
+    .text-block { margin-bottom: 3.5rem; }
+    .section-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rojo); margin-bottom: 1.2rem; }
+    .text-block p { color: #c0bdb8; font-size: 0.9rem; line-height: 1.95; margin-bottom: 1.2rem; }
+    .text-block p:last-child { margin-bottom: 0; }
+
+    .videos-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rojo); margin-bottom: 2rem; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #111; border: 1px solid #2a2a2a; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    /* Photo gallery */
+    .photo-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px; margin-top: 3rem; }
+    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; filter: brightness(0.7) saturate(0.65); display: block; }
+
+    .sidebar { position: sticky; top: 8rem; }
+    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; filter: brightness(0.7) saturate(0.6); margin-bottom: 2.5rem; }
+    .sidebar-meta { border-top: 1px solid #2a2a2a; padding-top: 1.75rem; }
+    .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid #1e1e1e; gap: 1rem; }
+    .meta-key { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; flex: none; }
+    .meta-val { font-size: 0.78rem; color: #aaa; text-align: right; }
+
+    .back-link { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: #666; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4rem; transition: color 0.2s; }
+    .back-link:hover { color: var(--cian); }
+    .back-link svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+
+    footer { border-top: 1px solid #3a3a3a; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #777; letter-spacing: 0.1em; }
+    footer .rojo { color: var(--rojo); }
+
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; gap: 3rem; } .sidebar { position: static; } }
+    @media (max-width: 768px) { nav { padding: 1rem 1.5rem; } nav ul { gap: 1.25rem; } main { padding: 3.5rem 1.5rem 5rem; } .hero-content { padding: 0 1.5rem 3rem; } .photo-gallery { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="logo">Jorge <span>Care</span></a>
+    <ul>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../works.html" class="active">Works</a></li>
+      <li><a href="../concerts.html">Concerts</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <img src="2__seismes.png" alt="Séismes" class="hero-img" />
+    <div class="hero-gradient"></div>
+    <div class="hero-top-line"></div>
+    <div class="hero-content">
+      <div class="hero-breadcrumb">
+        <a href="../index.html">Home</a>
+        <span class="sep">/</span>
+        <a href="../works.html">Works</a>
+        <span class="sep">/</span>
+        Séismes
+      </div>
+      <p class="hero-type">Mixed music · Performance · 2024</p>
+      <h1 class="hero-title">Séismes</h1>
+    </div>
+  </div>
+
+  <main>
+    <a href="../works.html" class="back-link">
+      <svg viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
+      All works
+    </a>
+
+    <div class="content-grid">
+      <div>
+        <div class="text-block">
+          <p class="section-label">— About</p>
+          <p>
+            <em>Séismes</em> is a collaborative work by Julie Brice and Jorge Care inspired by the seismic history of Chile following the 1960 Valdivia earthquake. The piece is structured around three major events: Valdivia (1960), Algarrobo (1985), and Cauquenes (2010), whose approximate 25-year intervals shape its dramaturgical arc.
+          </p>
+          <p>
+            The performance takes place entirely beneath a table, referencing a gesture deeply embedded in Chilean culture: seeking shelter under a table during an earthquake. This act of protection becomes the central scenic and symbolic framework of the work.
+          </p>
+          <p>
+            The setup integrates two voices, live electronics, light, and video, all controlled from a single computer. Each performer uses a microphone and contact microphone alongside MIDI controllers and a semi-modular synthesizer. Archival images of the 1960 earthquake are projected onto the tablecloth, transforming it into a fragile surface. In one section, a poem by Ryoichi Wago written during the 2011 Fukushima earthquake is visually manipulated in real time, creating a resonance between distant seismic histories.
+          </p>
+          <p>
+            In a data-driven segment, real-time seismic information from the day of each performance modulates light and sound parameters, ensuring that every iteration of <em>Séismes</em> is unique. Layers of synthesized short-circuit sounds evoke the sonic memory of infrastructural collapse typical of Chilean earthquakes.
+          </p>
+        </div>
+
+        <div>
+          <p class="videos-label">— Video documentation</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/sJKRYyJyNEU" title="Séismes" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="photo-gallery">
+          <img src="1__seismes.jpg" alt="Séismes performance" />
+          <img src="3__seismes.png" alt="Séismes detail" />
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <img src="2__seismes.png" alt="Séismes" class="sidebar-photo" />
+        <div class="sidebar-meta">
+          <div class="meta-row">
+            <span class="meta-key">Performers</span>
+            <span class="meta-val">Julie Brice · Jorge Care</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Year</span>
+            <span class="meta-val">2024</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Forces</span>
+            <span class="meta-val">Two voices, electronics, lights, video</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Technology</span>
+            <span class="meta-val">Live data · Real-time processing</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Theme</span>
+            <span class="meta-val">Chilean seismic history</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <span>2026 Jorge Care</span>
+    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciclo Bilis Negra · Jorge Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --negro:  #0a0a0a;
+      --blanco: #f8f5f0;
+      --gris:   #6b6b68;
+      --rojo:   #e63946;
+      --cian:   #00d4e8;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background-color: var(--negro); color: var(--blanco); font-family: var(--sans); font-size: 16px; line-height: 1.7; font-weight: 300; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 3rem; background-color: rgba(10,10,10,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #3a3a3a; }
+    nav .logo { font-family: var(--serif); font-size: 1rem; font-weight: 300; letter-spacing: 0.08em; color: var(--blanco); text-decoration: none; }
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { text-decoration: none; color: var(--gris); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; transition: color 0.2s; }
+    nav a:hover { color: var(--cian); }
+    nav a.active { color: var(--blanco); }
+
+    .hero { position: relative; height: 70vh; min-height: 480px; overflow: hidden; display: flex; align-items: flex-end; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.35) saturate(0.4); }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 60%, transparent 100%); }
+    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--rojo) 30%, transparent); }
+    .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
+    .hero-breadcrumb { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: #666; margin-bottom: 1.2rem; }
+    .hero-breadcrumb a { color: #666; text-decoration: none; transition: color 0.2s; }
+    .hero-breadcrumb a:hover { color: var(--cian); }
+    .hero-breadcrumb .sep { margin: 0 0.5rem; color: #444; }
+    .hero-type { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cian); margin-bottom: 0.75rem; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.05; letter-spacing: -0.01em; }
+    .hero-title .cycle-label { display: block; font-size: 0.38em; font-style: normal; color: #888; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+    .hero-title .italic { font-style: italic; }
+
+    main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 7rem; width: 100%; }
+
+    .back-link { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: #666; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4rem; transition: color 0.2s; }
+    .back-link:hover { color: var(--cian); }
+    .back-link svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+
+    /* PIECE SECTIONS */
+    .piece-section { margin-bottom: 7rem; }
+    .piece-section:last-child { margin-bottom: 0; }
+
+    .piece-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .piece-number {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      flex: none;
+    }
+    .piece-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #3a3a3a, transparent);
+    }
+
+    .piece-grid { display: grid; grid-template-columns: 1fr 320px; gap: 5rem; align-items: start; }
+
+    .piece-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .piece-title .cycle { color: #888; font-size: 0.55em; letter-spacing: 0.06em; display: block; margin-bottom: 0.3rem; }
+    .piece-title .italic { font-style: italic; }
+    .piece-subtitle { font-size: 0.72rem; color: #666; letter-spacing: 0.06em; margin-bottom: 2rem; }
+
+    .section-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rojo); margin-bottom: 1.2rem; }
+    .text-block p { color: #c0bdb8; font-size: 0.9rem; line-height: 1.95; margin-bottom: 1.2rem; }
+    .text-block p:last-child { margin-bottom: 0; }
+
+    .pulsar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid #3a3a3a;
+      padding: 0.5rem 1rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-top: 1.5rem;
+    }
+    .pulsar-badge .dot { width: 5px; height: 5px; background: var(--cian); border-radius: 50%; flex: none; }
+
+    .videos-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rojo); margin-bottom: 1.5rem; margin-top: 2.5rem; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #111; border: 1px solid #2a2a2a; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    .piece-sidebar-photo { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; filter: brightness(0.65) saturate(0.55); }
+    .sidebar-meta { border-top: 1px solid #2a2a2a; padding-top: 1.75rem; margin-top: 2rem; }
+    .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid #1e1e1e; gap: 1rem; }
+    .meta-key { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; flex: none; }
+    .meta-val { font-size: 0.78rem; color: #aaa; text-align: right; }
+
+    footer { border-top: 1px solid #3a3a3a; padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #777; letter-spacing: 0.1em; }
+    footer .rojo { color: var(--rojo); }
+
+    @media (max-width: 900px) { .piece-grid { grid-template-columns: 1fr; gap: 3rem; } }
+    @media (max-width: 768px) { nav { padding: 1rem 1.5rem; } nav ul { gap: 1.25rem; } main { padding: 3.5rem 1.5rem 5rem; } .hero-content { padding: 0 1.5rem 3rem; } footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="logo">Jorge <span>Care</span></a>
+    <ul>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../works.html" class="active">Works</a></li>
+      <li><a href="../concerts.html">Concerts</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <img src="2__bilis_negra.png" alt="Ciclo Bilis Negra" class="hero-img" />
+    <div class="hero-gradient"></div>
+    <div class="hero-top-line"></div>
+    <div class="hero-content">
+      <div class="hero-breadcrumb">
+        <a href="../index.html">Home</a>
+        <span class="sep">/</span>
+        <a href="../works.html">Works</a>
+        <span class="sep">/</span>
+        Ciclo Bilis Negra
+      </div>
+      <p class="hero-type">Mixed music · Cycle · 2022 – 2024</p>
+      <h1 class="hero-title">
+        <span class="cycle-label">Ciclo</span>
+        <span class="italic">Bilis Negra</span>
+      </h1>
+    </div>
+  </div>
+
+  <main>
+    <a href="../works.html" class="back-link">
+      <svg viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
+      All works
+    </a>
+
+    <!-- PIECE I: Solitude -->
+    <div class="piece-section">
+      <div class="piece-divider">
+        <span class="piece-number">I</span>
+        <div class="piece-divider-line"></div>
+      </div>
+
+      <div class="piece-grid">
+        <div>
+          <h2 class="piece-title">
+            <span class="cycle">Bilis Negra</span>
+            <span class="italic">Solitude</span>
+          </h2>
+          <p class="piece-subtitle">for flute, 13 musicians, and electronics</p>
+
+          <div class="text-block">
+            <p class="section-label">— About</p>
+            <p>
+              The cycle <em>Bilis Negra</em> is inspired by depressive disorders. The first piece is written for solo flute, which in one section is prepared with a "Groan Stick" during an improvised passage. The ensemble of thirteen musicians is divided into three spatially separated groups, while the electronics are projected through a four-channel setup that fills the spaces between them.
+            </p>
+            <p>
+              <em>Solitude</em> also marks the beginning of Jorge Care's work with performance lighting. The hall remains completely dark, and each musician is equipped with a stand light to switch on or off as indicated in the score. These controlled shifts of light become a central dramaturgical element, shaping the perception of the spatialized ensemble and the electronics.
+            </p>
+            <div class="pulsar-badge">
+              <span class="dot"></span>
+              Nominated for the Pulsar Awards
+            </div>
+          </div>
+
+          <p class="videos-label">— Video documentation</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/F29Ol-IEOEo" title="Bilis Negra — Solitude" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <aside>
+          <img src="1__bilis_negra.png" alt="Bilis Negra Solitude" class="piece-sidebar-photo" />
+          <div class="sidebar-meta">
+            <div class="meta-row"><span class="meta-key">Year</span><span class="meta-val">2022</span></div>
+            <div class="meta-row"><span class="meta-key">Soloist</span><span class="meta-val">Flute</span></div>
+            <div class="meta-row"><span class="meta-key">Ensemble</span><span class="meta-val">13 musicians</span></div>
+            <div class="meta-row"><span class="meta-key">Electronics</span><span class="meta-val">Quadraphonic</span></div>
+            <div class="meta-row"><span class="meta-key">Lighting</span><span class="meta-val">Performer-controlled</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- PIECE II: Mélancolie -->
+    <div class="piece-section">
+      <div class="piece-divider">
+        <span class="piece-number">II</span>
+        <div class="piece-divider-line"></div>
+      </div>
+
+      <div class="piece-grid">
+        <div>
+          <h2 class="piece-title">
+            <span class="cycle">Bilis Negra</span>
+            <span class="italic">Mélancolie</span>
+          </h2>
+          <p class="piece-subtitle">for alto saxophone, 15 musicians, and electronics</p>
+
+          <div class="text-block">
+            <p class="section-label">— About</p>
+            <p>
+              <em>Mélancolie</em> continues the research into fragmented instrumental identities, spatial performance, and the integration of improvisation within mixed music. The alto saxophone is explored through multiple configurations including mouthpiece alone, mouthpiece with neck, and neck with body. At a key moment, it is prepared with a "Groan Stick" during an improvisation, revealing new timbral instabilities and extended spectra.
+            </p>
+            <p>
+              Improvisation becomes a shared framework: the soloist's material expands toward the ensemble, guided by a conductor who must improvise the gestures shaping the group's response. The electronic part is also performed live via Ableton Push, controlling an FM synthesis engine whose spatialization in quadraphonic, processed in real time with Panoramix, reinforces the sense of a moving sonic presence.
+            </p>
+            <p>
+              The ensemble is divided into three groups, each with a percussionist acting as a visual metronome for independent tempi. This polytempo structure is combined with a lighting design and a spatial trajectory in which the soloist begins outside the hall and gradually enters, creating a multidimensional environment in which perception, movement, and timbre remain in constant transformation.
+            </p>
+          </div>
+
+          <p class="videos-label">— Video documentation</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/QPFHcKHXep4" title="Bilis Negra — Mélancolie" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <aside>
+          <img src="2__bilis_negra.png" alt="Bilis Negra Mélancolie" class="piece-sidebar-photo" />
+          <div class="sidebar-meta">
+            <div class="meta-row"><span class="meta-key">Year</span><span class="meta-val">2024</span></div>
+            <div class="meta-row"><span class="meta-key">Soloist</span><span class="meta-val">Alto saxophone</span></div>
+            <div class="meta-row"><span class="meta-key">Ensemble</span><span class="meta-val">15 musicians</span></div>
+            <div class="meta-row"><span class="meta-key">Electronics</span><span class="meta-val">Quadraphonic · Ableton Push · Panoramix</span></div>
+            <div class="meta-row"><span class="meta-key">Structure</span><span class="meta-val">Polytempo · Spatial trajectory</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>2026 Jorge Care</span>
+    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+  </footer>
+
+</body>
+</html>
