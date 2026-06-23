@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Works — Jorge Care</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .mosaic-item { position: relative; overflow: hidden; cursor: pointer; }
+    .mosaic-item img { transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .mosaic-item:hover img { transform: scale(1.08); }
+    .mosaic-item .overlay { transition: background-color 0.3s ease; }
+    .mosaic-item:hover .overlay { background-color: rgba(15,23,42,0.5); }
+    .mosaic-item .title-wrap { transition: transform 0.3s ease; }
+    .mosaic-item:hover .title-wrap { transform: translateY(-4px); }
+    .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+    .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+    .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+    .stagger-4 { animation-delay: 0.4s; opacity: 0; }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #ffffff; transition: width 0.3s ease; }
+    .nav-link:hover::after { width: 100%; }
+  </style>
+</head>
+<body class="bg-[#020617] text-white">
+
+  <!-- NAV — reemplaza con tu nav real si es diferente -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center px-6" style="background: rgba(2,6,23,0.8); backdrop-filter: blur(12px);">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="../" class="text-white text-lg font-medium tracking-tight">Jorge Care</a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="../#about" class="nav-link text-sm text-slate-400 hover:text-white transition-colors">About</a>
+        <a href="./" class="nav-link text-sm text-white transition-colors">Works</a>
+        <a href="../#contact" class="nav-link text-sm text-slate-400 hover:text-white transition-colors">Contact</a>
+      </div>
+      <button id="mobileMenuBtn" class="md:hidden text-white">
+        <span class="iconify" data-icon="lucide:menu" data-width="24"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="fixed inset-0 z-40 hidden" style="background: rgba(2,6,23,0.95); backdrop-filter: blur(12px);">
+    <div class="flex flex-col items-center justify-center h-full gap-8">
+      <a href="../#about" class="text-2xl text-slate-300 hover:text-white transition-colors mobile-link">About</a>
+      <a href="./" class="text-2xl text-white mobile-link">Works</a>
+      <a href="../#contact" class="text-2xl text-slate-300 hover:text-white transition-colors mobile-link">Contact</a>
+      <button id="mobileMenuClose" class="mt-8 text-slate-400 hover:text-white transition-colors">
+        <span class="iconify" data-icon="lucide:x" data-width="28"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- WORKS -->
+  <section class="pt-32 pb-24 px-6">
+    <div class="max-w-7xl mx-auto">
+
+      <div class="mb-16 fade-in">
+        <p class="text-xs font-medium uppercase tracking-widest text-cyan-400 mb-4">Works</p>
+        <h2 class="text-3xl font-medium tracking-tight">Selected Projects</h2>
+      </div>
+
+      <!-- MOSAIC: 4 squares -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- 1. aleas -->
+        <a href="desvisages_aleas.html" class="mosaic-item aspect-square rounded-xl block fade-in stagger-1">
+          <img src="https://z-cdn-media.chatglm.cn/files/952c94b1-978d-450b-af1a-f3e43faf4599.png?auth_key=1882221208-d01fa9dead524abfbbb479d12db85f16-0-bda9c1197778cbc0aa42ab83039fac12" alt="Des Visages – aleas" class="w-full h-full object-cover rounded-xl">
+          <div class="overlay absolute inset-0 rounded-xl" style="background-color: rgba(15,23,42,0.4);"></div>
+          <div class="title-wrap absolute bottom-0 left-0 right-0 p-5">
+            <p class="text-[10px] font-medium uppercase tracking-widest text-cyan-400 mb-1">Album</p>
+            <h3 class="text-base font-medium">Des Visages — aleas</h3>
+          </div>
+        </a>
+
+        <!-- 2. Séismes -->
+        <a href="seismes.html" class="mosaic-item aspect-square rounded-xl block fade-in stagger-2">
+          <img src="https://z-cdn-media.chatglm.cn/files/fcd08e4d-55ff-4cf6-b026-df8849254e6f.jpg?auth_key=1882221208-323f7b104870470d9bc286aea5cac9f6-0-31abd72c2e798fbc6fe065ecf893c65a" alt="Séismes" class="w-full h-full object-cover rounded-xl">
+          <div class="overlay absolute inset-0 rounded-xl" style="background-color: rgba(15,23,42,0.4);"></div>
+          <div class="title-wrap absolute bottom-0 left-0 right-0 p-5">
+            <p class="text-[10px] font-medium uppercase tracking-widest text-cyan-400 mb-1">Performance</p>
+            <h3 class="text-base font-medium">Séismes</h3>
+          </div>
+        </a>
+
+        <!-- 3. Ciclo Bilis Negra -->
+        <a href="bilis_negra.html" class="mosaic-item aspect-square rounded-xl block fade-in stagger-3">
+          <img src="https://z-cdn-media.chatglm.cn/files/ae5d306e-c04b-451a-9cc7-205a4df4f9cd.png?auth_key=1882221208-7c162153a31a4ef7bee52947cf694c91-0-4d60b3bf42626144d4ff31bf76f3aee8" alt="Ciclo Bilis Negra" class="w-full h-full object-cover rounded-xl">
+          <div class="overlay absolute inset-0 rounded-xl" style="background-color: rgba(15,23,42,0.4);"></div>
+          <div class="title-wrap absolute bottom-0 left-0 right-0 p-5">
+            <p class="text-[10px] font-medium uppercase tracking-widest text-cyan-400 mb-1">Cycle — 2 pieces</p>
+            <h3 class="text-base font-medium">Ciclo Bilis Negra</h3>
+          </div>
+        </a>
+
+        <!-- 4. Morbus Sacer -->
+        <a href="morbus_sacer.html" class="mosaic-item aspect-square rounded-xl block fade-in stagger-4">
+          <img src="https://z-cdn-media.chatglm.cn/files/8a823bf7-88ef-486d-ab0d-5c1d7f60bcec.png?auth_key=1882221208-5dbccb48b2df486ba08231c04539c69c-0-15575ece46ad1d67e9f9d9b8e5ad7682" alt="Morbus Sacer" class="w-full h-full object-cover rounded-xl">
+          <div class="overlay absolute inset-0 rounded-xl" style="background-color: rgba(15,23,42,0.4);"></div>
+          <div class="title-wrap absolute bottom-0 left-0 right-0 p-5">
+            <p class="text-[10px] font-medium uppercase tracking-widest text-cyan-400 mb-1">Ambisonic work</p>
+            <h3 class="text-base font-medium">Morbus Sacer</h3>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- BOTTOM LINKS -->
+      <div class="mt-16 pt-12 border-t border-white/10 grid sm:grid-cols-2 gap-6 fade-in">
+        <a href="https://www.youtube.com/@jorgecare" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-5 rounded-xl border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.03] transition-all">
+          <div class="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
+            <span class="iconify text-red-400" data-icon="lucide:play-circle" data-width="24"></span>
+          </div>
+          <div>
+            <p class="text-sm font-medium group-hover:text-cyan-400 transition-colors">Watch more on YouTube</p>
+            <p class="text-xs text-slate-500 mt-0.5">Full recordings, excerpts & documentation</p>
+          </div>
+          <span class="iconify text-slate-600 group-hover:text-cyan-400 ml-auto transition-colors" data-icon="lucide:external-link" data-width="16"></span>
+        </a>
+        <a href="#" class="group flex items-center gap-4 p-5 rounded-xl border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.03] transition-all">
+          <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
+            <span class="iconify text-cyan-400" data-icon="lucide:file-down" data-width="24"></span>
+          </div>
+          <div>
+            <p class="text-sm font-medium group-hover:text-cyan-400 transition-colors">Download artistic dossier</p>
+            <p class="text-xs text-slate-500 mt-0.5">PDF — complete works overview</p>
+          </div>
+          <span class="iconify text-slate-600 group-hover:text-cyan-400 ml-auto transition-colors" data-icon="lucide:download" data-width="16"></span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER — reemplaza con tu footer real si es diferente -->
+  <footer class="py-8 px-6 border-t border-white/5">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-slate-600">&copy; 2025 Jorge Care. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a href="https://www.youtube.com/@jorgecare" target="_blank" class="text-slate-600 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:youtube" data-width="16"></span></a>
+        <a href="#" class="text-slate-600 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:instagram" data-width="16"></span></a>
+        <a href="#" class="text-slate-600 hover:text-white transition-colors"><span class="iconify" data-icon="lucide:linkedin" data-width="16"></span></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); document.body.style.overflow = 'hidden'; });
+    mobileMenuClose.addEventListener('click', () => { mobileMenu.classList.add('hidden'); document.body.style.overflow = ''; });
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => { mobileMenu.classList.add('hidden'); document.body.style.overflow = ''; }));
+  </script>
+</body>
+</html>
