@@ -159,6 +159,27 @@
       filter: brightness(0.35) saturate(0.4);
     }
 
+    /* Per-card image adjustments */
+    .work-card img.img-aleas {
+      object-fit: contain;
+      object-position: center center;
+    }
+    .work-card:hover img.img-aleas {
+      transform: scale(1.02);
+    }
+
+    .work-card img.img-seismes {
+      object-position: 65% center;
+    }
+
+    .work-card img.img-bilis {
+      object-fit: contain;
+      object-position: center top;
+    }
+    .work-card:hover img.img-bilis {
+      transform: scale(1.02);
+    }
+
     /* Accent line top */
     .work-card::before {
       content: '';
@@ -365,7 +386,7 @@
 
       <!-- Des Visages — aleas -->
       <a href="works/desvisages_aleas.html" class="work-card">
-        <img src="works/1__aleas.png" alt="Des Visages — aleas" />
+        <img src="works/1__aleas.png" alt="Des Visages — aleas" class="img-aleas" />
         <div class="work-card-overlay">
           <span class="work-card-type">Album</span>
           <div class="work-card-title">Des Visages<br><em>aleas</em></div>
@@ -381,7 +402,7 @@
 
       <!-- Séismes -->
       <a href="works/seismes.html" class="work-card">
-        <img src="works/1__seismes.jpg" alt="Séismes" />
+        <img src="works/1__seismes.jpg" alt="Séismes" class="img-seismes" />
         <div class="work-card-overlay">
           <span class="work-card-type">Performance</span>
           <div class="work-card-title"><em>Séismes</em></div>
@@ -397,7 +418,7 @@
 
       <!-- Ciclo Bilis Negra -->
       <a href="works/bilis_negra.html" class="work-card">
-        <img src="works/1__bilis_negra.png" alt="Ciclo Bilis Negra" />
+        <img src="works/1__bilis_negra.png" alt="Ciclo Bilis Negra" class="img-bilis" />
         <div class="work-card-overlay">
           <span class="work-card-type">Mixed music</span>
           <div class="work-card-title">Cycle<br><em>Bilis Negra</em></div>
