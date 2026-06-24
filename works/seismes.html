@@ -58,7 +58,7 @@
       display: flex;
       align-items: flex-end;
     }
-    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center 100%; background: #0d0d0d; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center -10%; background: #0d0d0d; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 60%, transparent 100%); }
     .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--cian) 30%, transparent); }
     .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
@@ -84,11 +84,11 @@
 
     /* Photo gallery — columna única, mismas proporciones 16/9 que el video */
     .photo-gallery { display: grid; grid-template-columns: 1fr; gap: 1.5px; margin-bottom: 3rem; }
-    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; filter: brightness(0.7) saturate(0.65); display: block; }
+    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; display: block; }
     .photo-gallery img.img-zoom-in { transform: scale(1.32); transform-origin: center center; }
 
     .sidebar { position: sticky; top: 8rem; }
-    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: contain; object-position: center; display: block; filter: brightness(0.7) saturate(0.6); margin-bottom: 2.5rem; background: #0d0d0d; }
+    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: contain; object-position: center; display: block; margin-bottom: 2.5rem; background: #0d0d0d; }
     .sidebar-meta { border-top: 1px solid #2a2a2a; padding-top: 1.75rem; }
     .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid #1e1e1e; gap: 1rem; }
     .meta-key { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; flex: none; }
