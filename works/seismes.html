@@ -58,7 +58,7 @@
       display: flex;
       align-items: flex-end;
     }
-    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 75%; filter: brightness(0.35) saturate(0.5); }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: brightness(0.35) saturate(0.5); background: #0d0d0d; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 60%, transparent 100%); }
     .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--cian) 30%, transparent); }
     .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
@@ -82,10 +82,10 @@
     .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #111; border: 1px solid #2a2a2a; }
     .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-    /* Photo gallery */
-    .photo-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px; margin-bottom: 3rem; }
-    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; filter: brightness(0.7) saturate(0.65); display: block; }
-    .photo-gallery img.img-zoom-in { object-fit: cover; object-position: center center; transform: scale(1.18); transform-origin: center center; }
+    /* Photo gallery — columna única, mismas proporciones 16/9 que el video */
+    .photo-gallery { display: grid; grid-template-columns: 1fr; gap: 1.5px; margin-bottom: 3rem; }
+    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; filter: brightness(0.7) saturate(0.65); display: block; }
+    .photo-gallery img.img-zoom-in { transform: scale(1.18); transform-origin: center center; }
 
     .sidebar { position: sticky; top: 8rem; }
     .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: contain; object-position: center; display: block; filter: brightness(0.7) saturate(0.6); margin-bottom: 2.5rem; background: #0d0d0d; }
