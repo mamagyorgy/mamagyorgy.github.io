@@ -201,10 +201,16 @@
     .work-card img.img-bilis {
       object-fit: contain;
       object-position: center top;
+      width: 150%;
     }
     .work-card:hover img.img-bilis {
       transform: scale(1.02);
     }
+
+    .work-card img.img-rayuela {
+      height: 60%;
+      object-position: 70% top;
+      }
 
     /* Accent line top */
     .work-card::before {
@@ -482,7 +488,7 @@
 
       <!-- Rayuela.wav -->
       <a href="works/rayuela.html" class="work-card">
-        <img src="works/2__rayuela.png" alt="Rayuela.wav" />
+        <img src="works/2__rayuela.png" alt="Rayuela.wav" class="img-rayuela" />
         <div class="work-card-overlay">
           <span class="work-card-type">Performance</span>
           <div class="work-card-title">On Press Off<br><em>Rayuela.wav</em></div>
