@@ -64,7 +64,7 @@
       display: flex;
       align-items: flex-end;
     }
-    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; background: #0d0d0d; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center center; background: #f6f6f6; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 75%, transparent 100%); }
     .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--cian) 30%, transparent); }
     .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
@@ -89,7 +89,7 @@
     .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
     .sidebar { position: sticky; top: 8rem; }
-    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center; display: block; margin-bottom: 2.5rem; }
+    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: contain; object-position: center; display: block; margin-bottom: 2.5rem; }
     .sidebar-meta { border-top: 1px solid #2a2a2a; padding-top: 1.75rem; }
     .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid #1e1e1e; gap: 1rem; }
     .meta-key { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; flex: none; }
@@ -168,13 +168,10 @@
           <p>
             The electronic part is designed in close dialogue with the performer. Performer-triggered sounds, real-time processing, and additive synthesis all respond to and extend what the flute proposes, creating a single composite voice rather than a duet between acoustic and electronic layers.
           </p>
-          <p>
-            The title, which translates as "behind the window," points to the work's central tension: the distance between observing and being inside, between witnessing a world and inhabiting it. It is that threshold the piece tries to occupy.
-          </p>
         </div>
 
         <div style="margin-top: 3rem;">
-          <p class="videos-label">— Video documentation</p>
+          <p class="videos-label">— Sound documentation</p>
           <div class="video-wrapper">
             <iframe src="https://www.youtube.com/embed/x42NYbrAoQc" title="Derrière la fenêtre" allowfullscreen loading="lazy"></iframe>
           </div>
