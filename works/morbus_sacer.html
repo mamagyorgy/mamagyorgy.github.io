@@ -98,6 +98,27 @@
       color: var(--blanco);
     }
 
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 101;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--blanco);
+      transition: all 0.3s ease;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
     .hero {
       position: relative;
       height: 70vh;
@@ -399,17 +420,36 @@
         padding: 1rem 1.5rem;
       }
 
-      nav ul {
-        gap: 1.25rem;
+      .nav-toggle { display: flex; }
+      .nav-menu {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10,10,10,0.97);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        z-index: 100;
       }
+      .nav-menu.open { display: flex; }
+      .nav-menu li { list-style: none; }
+      .nav-menu a { font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gris); }
+      .nav-menu a.active { color: var(--blanco); }
 
       main {
-        padding: 3.5rem 1.5rem 5rem;
+        padding: 3.5rem 1.25rem 5rem;
       }
 
+      .hero { min-height: 520px; height: 55vh; }
+
       .hero-content {
-        padding: 0 1.5rem 3rem;
+        padding: 0 1.25rem 2.5rem;
       }
+
+      .hero-title { font-size: clamp(2rem, 9vw, 3.5rem); }
+
+      .back-link { margin-bottom: 2.5rem; }
 
       .photo-gallery {
         grid-template-columns: 1fr;
@@ -424,7 +464,7 @@
         flex-direction: column;
         gap: 0.5rem;
         text-align: center;
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.25rem;
       }
     }
   </style>
@@ -434,7 +474,10 @@
 
   <nav>
     <a href="../index.html" class="logo">Jorge <span>Care</span></a>
-    <ul>
+    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu">
       <li><a href="../about.html">About</a></li>
       <li><a href="../works.html" class="active">Works</a></li>
       <li><a href="../concerts.html">Concerts</a></li>
