@@ -312,6 +312,36 @@
       stroke: var(--cian);
     }
 
+    /* LIST CARD VARIANT */
+    .work-card--list {
+      background: #0d0d0d;
+      border: 1px solid #1e1e1e;
+    }
+    .work-card--list::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 28px,
+          #151515 28px,
+          #151515 29px
+        );
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .work-card--list:hover {
+      border-color: #2a2a2a;
+    }
+    .work-card-overlay--list {
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+      justify-content: flex-end;
+    }
+    .work-card--list .work-card-type { color: var(--rojo); opacity: 0.85; }
+    .work-card--list .work-card-title { font-size: clamp(1.3rem, 1.8vw, 1.8rem); color: var(--blanco); }
+
     /* LOWER LINKS */
     .works-links {
       border-top: 1px solid #2a2a2a;
@@ -602,6 +632,21 @@
           <span class="work-card-type">Mixed music</span>
           <div class="work-card-title"><em>Derrière la fenêtre</em></div>
           <div class="work-card-year">2022</div>
+        </div>
+        <div class="work-card-arrow">
+          <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+            <line x1="1" y1="9" x2="9" y2="1"/>
+            <polyline points="3,1 9,1 9,7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Complete list of works -->
+      <a href="works/complete-list.html" class="work-card work-card--list">
+        <div class="work-card-overlay work-card-overlay--list">
+          <span class="work-card-type">Index</span>
+          <div class="work-card-title">Complete<br>list of works</div>
+          <div class="work-card-year">2016 – 2026</div>
         </div>
         <div class="work-card-arrow">
           <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
