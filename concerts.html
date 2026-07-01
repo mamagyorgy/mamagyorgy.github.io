@@ -66,6 +66,32 @@
     nav a:hover { color: var(--cian); }
     nav a.active { color: var(--blanco); }
 
+    /* HAMBURGER */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 101;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--blanco);
+      transition: all 0.3s ease;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav-menu {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
     /* ── PAGE HEADER ── */
     .page-header {
       padding-top: 7rem;
@@ -369,7 +395,26 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
-      nav ul { gap: 1.25rem; }
+      .nav-toggle { display: flex; }
+      .nav-menu {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10,10,10,0.97);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        z-index: 100;
+        overflow-y: auto;
+        padding: 6rem 1.5rem 3rem;
+        box-sizing: border-box;
+      }
+      .nav-menu.open { display: flex; }
+      .nav-menu li { list-style: none; }
+      .nav-menu a { font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gris); }
+      .nav-menu a.active { color: var(--blanco); }
+      nav ul { display: none; }
       main { padding: 4rem 1.5rem 5rem; }
       .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
       a.concierto-fila,
@@ -388,7 +433,10 @@
 
   <nav>
     <a href="index.html" class="logo">Jorge <span>Care</span></a>
-    <ul>
+    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu">
       <li><a href="about.html">About</a></li>
       <li><a href="works.html">Works</a></li>
       <li><a href="concerts.html" class="active">Concerts</a></li>
@@ -410,10 +458,38 @@
 
   <main>
 
-    <!-- ── UPCOMING / TOUR ── -->
+    <!-- ── UPCOMING / COMMISSION ── -->
     <div class="concerts-tour-block">
       <div class="seccion-label">
         <span class="seccion-label-text">Upcoming</span>
+        <div class="seccion-linea"></div>
+      </div>
+
+      <div class="concerts-intro">
+        <span class="tour-tag">World Premiere — Season 2026/2027</span>
+        <p>
+          New commissioned work for <em>Ensemble Contrechamps</em>, to be premiered in Geneva, Switzerland,
+          as part of the ensemble's <strong>2026–2027 concert season</strong>.
+          The piece was commissioned following the award of the <em>Prix Contrechamps 2025</em>
+          at the end of Care's studies at the Haute école de musique de Genève.
+        </p>
+      </div>
+
+      <div class="concierto-fila-static concierto-fila-first">
+        <div class="concierto-fecha">
+          <strong>TBA</strong>2026/2027
+        </div>
+        <div class="concierto-info">
+          <span class="concierto-evento">New work for Ensemble Contrechamps <em>(world premiere)</em></span>
+          <span class="concierto-lugar">Geneva <span>/</span> Switzerland</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── UPCOMING / TOUR ── -->
+    <div class="concerts-tour-block">
+      <div class="seccion-label">
+        <span class="seccion-label-text cian" style="color: var(--gris); opacity: 0.7;">European Tour</span>
         <div class="seccion-linea"></div>
       </div>
 

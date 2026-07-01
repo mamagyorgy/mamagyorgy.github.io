@@ -69,6 +69,32 @@
     nav a:hover { color: var(--cian); }
     nav a.active { color: var(--blanco); }
 
+    /* HAMBURGER */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 101;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--blanco);
+      transition: all 0.3s ease;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav-menu {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
     /* ── PAGE HEADER ── */
     .page-header {
       padding-top: 7rem;
@@ -291,7 +317,26 @@
     }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
-      nav ul { gap: 1.25rem; }
+      .nav-toggle { display: flex; }
+      .nav-menu {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10,10,10,0.97);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        z-index: 100;
+        overflow-y: auto;
+        padding: 6rem 1.5rem 3rem;
+        box-sizing: border-box;
+      }
+      .nav-menu.open { display: flex; }
+      .nav-menu li { list-style: none; }
+      .nav-menu a { font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gris); }
+      .nav-menu a.active { color: var(--blanco); }
+      nav ul { display: none; }
       .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
       .main-inner { padding: 4rem 1.5rem 5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
@@ -302,7 +347,10 @@
 
   <nav>
     <a href="index.html" class="logo">Jorge <span>Care</span></a>
-    <ul>
+    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-menu" id="navMenu">
       <li><a href="about.html">About</a></li>
       <li><a href="works.html">Works</a></li>
       <li><a href="concerts.html">Concerts</a></li>
