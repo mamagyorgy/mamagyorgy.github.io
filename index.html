@@ -7,7 +7,7 @@
   <meta name="description" content="Jorge Care — Composer, digital artist, and improviser." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&family=Orbitron:wght@400;700&family=Audiowide&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&family=Syne+Mono&family=Space+Mono:wght@400;700&family=VT323&family=Major+Mono+Display&family=Zen+Dots&family=Unica+One&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -215,6 +215,13 @@
       color: var(--blanco);
       text-shadow: 0 0 80px rgba(0,212,232,0.08);
     }
+    #inicio h1.font-cycling {
+      animation: font-flicker 0.12s ease-out;
+    }
+    @keyframes font-flicker {
+      0%   { opacity: 0.35; text-shadow: 2px 0 var(--rojo), -2px 0 var(--cian); }
+      100% { opacity: 1; text-shadow: 0 0 80px rgba(0,212,232,0.08); }
+    }
     .hero-descripcion {
       font-size: 0.78rem;
       letter-spacing: 0.15em;
@@ -355,42 +362,101 @@
     resize();
     window.addEventListener('resize', resize);
 
-    // ── RINGS ──
+    // ── 3D HELPERS ──
+    // Simple perspective projection for local wireframe shapes (each shape
+    // has its own tiny "camera" so the overall composition stays identical,
+    // only the shapes themselves gain depth).
+    function rotateY(v, a) {
+      const cos = Math.cos(a), sin = Math.sin(a);
+      return [ v[0]*cos + v[2]*sin, v[1], -v[0]*sin + v[2]*cos ];
+    }
+    function rotateX(v, a) {
+      const cos = Math.cos(a), sin = Math.sin(a);
+      return [ v[0], v[1]*cos - v[2]*sin, v[1]*sin + v[2]*cos ];
+    }
+    function project(v, focal) {
+      const scale = focal / (focal + v[2]);
+      return { x: v[0]*scale, y: v[1]*scale, scale };
+    }
+
+    // ── RINGS (now tilted, rotating in 3D like orbital rails) ──
     const rings = [
-      { cx: 0.68, cy: 0.44, r: 0.28, speed:  0.0004, color: CIAN,  lw: 1.2, op: 0.55 },
-      { cx: 0.68, cy: 0.44, r: 0.34, speed: -0.00025, color: ROJO, lw: 0.9, op: 0.40 },
-      { cx: 0.68, cy: 0.44, r: 0.20, speed:  0.0007, color: WHITE, lw: 0.7, op: 0.28 },
-      { cx: 0.68, cy: 0.44, r: 0.42, speed: -0.00015,color: CIAN,  lw: 0.5, op: 0.25 },
+      { cx: 0.68, cy: 0.44, r: 0.28, speed:  0.0004, color: CIAN,  lw: 1.2, op: 0.55, tiltSpeed:  0.00035, phase: 0.0 },
+      { cx: 0.68, cy: 0.44, r: 0.34, speed: -0.00025, color: ROJO, lw: 0.9, op: 0.40, tiltSpeed: -0.00022, phase: 1.1 },
+      { cx: 0.68, cy: 0.44, r: 0.20, speed:  0.0007, color: WHITE, lw: 0.7, op: 0.28, tiltSpeed:  0.0005,  phase: 2.3 },
+      { cx: 0.68, cy: 0.44, r: 0.42, speed: -0.00015,color: CIAN,  lw: 0.5, op: 0.25, tiltSpeed: -0.00014, phase: 3.6 },
     ];
 
-    // ── ORBITING PARTICLES on rings ──
+    function ringGeometry(rng, time) {
+      const cx = rng.cx * W, cy = rng.cy * H, r = rng.r * Math.min(W, H);
+      const tiltPhase = rng.phase + time * rng.tiltSpeed * 1000;
+      // vertical squash oscillates between 0.22 and 1 → the ring appears to
+      // rotate around a horizontal axis, going edge-on and back to face-on
+      const squash = 0.22 + 0.78 * Math.abs(Math.cos(tiltPhase));
+      const depth  = 0.35 + 0.65 * Math.abs(Math.cos(tiltPhase));
+      return { cx, cy, r, ry: r * squash, depth };
+    }
+
+    // ── ORBITING PARTICLES on rings (z comes from where they sit on the tilted ellipse) ──
     const orbiters = [
-      { ringIdx:0, angle:0,    speed:0.0012,  size:3.0, color:CIAN,  op:1.0 },
-      { ringIdx:0, angle:Math.PI, speed:0.0012, size:2.0, color:WHITE, op:0.85},
-      { ringIdx:1, angle:1.2,  speed:-0.0008, size:2.5, color:ROJO,  op:1.0 },
-      { ringIdx:1, angle:3.8,  speed:-0.0008, size:1.5, color:ROJO,  op:0.75 },
-      { ringIdx:2, angle:0.5,  speed:0.002,   size:2.0, color:CIAN,  op:0.9 },
-      { ringIdx:3, angle:2.1,  speed:-0.0005, size:1.5, color:CIAN,  op:0.65 },
+      { ringIdx:0, angle:0,       speed:0.0012,  size:3.0, color:CIAN,  op:1.0 },
+      { ringIdx:0, angle:Math.PI, speed:0.0012,  size:2.0, color:WHITE, op:0.85},
+      { ringIdx:1, angle:1.2,     speed:-0.0008, size:2.5, color:ROJO,  op:1.0 },
+      { ringIdx:1, angle:3.8,     speed:-0.0008, size:1.5, color:ROJO,  op:0.75 },
+      { ringIdx:2, angle:0.5,     speed:0.002,   size:2.0, color:CIAN,  op:0.9 },
+      { ringIdx:3, angle:2.1,     speed:-0.0005, size:1.5, color:CIAN,  op:0.65 },
     ];
 
-    // ── DRIFTING TRIANGLES ──
+    // ── DRIFTING 3D WIREFRAME TETRAHEDRA (replaces flat triangles) ──
+    const TETRA_V = [
+      [0, -1, 0],
+      [0.94, 0.33, 0],
+      [-0.47, 0.33, 0.82],
+      [-0.47, 0.33, -0.82],
+    ];
+    const TETRA_E = [[0,1],[0,2],[0,3],[1,2],[2,3],[3,1]];
+
     const triangles = [
-      { cx:0.72, cy:0.12, r:60, angle:0, driftX:0, driftY:0, speed:0.0003, color:CIAN, lw:1.4, op:0.60 },
-      { cx:0.72, cy:0.12, r:40, angle:Math.PI, driftX:0, driftY:0, speed:-0.0005, color:CIAN, lw:0.8, op:0.40 },
-      { cx:0.20, cy:0.70, r:45, angle:0.3, driftX:0, driftY:0, speed:0.0004, color:ROJO, lw:1.1, op:0.45 },
-      { cx:0.88, cy:0.75, r:30, angle:1.0, driftX:0, driftY:0, speed:-0.0003, color:WHITE, lw:0.7, op:0.30 },
+      { cx:0.72, cy:0.12, r:60, angle:0,   tilt:0.4,  speed:0.0003,  tiltSpeed:0.00018, color:CIAN,  lw:1.4, op:0.60 },
+      { cx:0.72, cy:0.12, r:40, angle:Math.PI, tilt:1.1, speed:-0.0005, tiltSpeed:-0.00024, color:CIAN,  lw:0.8, op:0.40 },
+      { cx:0.20, cy:0.70, r:45, angle:0.3, tilt:0.7,  speed:0.0004,  tiltSpeed:0.0002,  color:ROJO,  lw:1.1, op:0.45 },
+      { cx:0.88, cy:0.75, r:30, angle:1.0, tilt:2.0,  speed:-0.0003, tiltSpeed:-0.00016, color:WHITE, lw:0.7, op:0.30 },
     ];
-    // give each triangle a drift offset
-    triangles.forEach((tr, i) => {
-      tr._phase = i * 1.3;
-    });
+    triangles.forEach((tr, i) => { tr._phase = i * 1.3; });
 
-    // ── GRID LINES (faint) ──
-    function drawGrid() {
+    function drawTetra3D(tr, time) {
+      const driftX = 18 * Math.sin(time * 0.23 + tr._phase);
+      const driftY = 12 * Math.cos(time * 0.17 + tr._phase * 1.2);
+      const cx = tr.cx * W + driftX, cy = tr.cy * H + driftY;
+      const focal = tr.r * 2.4;
+
+      const projected = TETRA_V.map(v => {
+        let p = rotateY(v, tr.angle);
+        p = rotateX(p, tr.tilt);
+        const pr = project(p, focal / tr.r);
+        return { x: cx + pr.x * tr.r, y: cy + pr.y * tr.r, scale: pr.scale };
+      });
+
+      TETRA_E.forEach(([a, b]) => {
+        const pa = projected[a], pb = projected[b];
+        const depth = (pa.scale + pb.scale) / 2; // >1 nearer camera, <1 farther
+        const df = Math.max(0.15, Math.min(1.3, depth));
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(pa.x, pa.y);
+        ctx.lineTo(pb.x, pb.y);
+        ctx.strokeStyle = `rgba(${tr.color.r},${tr.color.g},${tr.color.b},${tr.op * df})`;
+        ctx.lineWidth = tr.lw * df;
+        ctx.stroke();
+        ctx.restore();
+      });
+    }
+
+    // ── GRID LINES (perspective floor, now animated for a sense of forward drift) ──
+    function drawGrid(time) {
       ctx.save();
       ctx.strokeStyle = '#2e2e2e';
       ctx.lineWidth = 0.6;
-      // subtle perspective grid bottom-left
       const vx = W * 0.1, vy = H * 0.9;
       const lines = 12;
       for (let i = 0; i <= lines; i++) {
@@ -400,42 +466,39 @@
         ctx.lineTo(vx + (px - vx) * 0.15, vy);
         ctx.stroke();
       }
+      const crawl = (time * 0.035) % 1;
       for (let j = 0; j <= 8; j++) {
-        const t2 = j / 8;
+        const t2 = ((j / 8) + crawl) % 1;
         const y = H * 0.55 + (vy - H * 0.55) * t2;
         const xL = W * 0.05 + (vx - W * 0.05) * t2;
         const xR = W * 0.60 + (vx - W * 0.60) * t2;
+        ctx.save();
+        ctx.globalAlpha = 0.25 + 0.65 * t2; // near lines (larger t2) read as closer → brighter
         ctx.beginPath();
         ctx.moveTo(xL, y);
         ctx.lineTo(xR, y);
         ctx.stroke();
+        ctx.restore();
       }
       ctx.restore();
     }
 
-    // ── IRREGULAR WAVEFORMS (3 passes per wave) ──
-    // Each wave has base params; amplitude and frequency modulate over time
-    // ── IRREGULAR WAVEFORMS — complex, inharmonic, electric ──
+    // ── WAVES (each wave now draws 3 stacked depth passes, like a receding oscilloscope stack) ──
     const waves = [
-      // cian, bottom zone — energetic + noisy
       { y: 0.84, baseAmp: 38, freqBase: 0.014, freqMod: 0.007,
         ampMod: 22, speed: 0.00022, speedMod: 0.00008,
         phase: 0, color: CIAN, lw: 1.4, op: 0.55 },
-      // rojo, mid-low — jagged + inharmonic
       { y: 0.70, baseAmp: 30, freqBase: 0.021, freqMod: 0.012,
         ampMod: 28, speed: -0.00016, speedMod: 0.00012,
         phase: 1.2, color: ROJO, lw: 1.0, op: 0.40 },
-      // white, mid — complex spectrum
       { y: 0.61, baseAmp: 20, freqBase: 0.028, freqMod: 0.016,
         ampMod: 32, speed: 0.00030, speedMod: -0.00006,
         phase: 2.6, color: WHITE, lw: 0.7, op: 0.25 },
-      // second cian, upper-mid — sparse, erratic
       { y: 0.50, baseAmp: 14, freqBase: 0.010, freqMod: 0.018,
         ampMod: 26, speed: -0.00010, speedMod: 0.00007,
         phase: 4.1, color: CIAN, lw: 0.5, op: 0.20 },
     ];
 
-    // Per-wave noise state for stochastic bursts
     waves.forEach((w, i) => {
       w._noisePhase = i * 2.7;
       w._burstTimer = Math.random() * 2;
@@ -443,20 +506,26 @@
       w._burstDecay = 0;
     });
 
-    function drawWave(wave, time) {
-      const baseY = wave.y * H;
+    function drawWave(wave, time, depthPass) {
+      // depthPass: 0 = front layer (as before), 1/2 = receding echoes behind it
+      const depthOffsetY = depthPass * 16;
+      const ampScale = 1 - depthPass * 0.18;
+      const opScale  = 1 - depthPass * 0.34;
+      const compress = 1 - depthPass * 0.045; // pulls the trace toward the horizontal center → perspective
+      const baseY = wave.y * H + depthOffsetY;
+      const centerX = W / 2;
 
-      // Stochastic burst: randomly adds a short noisy amplitude spike
-      wave._burstTimer -= 0.016;
-      if (wave._burstTimer <= 0) {
-        wave._burstAmp   = 25 + Math.random() * 60;
-        wave._burstDecay = 0.06 + Math.random() * 0.20;
-        wave._burstTimer = 0.6 + Math.random() * 2.0;
+      if (depthPass === 0) {
+        wave._burstTimer -= 0.016;
+        if (wave._burstTimer <= 0) {
+          wave._burstAmp   = 25 + Math.random() * 60;
+          wave._burstDecay = 0.06 + Math.random() * 0.20;
+          wave._burstTimer = 0.6 + Math.random() * 2.0;
+        }
+        wave._burstAmp *= (1 - 0.016 / Math.max(wave._burstDecay, 0.001));
+        if (wave._burstAmp < 0.5) wave._burstAmp = 0;
       }
-      wave._burstAmp *= (1 - 0.016 / Math.max(wave._burstDecay, 0.001));
-      if (wave._burstAmp < 0.5) wave._burstAmp = 0;
 
-      // Slowly varying noise seed
       const noiseBase = Math.sin(time * 1.37 + wave._noisePhase) *
                         Math.cos(time * 0.89 + wave._noisePhase * 1.6);
 
@@ -466,25 +535,23 @@
         const nx = x / W;
 
         const freq1 = wave.freqBase + wave.freqMod * Math.sin(time * 0.31 + wave.phase);
-        const freq2 = freq1 * 1.618;  // golden ratio — inharmonic
-        const freq3 = freq1 * 6.87;   // 7th harmonic — dissonant
-        const freq4 = freq1 * 0.11;   // very slow envelope
+        const freq2 = freq1 * 1.618;
+        const freq3 = freq1 * 6.87;
+        const freq4 = freq1 * 0.11;
 
-        const amp1 = wave.baseAmp + wave.ampMod * Math.sin(time * 0.17 + wave.phase * 1.3);
+        const amp1 = (wave.baseAmp + wave.ampMod * Math.sin(time * 0.17 + wave.phase * 1.3)) * ampScale;
         const amp2 = amp1 * 0.45;
         const amp3 = amp1 * 0.22 * (0.5 + 0.5 * Math.abs(noiseBase));
         const amp4 = amp1 * 0.30;
 
         const spd = wave.speed + wave.speedMod * Math.sin(time * 0.11);
-        const T   = time * spd * 1000;
+        const T   = time * spd * 1000 + depthPass * 0.6;
 
-        // High-freq noisy term
         const noisy = Math.sin(nx * W * freq3 * 0.06 + T * 1.9 + wave._noisePhase)
                     * Math.cos(nx * W * freq3 * 0.041 + T * 2.3);
 
-        // Localized burst spike
         const burstCenter = 0.3 + 0.4 * Math.abs(Math.sin(wave._noisePhase + time * 0.5));
-        const burstShape  = wave._burstAmp
+        const burstShape  = wave._burstAmp * ampScale
           * Math.exp(-Math.pow(nx - burstCenter, 2) * 18)
           * Math.sin(nx * W * 0.08 + T * 4.1);
 
@@ -495,30 +562,33 @@
           + amp4 * Math.sin(nx * W * freq4 * 0.06 + T * 0.3)
           + burstShape;
 
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+        const px = centerX + (x - centerX) * compress;
+
+        if (x === 0) ctx.moveTo(px, y);
+        else ctx.lineTo(px, y);
       }
-      ctx.strokeStyle = `rgba(${wave.color.r},${wave.color.g},${wave.color.b},${wave.op})`;
-      ctx.lineWidth = wave.lw;
+      ctx.strokeStyle = `rgba(${wave.color.r},${wave.color.g},${wave.color.b},${wave.op * opScale})`;
+      ctx.lineWidth = wave.lw * (1 - depthPass * 0.25);
       ctx.stroke();
       ctx.restore();
     }
 
-    // ── FLOATING DOTS ──
-    const dots = Array.from({ length: 22 }, (_, i) => ({
+    // ── FLOATING DOTS (each carries a depth "z" for parallax + size/opacity falloff) ──
+    const dots = Array.from({ length: 26 }, (_, i) => ({
       x: Math.random(),
       y: Math.random(),
+      z: 0.4 + Math.random() * 1.3, // smaller = nearer/bigger/brighter
       r: 0.8 + Math.random() * 1.6,
       color: i % 3 === 0 ? ROJO : i % 3 === 1 ? CIAN : WHITE,
       op: 0.25 + Math.random() * 0.55,
       phase: Math.random() * Math.PI * 2,
       freq: 0.0004 + Math.random() * 0.0008,
-    }));
+      driftPhase: Math.random() * Math.PI * 2,
+    })).sort((a, b) => b.z - a.z); // draw far → near
 
-    // ── GLITCH ACCENT LINES — more aggressive, more frequent ──
+    // ── GLITCH ACCENT LINES ──
     let glitchTimer = 0;
     let glitchLines = [];
-    // Screen-tear glitch: displaces a horizontal strip of the canvas
     let tearTimer = 0;
     let tearActive = false;
     let tearY = 0, tearH2 = 0, tearShift = 0, tearLife = 0, tearMaxLife = 0;
@@ -536,38 +606,19 @@
       }));
     }
 
-    // ── DRAW TRIANGLE ──
-    function drawTriangle(cx, cy, r, angle, color, lw, op) {
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(angle);
-      ctx.beginPath();
-      for (let i = 0; i < 3; i++) {
-        const a = (i / 3) * Math.PI * 2 - Math.PI / 2;
-        const px = Math.cos(a) * r;
-        const py = Math.sin(a) * r;
-        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      ctx.strokeStyle = `rgba(${color.r},${color.g},${color.b},${op})`;
-      ctx.lineWidth = lw;
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // ── DRAW TICK MARKS ON RING ──
-    function drawRingTicks(cx, cy, r, angle, color, op) {
+    // ── DRAW RING TICKS on the tilted ellipse ──
+    function drawRingTicks(geo, angle, color, op) {
       ctx.save();
       [0, Math.PI/2, Math.PI, Math.PI*1.5].forEach(a => {
         const ra = a + angle;
-        const x1 = cx + Math.cos(ra) * (r - 8);
-        const y1 = cy + Math.sin(ra) * (r - 8);
-        const x2 = cx + Math.cos(ra) * (r + 8);
-        const y2 = cy + Math.sin(ra) * (r + 8);
+        const x1 = geo.cx + Math.cos(ra) * (geo.r - 8);
+        const y1 = geo.cy + Math.sin(ra) * (geo.ry - 8 * (geo.ry / geo.r));
+        const x2 = geo.cx + Math.cos(ra) * (geo.r + 8);
+        const y2 = geo.cy + Math.sin(ra) * (geo.ry + 8 * (geo.ry / geo.r));
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
-        ctx.strokeStyle = `rgba(${color.r},${color.g},${color.b},${op * 1.5})`;
+        ctx.strokeStyle = `rgba(${color.r},${color.g},${color.b},${op * 1.5 * geo.depth})`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
       });
@@ -579,74 +630,74 @@
       ctx.clearRect(0, 0, W, H);
 
       // Grid
-      drawGrid();
+      drawGrid(t);
 
-      // Rings
-      rings.forEach(rng => {
+      // Rings — tilted ellipses simulating 3D rotation
+      const ringGeos = rings.map(rng => ringGeometry(rng, t));
+      rings.forEach((rng, i) => {
         const angle = t * rng.speed * 1000;
-        const cx = rng.cx * W, cy = rng.cy * H, r = rng.r * Math.min(W, H);
+        const geo = ringGeos[i];
         ctx.save();
         ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${rng.color.r},${rng.color.g},${rng.color.b},${rng.op})`;
-        ctx.lineWidth = rng.lw;
+        ctx.ellipse(geo.cx, geo.cy, geo.r, geo.ry, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${rng.color.r},${rng.color.g},${rng.color.b},${rng.op * geo.depth})`;
+        ctx.lineWidth = rng.lw * (0.55 + 0.45 * geo.depth);
         ctx.stroke();
         ctx.restore();
-        drawRingTicks(cx, cy, r, angle, rng.color, rng.op);
+        drawRingTicks(geo, angle, rng.color, rng.op);
       });
 
-      // Inner polygon (rotates with ring 1)
+      // Inner polygon (rotates with ring 1, tilted to match its ellipse)
       {
         const rng = rings[1];
+        const geo = ringGeos[1];
         const angle = t * rng.speed * 1000;
-        const cx = rng.cx * W, cy = rng.cy * H, r = rng.r * Math.min(W, H) * 0.75;
+        const rr = geo.r * 0.75, rry = geo.ry * 0.75;
         ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(angle);
+        ctx.translate(geo.cx, geo.cy);
+        ctx.rotate(angle * 0.4);
         ctx.beginPath();
         for (let i = 0; i < 3; i++) {
           const a = (i / 3) * Math.PI * 2;
-          if (i === 0) ctx.moveTo(Math.cos(a)*r, Math.sin(a)*r);
-          else ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+          const px = Math.cos(a) * rr, py = Math.sin(a) * rry;
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
         }
         ctx.closePath();
-        ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},0.45)`;
+        ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},${0.45 * geo.depth})`;
         ctx.lineWidth = 0.9;
         ctx.stroke();
         ctx.restore();
       }
 
-      // Orbiting particles
-      orbiters.forEach(ob => {
-        const rng = rings[ob.ringIdx];
+      // Orbiting particles on the tilted ellipses — sized/lit by depth, back-to-front
+      const orbiterPositions = orbiters.map(ob => {
+        const geo = ringGeos[ob.ringIdx];
         const angle = (ob.angle += ob.speed);
-        const cx = rng.cx * W, cy = rng.cy * H;
-        const r = rng.r * Math.min(W, H);
-        const px = cx + Math.cos(angle) * r;
-        const py = cy + Math.sin(angle) * r;
+        const px = geo.cx + Math.cos(angle) * geo.r;
+        const py = geo.cy + Math.sin(angle) * geo.ry;
+        const z = Math.sin(angle); // -1 back, +1 front
+        return { ob, px, py, z };
+      }).sort((a, b) => a.z - b.z);
+
+      orbiterPositions.forEach(({ ob, px, py, z }) => {
+        const df = 0.55 + 0.45 * ((z + 1) / 2); // depth factor 0.55..1
         ctx.save();
         ctx.beginPath();
-        ctx.arc(px, py, ob.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},${ob.op})`;
+        ctx.arc(px, py, ob.size * df, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},${ob.op * df})`;
         ctx.fill();
-        // glow
         ctx.beginPath();
-        ctx.arc(px, py, ob.size * 3, 0, Math.PI * 2);
+        ctx.arc(px, py, ob.size * df * 3, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},0.06)`;
         ctx.fill();
         ctx.restore();
       });
 
-      // Drifting triangles
+      // Drifting 3D wireframe tetrahedra
       triangles.forEach(tr => {
         tr.angle += tr.speed;
-        const driftX = 18 * Math.sin(t * 0.23 + tr._phase);
-        const driftY = 12 * Math.cos(t * 0.17 + tr._phase * 1.2);
-        drawTriangle(
-          tr.cx * W + driftX, tr.cy * H + driftY,
-          tr.r, tr.angle,
-          tr.color, tr.lw, tr.op
-        );
+        tr.tilt += tr.tiltSpeed;
+        drawTetra3D(tr, t);
       });
 
       // Diagonal accent lines (left quadrant)
@@ -665,16 +716,23 @@
       ctx.stroke();
       ctx.restore();
 
-      // Waves
-      waves.forEach(w => drawWave(w, t));
+      // Waves — front pass plus two receding depth echoes
+      waves.forEach(w => {
+        drawWave(w, t, 2);
+        drawWave(w, t, 1);
+        drawWave(w, t, 0);
+      });
 
-      // Floating dots
+      // Floating dots — parallax depth (far → near already sorted at creation)
       dots.forEach(d => {
+        const depthScale = 1 / d.z;
         const pulse = 0.5 + 0.5 * Math.sin(t * d.freq * 1000 + d.phase);
+        const parallaxX = Math.sin(t * 0.05 * depthScale + d.driftPhase) * 2.2 * depthScale;
+        const parallaxY = Math.cos(t * 0.04 * depthScale + d.driftPhase * 1.3) * 1.6 * depthScale;
         ctx.save();
         ctx.beginPath();
-        ctx.arc(d.x * W, d.y * H, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${d.color.r},${d.color.g},${d.color.b},${d.op * pulse})`;
+        ctx.arc(d.x * W + parallaxX, d.y * H + parallaxY, d.r * depthScale * 0.85, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${d.color.r},${d.color.g},${d.color.b},${Math.min(0.9, d.op * pulse * depthScale * 0.75)})`;
         ctx.fill();
         ctx.restore();
       });
@@ -689,7 +747,7 @@
         ctx.restore();
       });
 
-      // Glitch lines — more frequent, more intense
+      // Glitch lines
       glitchTimer += 0.016;
       if (glitchTimer > (0.6 + Math.random() * 1.4)) {
         spawnGlitch();
@@ -712,7 +770,7 @@
         }
       });
 
-      // Screen-tear glitch — occasional horizontal strip displacement
+      // Screen-tear glitch
       tearTimer += 0.016;
       if (tearTimer > (2.0 + Math.random() * 4.0) && !tearActive) {
         tearActive  = true;
@@ -728,7 +786,6 @@
         if (tearLife < tearMaxLife) {
           const imageData = ctx.getImageData(0, tearY, W, tearH2);
           ctx.putImageData(imageData, tearShift, tearY);
-          // Chromatic fringe on the tear edge
           ctx.save();
           ctx.strokeStyle = `rgba(${CIAN.r},${CIAN.g},${CIAN.b},0.5)`;
           ctx.lineWidth = 1;
@@ -747,6 +804,49 @@
     raf = requestAnimationFrame(draw);
   })();
   </script>
+
+  <script>
+  // ── NAME FONT CYCLER ──
+  // Cycles the hero name through a bank of 13 typefaces every 0.7s,
+  // in an endless random loop, for as long as the visitor stays on the page.
+  (function() {
+    const nameEl = document.querySelector('#inicio h1');
+    if (!nameEl) return;
+
+    const fontBank = [
+      "'Cormorant Garamond', Georgia, serif",
+      "'Inter', system-ui, sans-serif",
+      "'Orbitron', sans-serif",
+      "'Audiowide', sans-serif",
+      "'Share Tech Mono', monospace",
+      "'Rajdhani', sans-serif",
+      "'Syne Mono', monospace",
+      "'Space Mono', monospace",
+      "'VT323', monospace",
+      "'Major Mono Display', monospace",
+      "'Zen Dots', sans-serif",
+      "'Unica One', sans-serif",
+      "'JetBrains Mono', monospace",
+    ];
+
+    let lastIndex = -1;
+
+    function cycleFont() {
+      let idx = Math.floor(Math.random() * fontBank.length);
+      if (idx === lastIndex) idx = (idx + 1) % fontBank.length;
+      lastIndex = idx;
+      nameEl.style.fontFamily = fontBank[idx];
+      nameEl.classList.remove('font-cycling');
+      // restart the flicker animation on every change
+      void nameEl.offsetWidth;
+      nameEl.classList.add('font-cycling');
+    }
+
+    cycleFont();
+    setInterval(cycleFont, 700);
+  })();
+  </script>
+
 
 </body>
 </html>
