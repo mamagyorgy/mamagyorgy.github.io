@@ -180,11 +180,7 @@
     .about-texto p strong { color: var(--cian); font-weight: 300; }
 
     /* ── PHOTO ── */
-    .about-foto-col {
-      position: sticky;
-      top: 8rem;
-      align-self: start;
-    }
+    .about-foto-col { position: relative; }
     .about-foto-wrap { position: relative; }
     .about-foto-wrap img {
       width: 100%;
@@ -241,6 +237,20 @@
     }
     .foto-label span { color: var(--cian); opacity: 0.6; }
 
+    /* Loop video below photo, fills remaining vertical space */
+    .about-video-wrap {
+      margin-top: 2rem;
+      border: 1px solid #1e1e1e;
+      background: #0d0d0d;
+      overflow: hidden;
+    }
+    .about-video-wrap video {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: grayscale(15%);
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid #3a3a3a;
@@ -261,7 +271,7 @@
         grid-template-columns: 1fr;
         gap: 3rem;
       }
-      .about-foto-col { position: static; order: -1; max-width: 360px; }
+      .about-foto-col { order: -1; max-width: 360px; }
     }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
@@ -383,6 +393,10 @@
           <div class="foto-borde-rojo"></div>
         </div>
         <p class="foto-label">Photo <span>/</span> Julie Brice</p>
+
+        <div class="about-video-wrap">
+          <video src="img/about-loop.mp4" autoplay loop muted playsinline></video>
+        </div>
       </div>
 
     </div>
