@@ -157,12 +157,12 @@
       align-items: start;
     }
 
-    .about-texto h2 {
+    .bio-title {
       font-family: var(--serif);
       font-size: clamp(1.8rem, 3vw, 2.4rem);
       font-weight: 300;
       line-height: 1.2;
-      margin-bottom: 1.8rem;
+      margin-bottom: 2.5rem;
       color: var(--blanco);
       letter-spacing: 0.02em;
     }
@@ -178,6 +178,11 @@
 
     /* Subtle cian inline accent */
     .about-texto p strong { color: var(--cian); font-weight: 300; }
+
+    /* Full-width text block continuing below the photo */
+    .about-texto-full {
+      margin-top: 1.2rem;
+    }
 
     /* ── PHOTO ── */
     .about-foto-col { position: relative; }
@@ -237,17 +242,18 @@
     }
     .foto-label span { color: var(--cian); opacity: 0.6; }
 
-    /* Loop video below photo, fills remaining vertical space */
-    .about-video-wrap {
-      margin-top: 2rem;
+    /* Full-width loop video at the bottom of the page */
+    .about-video-full {
+      margin-top: 4.5rem;
       border: 1px solid #1e1e1e;
       background: #0d0d0d;
       overflow: hidden;
     }
-    .about-video-wrap video {
+    .about-video-full video {
       display: block;
       width: 100%;
-      height: auto;
+      aspect-ratio: 21 / 9;
+      object-fit: cover;
       filter: grayscale(15%);
     }
 
@@ -329,11 +335,12 @@
   </div>
 
   <main>
+    <h2 class="bio-title">BIO</h2>
+
     <div class="about-grid">
 
       <!-- TEXT COLUMN (left) -->
       <div class="about-texto">
-        <h2>BIO</h2>
         <p>
           Jorge Care (1996) is a composer, digital artist, and improviser whose
           work bridges experimental electronic sound, instrumental performance,
@@ -359,30 +366,6 @@
           Ensemble Competition</strong> with César Vidal & Artikulation Band and appeared as a
           guest artist at Festival JazzBer in Bermeo, Spain.
         </p>
-        <p>
-          He has undertaken artistic residencies in Switzerland, Finland, and France, and
-          has released three electroacoustic albums, two produced in Switzerland and one
-          in the Netherlands. In 2025, he was nominated for a <strong> Premios Pulsar </strong> in the
-          category <strong> Best Classical or Concert Music Composer</strong> for <em>Bilis Negra – Solitude</em>.
-          Presented by the Chilean Copyright Society (SCD), the Premios Pulsar recognize
-          outstanding achievements in Chilean music. At the end of his studies at HEM,
-          he was awarded the <strong>Prix Contrechamps</strong>, which includes a commission
-          for the ensemble’s 2026–2027 concert season. He is currently composing a new work
-          for Ensemble Contrechamps, commissioned as part of the Prix Contrechamps.
-        </p>
-        <p>
-          In June 2026, he toured Europe with <em>Des Visages</em>, his duo with saxophonist César Vidal,
-          presenting aleas, a performance centered on improvisation for saxophone,
-          electronics, and light. Supported by the Chilean Ministry of Cultures, Arts and Heritage,
-          the tour included performances in Bern, Geneva, Paris, Marseille, London, Amsterdam, and Copenhagen.
-        </p>
-        <p>
-          His latest work, <em>Séismes</em>, is a performance for vocal duo, electronics, light, and video
-          inspired by the seismic landscape of Chile. Through the translation of real seismic data into
-          sound and visual processes, the work explores the relationship between natural phenomena,
-          memory, and perception.
-        </p>
-
       </div>
 
       <!-- PHOTO COLUMN (right) -->
@@ -393,12 +376,40 @@
           <div class="foto-borde-rojo"></div>
         </div>
         <p class="foto-label">Photo <span>/</span> Julie Brice</p>
-
-        <div class="about-video-wrap">
-          <video src="img/about-loop.mp4" autoplay loop muted playsinline></video>
-        </div>
       </div>
 
+    </div>
+
+    <!-- FULL-WIDTH TEXT, continues below the photo -->
+    <div class="about-texto about-texto-full">
+      <p>
+        He has undertaken artistic residencies in Switzerland, Finland, and France, and
+        has released three electroacoustic albums, two produced in Switzerland and one
+        in the Netherlands. In 2025, he was nominated for a <strong> Premios Pulsar </strong> in the
+        category <strong> Best Classical or Concert Music Composer</strong> for <em>Bilis Negra – Solitude</em>.
+        Presented by the Chilean Copyright Society (SCD), the Premios Pulsar recognize
+        outstanding achievements in Chilean music. At the end of his studies at HEM,
+        he was awarded the <strong>Prix Contrechamps</strong>, which includes a commission
+        for the ensemble’s 2026–2027 concert season. He is currently composing a new work
+        for Ensemble Contrechamps, commissioned as part of the Prix Contrechamps.
+      </p>
+      <p>
+        In June 2026, he toured Europe with <em>Des Visages</em>, his duo with saxophonist César Vidal,
+        presenting aleas, a performance centered on improvisation for saxophone,
+        electronics, and light. Supported by the Chilean Ministry of Cultures, Arts and Heritage,
+        the tour included performances in Bern, Geneva, Paris, Marseille, London, Amsterdam, and Copenhagen.
+      </p>
+      <p>
+        His latest work, <em>Séismes</em>, is a performance for vocal duo, electronics, light, and video
+        inspired by the seismic landscape of Chile. Through the translation of real seismic data into
+        sound and visual processes, the work explores the relationship between natural phenomena,
+        memory, and perception.
+      </p>
+    </div>
+
+    <!-- FULL-WIDTH LOOP VIDEO -->
+    <div class="about-video-full">
+      <video src="img/about-loop.mp4" autoplay loop muted playsinline></video>
     </div>
   </main>
 
