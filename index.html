@@ -7,7 +7,7 @@
   <meta name="description" content="Jorge Care — Composer, digital artist, and improviser." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&family=Orbitron:wght@400;700&family=Audiowide&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&family=Syne+Mono&family=Space+Mono:wght@400;700&family=VT323&family=Major+Mono+Display&family=Zen+Dots&family=Unica+One&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&family=Orbitron:wght@400;700&family=Audiowide&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&family=Syne+Mono&family=Space+Mono:wght@400;700&family=VT323&family=Major+Mono+Display&family=Zen+Dots&family=Unica+One&family=JetBrains+Mono:wght@400;700&family=Michroma&family=Iceland&family=Wallpoet&family=Aldrich&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -115,6 +115,42 @@
       display: block;
     }
 
+    /* ── FILM GRAIN TEXTURE ── */
+    .grain-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    /* ── BOOT FLASH (brief power-on flicker on first load) ── */
+    .boot-flash {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      background: var(--blanco);
+      animation: boot-flash-seq 0.7s steps(1, end) forwards;
+    }
+    @keyframes boot-flash-seq {
+      0%   { opacity: 0.9; background: var(--blanco); }
+      8%   { opacity: 0; }
+      14%  { opacity: 0.5; background: var(--cian); }
+      20%  { opacity: 0; }
+      28%  { opacity: 0.4; background: var(--rojo); }
+      35%  { opacity: 0; }
+      45%  { opacity: 0.25; background: var(--blanco); }
+      55%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .boot-flash { display: none; }
+      #inicio h1.font-cycling { animation: none; }
+    }
+
     /* ── SCAN LINE OVERLAY ── */
     .scanlines {
       position: absolute;
@@ -216,11 +252,16 @@
       text-shadow: 0 0 80px rgba(0,212,232,0.08);
     }
     #inicio h1.font-cycling {
-      animation: font-flicker 0.12s ease-out;
+      animation: font-flicker 0.24s steps(1, end);
     }
     @keyframes font-flicker {
-      0%   { opacity: 0.35; text-shadow: 2px 0 var(--rojo), -2px 0 var(--cian); }
-      100% { opacity: 1; text-shadow: 0 0 80px rgba(0,212,232,0.08); }
+      0%   { opacity: 0.1;  transform: translate(-4px, 0) skewX(-8deg);  text-shadow: 6px 0 var(--rojo), -6px 0 var(--cian), 0 0 24px rgba(230,57,70,0.7); }
+      14%  { opacity: 0.95; transform: translate(4px, -1px) skewX(6deg); text-shadow: -7px 0 var(--cian), 7px 0 var(--rojo), 0 0 28px rgba(0,212,232,0.8); }
+      28%  { opacity: 0.2;  transform: translate(-3px, 1px) skewX(-4deg); text-shadow: 5px 0 var(--rojo), -5px 0 var(--cian); }
+      42%  { opacity: 1;    transform: translate(3px, 0) skewX(3deg);   text-shadow: -6px 0 var(--cian), 6px 0 var(--rojo), 0 0 30px rgba(0,212,232,0.6); }
+      58%  { opacity: 0.3;  transform: translate(-2px, 0) skewX(0deg); text-shadow: 4px 0 var(--rojo), -4px 0 var(--cian); }
+      75%  { opacity: 0.9;  transform: translate(0, 0);                 text-shadow: -3px 0 var(--cian), 3px 0 var(--rojo); }
+      100% { opacity: 1;    transform: translate(0, 0);                 text-shadow: 0 0 80px rgba(0,212,232,0.08); }
     }
     .hero-descripcion {
       font-size: 0.78rem;
@@ -238,15 +279,22 @@
       position: relative;
       z-index: 2;
     }
+    /* Outer block stacks the two location rows (SCL / GVA) */
+    .hero-location-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-end;
+    }
+    /* Each row is a single line: city code, then coordinates */
     .hero-location {
       font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: #666;
       display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      align-items: flex-end;
+      align-items: baseline;
+      white-space: nowrap;
     }
     /* City label beside coord */
     .coord-city {
@@ -297,6 +345,7 @@
   </nav>
 
   <section id="inicio">
+    <div class="boot-flash" aria-hidden="true"></div>
     <div class="hero-linea-top"></div>
     <div class="hero-linea-left"></div>
 
@@ -307,6 +356,9 @@
 
     <!-- CRT scan-line texture -->
     <div class="scanlines" aria-hidden="true"></div>
+
+    <!-- Film grain -->
+    <div class="grain-overlay" aria-hidden="true"></div>
 
     <!-- HUD corners -->
     <div class="hud-corner hud-tl" aria-hidden="true">
@@ -407,7 +459,7 @@
       { ringIdx:3, angle:2.1,     speed:-0.0005, size:1.5, color:CIAN,  op:0.65 },
     ];
 
-    // ── DRIFTING 3D WIREFRAME TETRAHEDRA (replaces flat triangles) ──
+    // ── SHARED 3D WIREFRAME GEOMETRY (tetra / cube / sphere) ──
     const TETRA_V = [
       [0, -1, 0],
       [0.94, 0.33, 0],
@@ -416,40 +468,185 @@
     ];
     const TETRA_E = [[0,1],[0,2],[0,3],[1,2],[2,3],[3,1]];
 
-    const triangles = [
-      { cx:0.72, cy:0.12, r:60, angle:0,   tilt:0.4,  speed:0.0003,  tiltSpeed:0.00018, color:CIAN,  lw:1.4, op:0.60 },
-      { cx:0.72, cy:0.12, r:40, angle:Math.PI, tilt:1.1, speed:-0.0005, tiltSpeed:-0.00024, color:CIAN,  lw:0.8, op:0.40 },
-      { cx:0.20, cy:0.70, r:45, angle:0.3, tilt:0.7,  speed:0.0004,  tiltSpeed:0.0002,  color:ROJO,  lw:1.1, op:0.45 },
-      { cx:0.88, cy:0.75, r:30, angle:1.0, tilt:2.0,  speed:-0.0003, tiltSpeed:-0.00016, color:WHITE, lw:0.7, op:0.30 },
+    const CUBE_V = [
+      [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
+      [-1,-1, 1], [1,-1, 1], [1,1, 1], [-1,1, 1],
     ];
-    triangles.forEach((tr, i) => { tr._phase = i * 1.3; });
+    const CUBE_E = [
+      [0,1],[1,2],[2,3],[3,0],
+      [4,5],[5,6],[6,7],[7,4],
+      [0,4],[1,5],[2,6],[3,7],
+    ];
 
-    function drawTetra3D(tr, time) {
-      const driftX = 18 * Math.sin(time * 0.23 + tr._phase);
-      const driftY = 12 * Math.cos(time * 0.17 + tr._phase * 1.2);
-      const cx = tr.cx * W + driftX, cy = tr.cy * H + driftY;
-      const focal = tr.r * 2.4;
+    // Sphere as three orthogonal wireframe "gyroscope" rings
+    function buildSphereSegments(seg) {
+      const base = [];
+      for (let i = 0; i < seg; i++) {
+        const a1 = (i / seg) * Math.PI * 2, a2 = ((i + 1) / seg) * Math.PI * 2;
+        base.push([[Math.cos(a1), Math.sin(a1), 0], [Math.cos(a2), Math.sin(a2), 0]]);
+      }
+      const segs = [];
+      base.forEach(s => segs.push(s)); // XY ring
+      base.forEach(([p1, p2]) => segs.push([[p1[2], p1[1], -p1[0]], [p2[2], p2[1], -p2[0]]])); // YZ ring
+      base.forEach(([p1, p2]) => segs.push([[p1[0], p1[2], -p1[1]], [p2[0], p2[2], -p2[1]]])); // XZ ring
+      return segs;
+    }
 
-      const projected = TETRA_V.map(v => {
-        let p = rotateY(v, tr.angle);
-        p = rotateX(p, tr.tilt);
-        const pr = project(p, focal / tr.r);
-        return { x: cx + pr.x * tr.r, y: cy + pr.y * tr.r, scale: pr.scale };
-      });
+    const TETRA_SEGMENTS  = TETRA_E.map(([a, b]) => [TETRA_V[a], TETRA_V[b]]);
+    const CUBE_SEGMENTS   = CUBE_E.map(([a, b]) => [CUBE_V[a], CUBE_V[b]]);
+    const SPHERE_SEGMENTS = buildSphereSegments(14);
 
-      TETRA_E.forEach(([a, b]) => {
-        const pa = projected[a], pb = projected[b];
-        const depth = (pa.scale + pb.scale) / 2; // >1 nearer camera, <1 farther
-        const df = Math.max(0.15, Math.min(1.3, depth));
+    function segmentsFor(type) {
+      return type === 'tetra' ? TETRA_SEGMENTS : type === 'cube' ? CUBE_SEGMENTS : SPHERE_SEGMENTS;
+    }
+
+    // Deterministic pseudo-random hash, used to give each glitch-shape's
+    // edges a stable (but varied) reveal threshold.
+    function hash(seed) {
+      const s = Math.sin(seed) * 43758.5453;
+      return s - Math.floor(s);
+    }
+
+    // ── DRIFTING 3D WIREFRAME SHAPES — tetrahedra, cubes and spheres that ──
+    // ── travel progressively across the whole canvas, wrapping at the edges ──
+    const driftShapes = [
+      // tetrahedra ("pirámides")
+      { type:'tetra',  x:0.72, y:0.12, r:60, angle:0,   tilt:0.4, spin:0.0003,  tiltSpin:0.00018,  vx: 0.017, vy: 0.011, color:CIAN,  lw:1.4, op:0.60 },
+      { type:'tetra',  x:0.15, y:0.60, r:40, angle:Math.PI, tilt:1.1, spin:-0.0005, tiltSpin:-0.00024, vx:-0.013, vy: 0.019, color:CIAN,  lw:0.8, op:0.40 },
+      { type:'tetra',  x:0.30, y:0.78, r:45, angle:0.3, tilt:0.7, spin:0.0004,  tiltSpin:0.0002,   vx: 0.021, vy:-0.015, color:ROJO,  lw:1.1, op:0.45 },
+      { type:'tetra',  x:0.88, y:0.30, r:30, angle:1.0, tilt:2.0, spin:-0.0003, tiltSpin:-0.00016, vx:-0.012, vy:-0.019, color:WHITE, lw:0.7, op:0.30 },
+      // cubes
+      { type:'cube',   x:0.15, y:0.20, r:26, angle:0.6, tilt:0.9, spin:0.00022, tiltSpin:0.00015,  vx: 0.015, vy: 0.010, color:ROJO,  lw:1.0, op:0.42 },
+      { type:'cube',   x:0.55, y:0.85, r:34, angle:2.1, tilt:0.3, spin:-0.00018,tiltSpin:0.0002,   vx:-0.012, vy:-0.009, color:CIAN,  lw:1.1, op:0.40 },
+      // spheres
+      { type:'sphere', x:0.35, y:0.30, r:24, angle:0.2, tilt:1.4, spin:0.00028, tiltSpin:0.0002,   vx: 0.010, vy:-0.013, color:CIAN,  lw:0.8, op:0.35 },
+      { type:'sphere', x:0.80, y:0.55, r:20, angle:1.7, tilt:0.5, spin:-0.00024,tiltSpin:-0.00018, vx:-0.014, vy: 0.011, color:ROJO,  lw:0.8, op:0.35 },
+    ];
+    driftShapes.forEach((s, i) => { s._phase = i * 1.3; });
+
+    function updateDriftShape(s, dtSec) {
+      s.angle += s.spin;
+      s.tilt  += s.tiltSpin;
+      s.x += s.vx * dtSec;
+      s.y += s.vy * dtSec;
+      const margin = 0.12; // let shapes fully exit before wrapping to the far side
+      if (s.x < -margin) s.x = 1 + margin; else if (s.x > 1 + margin) s.x = -margin;
+      if (s.y < -margin) s.y = 1 + margin; else if (s.y > 1 + margin) s.y = -margin;
+    }
+
+    function drawDriftShape3D(s, time) {
+      const segs = segmentsFor(s.type);
+      // small organic wobble layered on top of the long-range drift
+      const wobX = 16 * Math.sin(time * 0.23 + s._phase);
+      const wobY = 11 * Math.cos(time * 0.17 + s._phase * 1.2);
+      const cx = s.x * W + wobX, cy = s.y * H + wobY;
+      const focal = s.r * 2.4;
+
+      segs.forEach(seg => {
+        const p1 = rotateX(rotateY(seg[0], s.angle), s.tilt);
+        const p2 = rotateX(rotateY(seg[1], s.angle), s.tilt);
+        const pr1 = project(p1, focal / s.r);
+        const pr2 = project(p2, focal / s.r);
+        const x1 = cx + pr1.x * s.r, y1 = cy + pr1.y * s.r;
+        const x2 = cx + pr2.x * s.r, y2 = cy + pr2.y * s.r;
+        const df = Math.max(0.15, Math.min(1.3, (pr1.scale + pr2.scale) / 2));
         ctx.save();
         ctx.beginPath();
-        ctx.moveTo(pa.x, pa.y);
-        ctx.lineTo(pb.x, pb.y);
-        ctx.strokeStyle = `rgba(${tr.color.r},${tr.color.g},${tr.color.b},${tr.op * df})`;
-        ctx.lineWidth = tr.lw * df;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = `rgba(${s.color.r},${s.color.g},${s.color.b},${s.op * df})`;
+        ctx.lineWidth = s.lw * df;
         ctx.stroke();
         ctx.restore();
       });
+    }
+
+    // ── GLITCH-FORMING 3D SHAPES — cubes, spheres and tetrahedra that ──
+    // ── assemble out of noise and dissolve back into it, chromatic-split ──
+    const GLITCH_SHAPE_TYPES = ['tetra', 'cube', 'sphere'];
+    let glitchShapes = [];
+    let glitchShapeTimer = 0;
+
+    function spawnGlitchShape() {
+      const type = GLITCH_SHAPE_TYPES[Math.floor(Math.random() * GLITCH_SHAPE_TYPES.length)];
+      glitchShapes.push({
+        type,
+        x: 0.08 + Math.random() * 0.84,
+        y: 0.10 + Math.random() * 0.68,
+        r: 22 + Math.random() * 44,
+        angle: Math.random() * Math.PI * 2,
+        tilt: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.0022,
+        tiltSpin: (Math.random() - 0.5) * 0.0018,
+        color: Math.random() > 0.5 ? CIAN : ROJO,
+        lw: 1 + Math.random() * 0.9,
+        life: 0,
+        tIn:   0.16 + Math.random() * 0.14,
+        tHold: 0.30 + Math.random() * 0.55,
+        tOut:  0.14 + Math.random() * 0.16,
+        seed: Math.random() * 1000,
+      });
+    }
+
+    function drawGlitchShape3D(gs, dtSec) {
+      const segs = segmentsFor(gs.type);
+      gs.angle += gs.spin;
+      gs.tilt  += gs.tiltSpin;
+      const cx = gs.x * W, cy = gs.y * H;
+      const focal = gs.r * 2.4;
+
+      let mode, progress, jitterAmt;
+      if (gs.life < gs.tIn) {
+        mode = 'in';
+        progress = gs.life / gs.tIn;
+        jitterAmt = (1 - progress) * gs.r * 0.5;
+      } else if (gs.life < gs.tIn + gs.tHold) {
+        mode = 'hold';
+        progress = 1;
+        jitterAmt = 0;
+      } else {
+        mode = 'out';
+        const p2 = (gs.life - gs.tIn - gs.tHold) / gs.tOut;
+        progress = 1 - p2;
+        jitterAmt = p2 * gs.r * 0.65;
+      }
+
+      segs.forEach((seg, i) => {
+        const edgeThresh = hash(gs.seed + i * 13.37);
+        let visible;
+        if (mode === 'hold') {
+          visible = Math.random() > 0.012; // rare hold-phase flicker
+        } else {
+          visible = edgeThresh < progress;
+          if (Math.abs(edgeThresh - progress) < 0.09 && Math.random() < 0.5) visible = !visible;
+        }
+        if (!visible) return;
+
+        const p1 = rotateX(rotateY(seg[0], gs.angle), gs.tilt);
+        const p2v = rotateX(rotateY(seg[1], gs.angle), gs.tilt);
+        const pr1 = project(p1, focal / gs.r);
+        const pr2 = project(p2v, focal / gs.r);
+        const jx = (Math.random() - 0.5) * jitterAmt;
+        const jy = (Math.random() - 0.5) * jitterAmt;
+        const x1 = cx + pr1.x * gs.r + jx, y1 = cy + pr1.y * gs.r + jy;
+        const x2 = cx + pr2.x * gs.r + jx, y2 = cy + pr2.y * gs.r + jy;
+        const df = Math.max(0.2, Math.min(1.3, (pr1.scale + pr2.scale) / 2));
+        const chroma = mode === 'in' ? 3 * (1 - progress) : mode === 'out' ? 3 * progress : 0;
+
+        ctx.save();
+        ctx.lineWidth = gs.lw * df;
+        if (chroma > 0.4) {
+          ctx.strokeStyle = `rgba(${CIAN.r},${CIAN.g},${CIAN.b},${0.55 * df})`;
+          ctx.beginPath(); ctx.moveTo(x1 - chroma, y1); ctx.lineTo(x2 - chroma, y2); ctx.stroke();
+          ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},${0.55 * df})`;
+          ctx.beginPath(); ctx.moveTo(x1 + chroma, y1); ctx.lineTo(x2 + chroma, y2); ctx.stroke();
+        }
+        ctx.strokeStyle = `rgba(${gs.color.r},${gs.color.g},${gs.color.b},${0.85 * df})`;
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+        ctx.restore();
+      });
+
+      gs.life += dtSec;
     }
 
     // ── GRID LINES (perspective floor, now animated for a sense of forward drift) ──
@@ -693,11 +890,11 @@
         ctx.restore();
       });
 
-      // Drifting 3D wireframe tetrahedra
-      triangles.forEach(tr => {
-        tr.angle += tr.speed;
-        tr.tilt += tr.tiltSpeed;
-        drawTetra3D(tr, t);
+      // Drifting 3D wireframe shapes — tetrahedra, cubes and spheres,
+      // travelling progressively across the whole canvas
+      driftShapes.forEach(s => {
+        updateDriftShape(s, 0.016);
+        drawDriftShape3D(s, t);
       });
 
       // Diagonal accent lines (left quadrant)
@@ -770,6 +967,16 @@
         }
       });
 
+      // Glitch-forming 3D shapes — cubes, spheres and tetrahedra that
+      // assemble and dissolve out of the noise, chromatic-split at the edges
+      glitchShapeTimer += 0.016;
+      if (glitchShapeTimer > (0.9 + Math.random() * 1.6) && glitchShapes.length < 3) {
+        spawnGlitchShape();
+        glitchShapeTimer = 0;
+      }
+      glitchShapes = glitchShapes.filter(gs => gs.life < gs.tIn + gs.tHold + gs.tOut);
+      glitchShapes.forEach(gs => drawGlitchShape3D(gs, 0.016));
+
       // Screen-tear glitch
       tearTimer += 0.016;
       if (tearTimer > (2.0 + Math.random() * 4.0) && !tearActive) {
@@ -807,7 +1014,7 @@
 
   <script>
   // ── NAME FONT CYCLER ──
-  // Cycles the hero name through a bank of 13 typefaces every 0.7s,
+  // Cycles the hero name through a bank of 17 typefaces every 0.7s,
   // in an endless random loop, for as long as the visitor stays on the page.
   (function() {
     const nameEl = document.querySelector('#inicio h1');
@@ -827,6 +1034,10 @@
       "'Zen Dots', sans-serif",
       "'Unica One', sans-serif",
       "'JetBrains Mono', monospace",
+      "'Michroma', sans-serif",
+      "'Iceland', sans-serif",
+      "'Wallpoet', sans-serif",
+      "'Aldrich', sans-serif",
     ];
 
     let lastIndex = -1;
