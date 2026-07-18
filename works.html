@@ -116,6 +116,9 @@
       display: flex;
       align-items: flex-end;
       gap: 2rem;
+      position: relative;
+      z-index: 2;
+      animation: fade-in-header 1.2s ease-out forwards;
     }
     .page-header-inner h1 {
       font-family: var(--serif);
@@ -144,6 +147,66 @@
     .header-breadcrumb a:hover { color: var(--cian); }
     .header-breadcrumb .sep { color: #555; margin: 0 0.5rem; }
 
+    /* ── BOOT FLASH (brief power-on flicker echoing the homepage) ── */
+    .boot-flash {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      pointer-events: none;
+      background: var(--blanco);
+      animation: boot-flash-seq 0.7s steps(1, end) forwards;
+    }
+    @keyframes boot-flash-seq {
+      0%   { opacity: 0.9; background: var(--blanco); }
+      8%   { opacity: 0; }
+      14%  { opacity: 0.5; background: var(--cian); }
+      20%  { opacity: 0; }
+      28%  { opacity: 0.4; background: var(--rojo); }
+      35%  { opacity: 0; }
+      45%  { opacity: 0.25; background: var(--blanco); }
+      55%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* ── PAGE-HEADER AMBIENT CANVAS (drifting wireframe shapes + glitch lines) ── */
+    .page-header-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page-header-canvas canvas { width: 100%; height: 100%; display: block; }
+    .page-header-scanlines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
+    }
+    .page-header-grain {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    /* ── ENTRANCE MOTION (softens navigation between sections) ── */
+    @keyframes fade-in-header {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-in-content {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .boot-flash { display: none; }
+      .page-header-inner, main { animation: none; }
+    }
+
     /* MAIN */
     main {
       flex: 1;
@@ -151,6 +214,7 @@
       margin: 0 auto;
       padding: 5rem 3rem 7rem;
       width: 100%;
+      animation: fade-in-content 1.2s ease-out 0.2s both;
     }
 
     /* WORKS GRID */
@@ -462,6 +526,8 @@
 </head>
 <body>
 
+  <div class="boot-flash" aria-hidden="true"></div>
+
   <nav>
     <a href="index.html" class="logo">Jorge <span>Care</span></a>
     <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
@@ -476,6 +542,9 @@
   </nav>
 
   <div class="page-header">
+    <div class="page-header-canvas" aria-hidden="true"><canvas id="pageHeaderCanvas"></canvas></div>
+    <div class="page-header-scanlines" aria-hidden="true"></div>
+    <div class="page-header-grain" aria-hidden="true"></div>
     <div class="page-header-inner">
       <h1>Works</h1>
       <div class="header-accent-line"></div>
@@ -735,6 +804,133 @@
     <span>2026 Jorge Care</span>
     <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
   </footer>
+
+  <script>
+  // ── AMBIENT PAGE-HEADER BACKGROUND ──
+  // Lightweight echo of the homepage's animated canvas: a few drifting
+  // wireframe shapes (tetrahedron / cube / sphere) plus occasional glitch
+  // accent lines, confined to the header band so the reading content stays calm.
+  (function() {
+    const canvas = document.getElementById('pageHeaderCanvas');
+    if (!canvas) return;
+    const parent = canvas.parentElement;
+    const ctx = canvas.getContext('2d');
+
+    const CIAN = { r:0, g:212, b:232 };
+    const ROJO = { r:230, g:57, b:70 };
+
+    let W, H, t = 0;
+    function resize() { W = canvas.width = parent.offsetWidth; H = canvas.height = parent.offsetHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function rotateY(v, a) { const c=Math.cos(a), s=Math.sin(a); return [v[0]*c+v[2]*s, v[1], -v[0]*s+v[2]*c]; }
+    function rotateX(v, a) { const c=Math.cos(a), s=Math.sin(a); return [v[0], v[1]*c-v[2]*s, v[1]*s+v[2]*c]; }
+    function project(v, focal) { const scale = focal/(focal+v[2]); return { x:v[0]*scale, y:v[1]*scale, scale }; }
+
+    const TETRA_V = [[0,-1,0],[0.94,0.33,0],[-0.47,0.33,0.82],[-0.47,0.33,-0.82]];
+    const TETRA_E = [[0,1],[0,2],[0,3],[1,2],[2,3],[3,1]];
+    const CUBE_V  = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
+    const CUBE_E  = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+    function buildSphereSegments(seg) {
+      const base = [];
+      for (let i = 0; i < seg; i++) {
+        const a1 = (i/seg)*Math.PI*2, a2 = ((i+1)/seg)*Math.PI*2;
+        base.push([[Math.cos(a1),Math.sin(a1),0],[Math.cos(a2),Math.sin(a2),0]]);
+      }
+      const segs = [];
+      base.forEach(s => segs.push(s));
+      base.forEach(([p1,p2]) => segs.push([[p1[2],p1[1],-p1[0]],[p2[2],p2[1],-p2[0]]]));
+      base.forEach(([p1,p2]) => segs.push([[p1[0],p1[2],-p1[1]],[p2[0],p2[2],-p2[1]]]));
+      return segs;
+    }
+    const TETRA_SEGMENTS  = TETRA_E.map(([a,b]) => [TETRA_V[a], TETRA_V[b]]);
+    const CUBE_SEGMENTS   = CUBE_E.map(([a,b]) => [CUBE_V[a], CUBE_V[b]]);
+    const SPHERE_SEGMENTS = buildSphereSegments(12);
+    function segmentsFor(type) { return type==='tetra' ? TETRA_SEGMENTS : type==='cube' ? CUBE_SEGMENTS : SPHERE_SEGMENTS; }
+
+    const shapes = [
+      { type:'tetra',  x:0.10, y:0.30, r:22, angle:0.4, tilt:0.8, spin:0.0004,  tiltSpin:0.0002,   vx: 0.010, vy: 0.008, color:CIAN, lw:1,   op:0.35 },
+      { type:'cube',   x:0.85, y:0.60, r:18, angle:1.1, tilt:1.6, spin:-0.0003, tiltSpin:0.00022,  vx:-0.009, vy:-0.007, color:ROJO, lw:1,   op:0.30 },
+      { type:'sphere', x:0.55, y:0.18, r:15, angle:0.2, tilt:1.0, spin:0.00025, tiltSpin:-0.0002,  vx: 0.007, vy: 0.010, color:CIAN, lw:0.8, op:0.28 },
+    ];
+    shapes.forEach((s, i) => { s._phase = i * 1.7; });
+
+    function updateShape(s, dt) {
+      s.angle += s.spin; s.tilt += s.tiltSpin;
+      s.x += s.vx * dt; s.y += s.vy * dt;
+      const m = 0.2;
+      if (s.x < -m) s.x = 1 + m; else if (s.x > 1 + m) s.x = -m;
+      if (s.y < -m) s.y = 1 + m; else if (s.y > 1 + m) s.y = -m;
+    }
+    function drawShape(s, time) {
+      const segs = segmentsFor(s.type);
+      const wobX = 8 * Math.sin(time * 0.2 + s._phase);
+      const wobY = 6 * Math.cos(time * 0.15 + s._phase * 1.3);
+      const cx = s.x * W + wobX, cy = s.y * H + wobY, focal = s.r * 2.4;
+      segs.forEach(seg => {
+        const p1 = rotateX(rotateY(seg[0], s.angle), s.tilt);
+        const p2 = rotateX(rotateY(seg[1], s.angle), s.tilt);
+        const pr1 = project(p1, focal / s.r), pr2 = project(p2, focal / s.r);
+        const x1 = cx + pr1.x * s.r, y1 = cy + pr1.y * s.r;
+        const x2 = cx + pr2.x * s.r, y2 = cy + pr2.y * s.r;
+        const df = Math.max(0.15, Math.min(1.3, (pr1.scale + pr2.scale) / 2));
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = `rgba(${s.color.r},${s.color.g},${s.color.b},${s.op * df})`;
+        ctx.lineWidth = s.lw * df;
+        ctx.stroke();
+        ctx.restore();
+      });
+    }
+
+    // occasional glitch accent lines, echoing the homepage
+    let glitchTimer = 0, glitchLines = [];
+    function spawnGlitch() {
+      const count = 2 + Math.floor(Math.random() * 3);
+      glitchLines = Array.from({ length: count }, () => ({
+        x1: Math.random() * W, y1: Math.random() * H,
+        len: 18 + Math.random() * 80,
+        angle: -Math.PI / 4 + (Math.random() - 0.5) * 1.2,
+        color: Math.random() > 0.5 ? CIAN : ROJO,
+        op: 0.4 + Math.random() * 0.4,
+        life: 0, maxLife: 0.04 + Math.random() * 0.1,
+      }));
+    }
+
+    let raf;
+    function draw(ts) {
+      t = ts * 0.001;
+      ctx.clearRect(0, 0, W, H);
+
+      shapes.forEach(s => { updateShape(s, 0.016); drawShape(s, t); });
+
+      glitchTimer += 0.016;
+      if (glitchTimer > (2.4 + Math.random() * 3.6)) { spawnGlitch(); glitchTimer = 0; }
+      glitchLines.forEach(gl => {
+        gl.life += 0.016;
+        if (gl.life < gl.maxLife) {
+          const fade = 1 - gl.life / gl.maxLife;
+          ctx.save();
+          ctx.translate(gl.x1, gl.y1);
+          ctx.rotate(gl.angle);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(gl.len, 0);
+          ctx.strokeStyle = `rgba(${gl.color.r},${gl.color.g},${gl.color.b},${gl.op * fade})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.restore();
+        }
+      });
+
+      raf = requestAnimationFrame(draw);
+    }
+    raf = requestAnimationFrame(draw);
+  })();
+  </script>
 
 </body>
 </html>
