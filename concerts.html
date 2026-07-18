@@ -145,27 +145,6 @@
     .header-breadcrumb a:hover { color: var(--cian); }
     .header-breadcrumb .sep { color: #555; margin: 0 0.5rem; }
 
-    /* ── BOOT FLASH (brief power-on flicker echoing the homepage) ── */
-    .boot-flash {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      pointer-events: none;
-      background: var(--blanco);
-      animation: boot-flash-seq 0.7s steps(1, end) forwards;
-    }
-    @keyframes boot-flash-seq {
-      0%   { opacity: 0.9; background: var(--blanco); }
-      8%   { opacity: 0; }
-      14%  { opacity: 0.5; background: var(--cian); }
-      20%  { opacity: 0; }
-      28%  { opacity: 0.4; background: var(--rojo); }
-      35%  { opacity: 0; }
-      45%  { opacity: 0.25; background: var(--blanco); }
-      55%  { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
     /* ── PAGE-HEADER AMBIENT CANVAS (drifting wireframe shapes + glitch lines) ── */
     .page-header-canvas {
       position: absolute;
@@ -201,7 +180,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .boot-flash { display: none; }
       .page-header-inner, main { animation: none; }
     }
 
@@ -494,8 +472,6 @@
   </style>
 </head>
 <body>
-
-  <div class="boot-flash" aria-hidden="true"></div>
 
   <nav>
     <a href="index.html" class="logo">Jorge <span>Care</span></a>
