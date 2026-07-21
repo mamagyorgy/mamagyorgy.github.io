@@ -335,6 +335,62 @@
       .back-link { margin-bottom: 2.5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.25rem; }
     }
+  
+    /* PROJECT NAVIGATION */
+    .project-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-top: 6rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid #2a2a2a;
+    }
+    .project-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      max-width: 46%;
+      transition: opacity 0.2s;
+    }
+    .project-nav-link:hover { opacity: 0.75; }
+    .project-nav-next { margin-left: auto; text-align: right; }
+    .project-nav-arrow {
+      width: 13px;
+      height: 13px;
+      flex: none;
+      fill: none;
+      stroke: var(--rojo);
+      stroke-width: 1.5;
+      transition: transform 0.2s;
+    }
+    .project-nav-prev:hover .project-nav-arrow { transform: translateX(-3px); }
+    .project-nav-next:hover .project-nav-arrow { transform: translateX(3px); }
+    .project-nav-copy { display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; }
+    .project-nav-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #666;
+    }
+    .project-nav-title {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--blanco);
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+    .project-nav-link:hover .project-nav-title { color: var(--cian); }
+    @media (max-width: 600px) {
+      .project-nav { flex-direction: column; gap: 2rem; margin-top: 4rem; }
+      .project-nav-link, .project-nav-next { max-width: 100%; }
+      .project-nav-next { margin-left: 0; text-align: left; }
+      .project-nav-title { white-space: normal; }
+    }
   </style>
 </head>
 <body>
@@ -448,6 +504,23 @@
           </div>
         </div>
       </aside>
+    </div>
+  
+    <div class="project-nav">
+      <a href="nube_molecular.html" class="project-nav-link project-nav-prev">
+        <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
+        <span class="project-nav-copy">
+          <span class="project-nav-label">Previous</span>
+          <span class="project-nav-title">Nube Molecular</span>
+        </span>
+      </a>
+      <a href="seismes.html" class="project-nav-link project-nav-next">
+        <span class="project-nav-copy">
+          <span class="project-nav-label">Next</span>
+          <span class="project-nav-title">Séismes</span>
+        </span>
+        <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="1" y1="6" x2="11" y2="6"/><polyline points="7,2 11,6 7,10"/></svg>
+      </a>
     </div>
   </main>
 
