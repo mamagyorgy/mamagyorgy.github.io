@@ -12,7 +12,7 @@
     html, body {
       user-select: none;
     }
-    
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --negro:  #0a0a0a;
@@ -47,9 +47,15 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 3rem;
+      border-bottom: 1px solid #3a3a3a;
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      inset: 0;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #3a3a3a;
+      z-index: -1;
     }
     nav .logo {
       font-family: var(--serif);

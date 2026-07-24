@@ -44,9 +44,15 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 3rem;
+      border-bottom: 1px solid #3a3a3a;
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      inset: 0;
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid #3a3a3a;
+      z-index: -1;
     }
     nav .logo { font-family: var(--serif); font-size: 1rem; font-weight: 300; letter-spacing: 0.08em; color: var(--blanco); text-decoration: none; }
     nav .logo span { color: var(--rojo); }

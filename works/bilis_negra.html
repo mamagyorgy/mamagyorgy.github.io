@@ -24,7 +24,15 @@
     }
     html { scroll-behavior: smooth; }
     body { background-color: var(--negro); color: var(--blanco); font-family: var(--sans); font-size: 16px; line-height: 1.7; font-weight: 300; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 3rem; background-color: rgba(10,10,10,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #3a3a3a; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 3rem; border-bottom: 1px solid #3a3a3a; }
+    nav::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      z-index: -1;
+    }
     nav .logo { font-family: var(--serif); font-size: 1rem; font-weight: 300; letter-spacing: 0.08em; color: var(--blanco); text-decoration: none; }
     nav .logo span { color: var(--rojo); }
     nav ul { list-style: none; display: flex; gap: 2rem; }
