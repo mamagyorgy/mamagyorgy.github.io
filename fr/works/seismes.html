@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>606 · Jorge Care</title>
+  <title>Séismes · Jorge Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
@@ -35,7 +35,6 @@
       display: flex;
       flex-direction: column;
     }
-
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -75,21 +74,21 @@
     .hero {
       position: relative;
       height: 70vh;
-      min-height: 850px;
+      min-height: 800px;
       overflow: hidden;
       display: flex;
       align-items: flex-end;
     }
-    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; background: #0d0d0d; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center -75%; background: #0d0d0d; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 75%, transparent 100%); }
-    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--rojo) 30%, transparent); }
+    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--cian) 30%, transparent); }
     .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
     .hero-breadcrumb { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: #666; margin-bottom: 1.2rem; }
     .hero-breadcrumb a { color: #666; text-decoration: none; transition: color 0.2s; }
     .hero-breadcrumb a:hover { color: var(--cian); }
     .hero-breadcrumb .sep { margin: 0 0.5rem; color: #444; }
     .hero-type { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cian); margin-bottom: 0.75rem; }
-    .hero-title { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; font-style: italic; }
 
     main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 7rem; width: 100%; }
 
@@ -100,12 +99,17 @@
     .text-block p { color: #c0bdb8; font-size: 0.9rem; line-height: 1.95; margin-bottom: 1.2rem; }
     .text-block p:last-child { margin-bottom: 0; }
 
-    .videos-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rojo); margin-bottom: 1.5rem; }
+    .videos-label { font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rojo); margin-bottom: 2rem; }
     .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #111; border: 1px solid #2a2a2a; }
     .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
+    /* Photo gallery — columna única, mismas proporciones 16/9 que el video */
+    .photo-gallery { display: grid; grid-template-columns: 1fr; gap: 1.5px; margin-bottom: 3rem; }
+    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; display: block; }
+    .photo-gallery img.img-zoom-in { transform: scale(1.32); transform-origin: center center; }
+
     .sidebar { position: sticky; top: 8rem; }
-    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center; display: block; margin-bottom: 2.5rem; }
+    .sidebar-photo { width: 100%; aspect-ratio: 0; object-fit: contain; object-position: center; display: block; margin-bottom: 2.5rem; background: #0d0d0d; }
     .sidebar-meta { border-top: 1px solid #2a2a2a; padding-top: 1.75rem; }
     .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid #1e1e1e; gap: 1rem; }
     .meta-key { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; flex: none; }
@@ -132,6 +136,7 @@
       .hero-content { padding: 0 1.25rem 2.5rem; }
       .hero-title { font-size: clamp(2rem, 9vw, 3.5rem); }
       .back-link { margin-bottom: 2.5rem; }
+      .photo-gallery { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.25rem; }
     }
   
@@ -200,92 +205,103 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-menu" id="navMenu">
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../works.html" class="active">Works</a></li>
+      <li><a href="../about.html">À propos</a></li>
+      <li><a href="../works.html" class="active">Œuvres</a></li>
       <li><a href="../concerts.html">Concerts</a></li>
       <li><a href="../contact.html">Contact</a></li>
-      <li class="lang-switch-item"><a href="606.html" class="active">EN</a><span class="sep2">/</span><a href="../es/works/606.html">ES</a><span class="sep2">/</span><a href="../fr/works/606.html">FR</a></li>
+      <li class="lang-switch-item"><a href="../../works/seismes.html">EN</a><span class="sep2">/</span><a href="../../es/works/seismes.html">ES</a><span class="sep2">/</span><a href="seismes.html" class="active">FR</a></li>
     </ul>
   </nav>
 
   <div class="hero">
-    <img src="1__606.webp" alt="606" class="hero-img" />
+    <img src="../../works/1__seismes.webp" alt="Séismes" class="hero-img" />
     <div class="hero-gradient"></div>
     <div class="hero-top-line"></div>
     <div class="hero-content">
       <div class="hero-breadcrumb">
-        <a href="../index.html">Home</a>
+        <a href="../index.html">Accueil</a>
         <span class="sep">/</span>
-        <a href="../works.html">Works</a>
+        <a href="../works.html">Œuvres</a>
         <span class="sep">/</span>
-        606
+        Séismes
       </div>
-      <p class="hero-type">Orchestra · 2024</p>
-      <h1 class="hero-title"><em>606</em></h1>
+      <p class="hero-type">Performance · 2026</p>
+      <h1 class="hero-title">Séismes</h1>
     </div>
   </div>
 
   <main>
     <a href="../works.html" class="back-link">
       <svg viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
-      All works
+      Toutes les œuvres
     </a>
 
     <div class="content-grid">
       <div>
         <div class="text-block">
-          <p class="section-label">— About</p>
+          <p class="section-label">— À propos</p>
           <p>
-            <em>606</em> is an orchestral piece shaped by compositional techniques borrowed from electronic music. Stereo-oriented spatial design, brass and percussion back-layers, beating patterns, and loose loop structures are transposed into the acoustic domain, creating a large-scale metaphor for Chile's 2019 social uprising.
+            <em>Séismes</em> est une œuvre collaborative de Julie Brice et Jorge Care inspirée de l'histoire sismique du Chili depuis le séisme de Valdivia en 1960. La pièce s'articule autour de trois événements majeurs : Valdivia (1960), Algarrobo (1985) et Cauquenes (2010), dont les intervalles d'environ 25 ans façonnent son arc dramaturgique.
           </p>
           <p>
-            Throughout the piece, the orchestra is treated as a spatial instrument. Sound masses build and dissipate across registers and sections, drawing on the logic of layering and gradual transformation that defines electronic music while remaining entirely acoustic in its means.
+            La performance se déroule entièrement sous une table, en référence à un geste profondément ancré dans la culture chilienne : chercher refuge sous une table pendant un séisme. Cet acte de protection devient le cadre scénique et symbolique central de l'œuvre.
+          </p>
+          <p>
+            Le dispositif intègre deux voix, une électronique en direct, la lumière et la vidéo, le tout piloté depuis un seul ordinateur. Chaque interprète utilise un microphone et un microphone de contact, associés à des contrôleurs MIDI et un synthétiseur semi-modulaire. Des images d'archives du séisme de 1960 sont projetées sur la nappe, la transformant en une surface fragile. Dans une section, un poème de Ryoichi Wago écrit lors du séisme de Fukushima de 2011 est manipulé visuellement en temps réel, créant une résonance entre des histoires sismiques lointaines.
+          </p>
+          <p>
+            Dans un segment piloté par des données, des informations sismiques en temps réel issues du jour de chaque représentation modulent les paramètres de lumière et de son, garantissant que chaque itération de <em>Séismes</em> soit unique. Des couches de sons de court-circuit synthétisés évoquent la mémoire sonore de l'effondrement des infrastructures propre aux séismes chiliens.
           </p>
         </div>
 
+        <div class="photo-gallery">
+          <img src="../../works/4__seismes.webp" alt="Séismes performance" class="img-zoom-in" loading="lazy" />
+          <img src="../../works/3__seismes.webp" alt="Séismes detail" loading="lazy" />
+        </div>
+
         <div style="margin-top: 3rem;">
-          <p class="videos-label">— Video documentation</p>
+          <p class="videos-label">— Documentation vidéo</p>
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/gQB6d2mmM7A" title="606" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.youtube.com/embed/sJKRYyJyNEU" title="Séismes" allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
 
       <aside class="sidebar">
-        <img src="2__606.webp" alt="606 performance" class="sidebar-photo" loading="lazy" />
+        <img src="../../works/2__seismes.webp" alt="Séismes" class="sidebar-photo" loading="lazy" />
         <div class="sidebar-meta">
           <div class="meta-row">
-            <span class="meta-key">Year</span>
-            <span class="meta-val">2024</span>
+            <span class="meta-key">Interprètes</span>
+            <span class="meta-val">Julie Brice · Jorge Care</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Conductor</span>
-            <span class="meta-val">Clement Power</span>
+            <span class="meta-key">Année</span>
+            <span class="meta-val">2026</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Premiered at</span>
-            <span class="meta-val">Auditorium Ansermet, Geneva, Switzerland</span>
+            <span class="meta-key">Création</span>
+            <span class="meta-val">Auditorium HKB, Bern, Switzerland</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Instrumentation</span>
-            <span class="meta-val">Orchestra</span>
+            <span class="meta-key">Dispositif</span>
+            <span class="meta-val">Two voices, electronics, lights, video</span>
           </div>
         </div>
       </aside>
     </div>
   
     <div class="project-nav">
-      <a href="rayuela.html" class="project-nav-link project-nav-prev">
+      <a href="desvisages_aleas.html" class="project-nav-link project-nav-prev">
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
         <span class="project-nav-copy">
-          <span class="project-nav-label">Previous</span>
-          <span class="project-nav-title">Rayuela.wav</span>
+          <span class="project-nav-label">Précédent</span>
+          <span class="project-nav-title">Des Visages — aleas</span>
         </span>
       </a>
-      <a href="morbus_sacer.html" class="project-nav-link project-nav-next">
+      <a href="senderos.html" class="project-nav-link project-nav-next">
         <span class="project-nav-copy">
-          <span class="project-nav-label">Next</span>
-          <span class="project-nav-title">Morbus Sacer</span>
+          <span class="project-nav-label">Suivant</span>
+          <span class="project-nav-title">Senderos … que se extienden</span>
         </span>
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="1" y1="6" x2="11" y2="6"/><polyline points="7,2 11,6 7,10"/></svg>
       </a>
@@ -294,7 +310,7 @@
 
   <footer>
     <span>2026 Jorge Care</span>
-    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+    <span><span class="rojo">·</span> Compositeur · Artiste numérique · Improvisateur</span>
   </footer>
 
 </body>

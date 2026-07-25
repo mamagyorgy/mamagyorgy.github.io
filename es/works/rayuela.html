@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>606 · Jorge Care</title>
+  <title>Rayuela.wav · Jorge Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
@@ -75,14 +75,14 @@
     .hero {
       position: relative;
       height: 70vh;
-      min-height: 850px;
+      min-height: 800px;
       overflow: hidden;
       display: flex;
       align-items: flex-end;
     }
-    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; background: #0d0d0d; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center -50%; background: #0d0d0d; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 75%, transparent 100%); }
-    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--rojo) 30%, transparent); }
+    .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--cian) 30%, transparent); }
     .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
     .hero-breadcrumb { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: #666; margin-bottom: 1.2rem; }
     .hero-breadcrumb a { color: #666; text-decoration: none; transition: color 0.2s; }
@@ -90,6 +90,8 @@
     .hero-breadcrumb .sep { margin: 0 0.5rem; color: #444; }
     .hero-type { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cian); margin-bottom: 0.75rem; }
     .hero-title { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; }
+    .hero-title .artist { display: block; color: #aaa; font-size: 0.55em; font-style: normal; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .hero-title .subtitle { display: block; font-style: italic; color: var(--blanco); }
 
     main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 7rem; width: 100%; }
 
@@ -130,7 +132,7 @@
       main { padding: 3.5rem 1.25rem 5rem; }
       .hero { min-height: 520px; height: 55vh; }
       .hero-content { padding: 0 1.25rem 2.5rem; }
-      .hero-title { font-size: clamp(2rem, 9vw, 3.5rem); }
+      .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .back-link { margin-bottom: 2.5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.25rem; }
     }
@@ -196,96 +198,110 @@
 
   <nav>
     <a href="../index.html" class="logo">Jorge <span>Care</span></a>
-    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+    <button class="nav-toggle" aria-label="Menú" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-menu" id="navMenu">
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../works.html" class="active">Works</a></li>
-      <li><a href="../concerts.html">Concerts</a></li>
-      <li><a href="../contact.html">Contact</a></li>
-      <li class="lang-switch-item"><a href="606.html" class="active">EN</a><span class="sep2">/</span><a href="../es/works/606.html">ES</a><span class="sep2">/</span><a href="../fr/works/606.html">FR</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../works.html" class="active">Obras</a></li>
+      <li><a href="../concerts.html">Conciertos</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+      <li class="lang-switch-item"><a href="../../works/rayuela.html">EN</a><span class="sep2">/</span><a href="rayuela.html" class="active">ES</a><span class="sep2">/</span><a href="../../fr/works/rayuela.html">FR</a></li>
     </ul>
   </nav>
 
   <div class="hero">
-    <img src="1__606.webp" alt="606" class="hero-img" />
+    <img src="../../works/1__rayuela.webp" alt="Rayuela.wav" class="hero-img" />
     <div class="hero-gradient"></div>
     <div class="hero-top-line"></div>
     <div class="hero-content">
       <div class="hero-breadcrumb">
-        <a href="../index.html">Home</a>
+        <a href="../index.html">Inicio</a>
         <span class="sep">/</span>
-        <a href="../works.html">Works</a>
+        <a href="../works.html">Obras</a>
         <span class="sep">/</span>
-        606
+        Rayuela.wav
       </div>
-      <p class="hero-type">Orchestra · 2024</p>
-      <h1 class="hero-title"><em>606</em></h1>
+      <p class="hero-type">Performance · 2025</p>
+      <h1 class="hero-title">
+        <span class="artist">On Press Off</span>
+        <span class="subtitle">Rayuela.wav</span>
+      </h1>
     </div>
   </div>
 
   <main>
     <a href="../works.html" class="back-link">
       <svg viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
-      All works
+      Todas las obras
     </a>
 
     <div class="content-grid">
       <div>
         <div class="text-block">
-          <p class="section-label">— About</p>
+          <p class="section-label">— Acerca de</p>
           <p>
-            <em>606</em> is an orchestral piece shaped by compositional techniques borrowed from electronic music. Stereo-oriented spatial design, brass and percussion back-layers, beating patterns, and loose loop structures are transposed into the acoustic domain, creating a large-scale metaphor for Chile's 2019 social uprising.
+            <em>Rayuela.wav</em> es una obra electrónica multicanal con luces reactivas del dúo On Press Off. Nacida de una residencia en sonido inmersivo y medios interactivos en la Haute école de musique de Genève, la pieza toma como punto de partida estructural y conceptual la novela <em>Rayuela</em> de Cortázar.
           </p>
           <p>
-            Throughout the piece, the orchestra is treated as a spatial instrument. Sound masses build and dissipate across registers and sections, drawing on the logic of layering and gradual transformation that defines electronic music while remaining entirely acoustic in its means.
+            Al igual que el libro, la obra se resiste a la forma lineal. Desarrolla una estética de collage en la que sonido, espacio y luz reactiva forman un entorno unificado y en constante cambio. Los fragmentos emergen y retroceden, creando una dramaturgia de acumulación y disolución más que de progresión narrativa.
+          </p>
+          <p>
+            El sistema de difusión Ambisonics permite que el sonido se mueva fluidamente por el espacio, mientras la iluminación reacciona en tiempo real a los parámetros sonoros, haciendo de cada presentación una configuración singular e irrepetible del mismo material.
           </p>
         </div>
 
         <div style="margin-top: 3rem;">
-          <p class="videos-label">— Video documentation</p>
+          <p class="videos-label">— Documentación en video</p>
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/gQB6d2mmM7A" title="606" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.youtube.com/embed/m3FEHHs5Kz0" title="Rayuela.wav" allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
 
       <aside class="sidebar">
-        <img src="2__606.webp" alt="606 performance" class="sidebar-photo" loading="lazy" />
+        <img src="../../works/3__rayuela.webp" alt="On Press Off performing Rayuela.wav" class="sidebar-photo" loading="lazy" />
         <div class="sidebar-meta">
           <div class="meta-row">
-            <span class="meta-key">Year</span>
-            <span class="meta-val">2024</span>
+            <span class="meta-key">Proyecto</span>
+            <span class="meta-val">On Press Off</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Conductor</span>
-            <span class="meta-val">Clement Power</span>
+            <span class="meta-key">Intérpretes</span>
+            <span class="meta-val">Jorge Care · Jose Nisa</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Premiered at</span>
-            <span class="meta-val">Auditorium Ansermet, Geneva, Switzerland</span>
+            <span class="meta-key">Año</span>
+            <span class="meta-val">2025</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Instrumentation</span>
-            <span class="meta-val">Orchestra</span>
+            <span class="meta-key">Estreno en</span>
+            <span class="meta-val">Black Box HEM, Geneva, Switzerland</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Configuración</span>
+            <span class="meta-val">Electronics · Ambisonics · Reactive lights</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Residencia</span>
+            <span class="meta-val">Immersion sonore 3D et médias interactifs, HEM Geneva</span>
           </div>
         </div>
       </aside>
     </div>
   
     <div class="project-nav">
-      <a href="rayuela.html" class="project-nav-link project-nav-prev">
+      <a href="desvisages_EP.html" class="project-nav-link project-nav-prev">
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
         <span class="project-nav-copy">
-          <span class="project-nav-label">Previous</span>
-          <span class="project-nav-title">Rayuela.wav</span>
+          <span class="project-nav-label">Anterior</span>
+          <span class="project-nav-title">Des Visages EP</span>
         </span>
       </a>
-      <a href="morbus_sacer.html" class="project-nav-link project-nav-next">
+      <a href="606.html" class="project-nav-link project-nav-next">
         <span class="project-nav-copy">
-          <span class="project-nav-label">Next</span>
-          <span class="project-nav-title">Morbus Sacer</span>
+          <span class="project-nav-label">Siguiente</span>
+          <span class="project-nav-title">606</span>
         </span>
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="1" y1="6" x2="11" y2="6"/><polyline points="7,2 11,6 7,10"/></svg>
       </a>
@@ -294,7 +310,7 @@
 
   <footer>
     <span>2026 Jorge Care</span>
-    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+    <span><span class="rojo">·</span> Compositor · Artista digital · Improvisador</span>
   </footer>
 
 </body>

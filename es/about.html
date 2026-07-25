@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact — Jorge Care</title>
-  <meta name="description" content="Contact Jorge Care — Composer, digital artist, and improviser." />
+  <title>Sobre mí — Jorge Care</title>
+  <meta name="description" content="Jorge Care — Compositor, artista digital e improvisador residente en Ginebra." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
@@ -33,9 +33,6 @@
       line-height: 1.7;
       font-weight: 300;
       overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
     /* ── NAV ── */
@@ -56,7 +53,7 @@
       background-color: rgba(10,10,10,0.92);
       backdrop-filter: blur(10px);
       z-index: -1;
-    }    
+    }
     nav .logo {
       font-family: var(--serif);
       font-size: 1rem;
@@ -111,9 +108,10 @@
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
-    /* ── PAGE HEADER ── */
+    /* Decorative page-header top line */
     .page-header {
       padding-top: 7rem;
+      padding-bottom: 0;
       border-bottom: 1px solid #3a3a3a;
       position: relative;
     }
@@ -201,159 +199,120 @@
       .page-header-inner, main { animation: none; }
     }
 
-    /* ── MAIN ── */
+    /* ── MAIN CONTENT ── */
     main {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-      animation: fade-in-content 1.2s ease-out 0.2s both;
-    }
-    .main-inner {
       max-width: 1100px;
       margin: 0 auto;
       padding: 5rem 3rem 7rem;
-      position: relative;
-      z-index: 2;
+      animation: fade-in-content 1.2s ease-out 0.2s both;
     }
 
-    /* Dot-grid background */
-    .dot-grid {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 1;
-    }
-    .dot-grid svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* ── CONTACT GRID ── */
-    .contact-inner {
+    /* INVERTED grid: text left, photo right */
+    .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 420px;
       gap: 5rem;
       align-items: start;
     }
 
-    /* Left: intro + decorative */
-    .contact-intro h2 {
+    .bio-title {
       font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
       font-weight: 300;
-      line-height: 1.1;
+      line-height: 1.2;
+      margin-bottom: 2.5rem;
       color: var(--blanco);
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
     }
-    .contact-intro p {
-      color: #aaa;
+    .about-texto p {
+      color: #b0b0ae;
+      font-size: 0.91rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.9;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+    .about-texto p em { color: #d0d0ce; font-style: italic; }
+
+    /* Subtle cian inline accent */
+    .about-texto p strong { color: var(--cian); font-weight: 300; }
+
+    /* Full-width text block continuing below the photo */
+    .about-texto-full {
+      margin-top: 1.2rem;
     }
 
-    /* Decorative coordinates block */
-    .contact-coords {
-      margin-top: 0;
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #666;
+    /* ── PHOTO ── */
+    .about-foto-col { position: relative; }
+    .about-foto-wrap { position: relative; }
+    .about-foto-wrap img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: grayscale(15%);
+    }
+    .about-foto-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      justify-content: center;
     }
-    .contact-coords .coord-line::before {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 1px;
-      background: #666;
-    }
-    .contact-coords .coord-highlight { color: var(--cian); opacity: 0.65; }
-
-    /* Decorative SVG: small circuit-like shape */
-    .contact-deco {
-      margin-top: 3rem;
-    }
-
-    .contact-links {
-      border-top: 1px solid #3a3a3a;
-    }
-    .contact-fila {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid #333;
-      gap: 1rem;
-    }
-    .contact-fila .label {
+    .about-foto-placeholder p {
       font-size: 0.65rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #888;
+      color: #2a2a2a;
     }
-    .contact-fila a {
-      text-decoration: none;
-      color: #bbb;
-      font-size: 0.88rem;
-      transition: color 0.2s;
-    }
-    .contact-fila a:hover { color: var(--cian); }
 
-    /* Cian underline on hover */
-    .contact-fila a {
-      position: relative;
-      padding-bottom: 2px;
-    }
-    .contact-fila a::after {
-      content: '';
+    /* Cian corner accent (top-left) */
+    .foto-borde-cian {
       position: absolute;
-      left: 0; bottom: 0;
-      width: 0; height: 1px;
-      background: var(--cian);
-      transition: width 0.25s ease;
+      top: -10px; left: -10px;
+      width: 55%; height: 55%;
+      border-top: 2px solid var(--cian);
+      border-left: 2px solid var(--cian);
+      pointer-events: none;
+      opacity: 0.85;
     }
-    .contact-fila a:hover::after { width: 100%; }
-
-    /* Arrow indicator on hover */
-    .contact-fila-arrow {
-      font-size: 0.7rem;
-      color: var(--rojo);
-      opacity: 0;
-      transition: opacity 0.2s;
-      margin-left: 0.5rem;
-    }
-    .contact-fila:hover .contact-fila-arrow { opacity: 1; }
-
-    /* Social row wrapper to group link + arrow */
-    .contact-link-wrap {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Status block */
-    .contact-status {
-      margin-top: 3rem;
-      border: 1px solid #2a2a2a;
-      padding: 1.25rem 1.5rem;
-      position: relative;
-    }
-    .contact-status::before {
-      content: '';
+    /* Red corner accent (bottom-right) */
+    .foto-borde-rojo {
       position: absolute;
-      top: 0; left: 0;
-      width: 2rem; height: 2px;
-      background: var(--cian);
+      bottom: -10px; right: -10px;
+      width: 55%; height: 55%;
+      border-bottom: 2px solid var(--rojo);
+      border-right: 2px solid var(--rojo);
+      pointer-events: none;
+      opacity: 0.85;
     }
-    .contact-status-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
+
+    /* Small label below photo */
+    .foto-label {
+      margin-top: 1rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--cian);
-      margin-bottom: 0.5rem;
-      opacity: 0.8;
+      color: #777;
     }
-    .contact-status p {
-      color: #999;
+    .foto-label span { color: var(--cian); opacity: 0.6; }
+
+    /* Full-width loop video at the bottom of the page */
+    .about-video-full {
+      margin-top: 4.5rem;
+      border: 1px solid #1e1e1e;
+      background: #0d0d0d;
+      overflow: hidden;
+    }
+    .about-video-full video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 21 / 9;
+      object-fit: cover;
+      filter: grayscale(15%);
     }
 
     /* ── FOOTER ── */
@@ -366,12 +325,17 @@
       font-size: 0.7rem;
       color: #777;
       letter-spacing: 0.1em;
+      max-width: none;
     }
     footer .rojo { color: var(--rojo); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .about-foto-col { order: -1; max-width: 360px; }
     }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
@@ -395,8 +359,8 @@
       .nav-menu a { font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gris); }
       .nav-menu a.active { color: var(--blanco); }
       nav ul { display: none; }
+      main { padding: 4rem 1.5rem 5rem; }
       .page-header-inner { padding: 2.5rem 1.5rem 2rem; }
-      .main-inner { padding: 4rem 1.5rem 5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
     }
   </style>
@@ -405,15 +369,15 @@
 
   <nav>
     <a href="index.html" class="logo">Jorge <span>Care</span></a>
-    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+    <button class="nav-toggle" aria-label="Menú" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-menu" id="navMenu">
-      <li><a href="about.html">About</a></li>
-      <li><a href="works.html">Works</a></li>
-      <li><a href="concerts.html">Concerts</a></li>
-      <li><a href="contact.html" class="active">Contact</a></li>
-      <li class="lang-switch-item"><a href="contact.html" class="active">EN</a><span class="sep2">/</span><a href="es/contact.html">ES</a><span class="sep2">/</span><a href="fr/contact.html">FR</a></li>
+      <li><a href="about.html" class="active">Sobre mí</a></li>
+      <li><a href="works.html">Obras</a></li>
+      <li><a href="concerts.html">Conciertos</a></li>
+      <li><a href="contact.html">Contacto</a></li>
+      <li class="lang-switch-item"><a href="../about.html">EN</a><span class="sep2">/</span><a href="about.html" class="active">ES</a><span class="sep2">/</span><a href="../fr/about.html">FR</a></li>
     </ul>
   </nav>
 
@@ -422,122 +386,102 @@
     <div class="page-header-scanlines" aria-hidden="true"></div>
     <div class="page-header-grain" aria-hidden="true"></div>
     <div class="page-header-inner">
-      <h1>Contact</h1>
+      <h1>Sobre mí</h1>
       <div class="header-accent-line"></div>
       <div class="header-breadcrumb">
-        <a href="index.html">Home</a>
+        <a href="index.html">Inicio</a>
         <span class="sep">/</span>
-        Contact
+        Sobre mí
       </div>
     </div>
   </div>
 
   <main>
-    <!-- Dot-grid decorative background -->
-    <div class="dot-grid" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-        <defs>
-          <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.8" fill="#1a1a1a"/>
-          </pattern>
-          <!-- Gradient mask: visible on right, fading to left -->
-          <linearGradient id="mask-lr" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="black" stop-opacity="1"/>
-            <stop offset="35%"  stop-color="black" stop-opacity="0.6"/>
-            <stop offset="100%" stop-color="black" stop-opacity="0"/>
-          </linearGradient>
-          <mask id="dot-mask">
-            <rect width="100%" height="100%" fill="url(#mask-lr)"/>
-          </mask>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#dots)" mask="url(#dot-mask)"/>
-      </svg>
+    <h2 class="bio-title">BIOGRAFÍA</h2>
+
+    <div class="about-grid">
+
+      <!-- TEXT COLUMN (left) -->
+      <div class="about-texto">
+        <p>
+          Jorge Care (1996) es compositor, artista digital e improvisador. Su
+          trabajo conecta el sonido electrónico experimental, la interpretación
+          instrumental y la creación de entornos de concierto guiados por la luz.
+          Su práctica se centra en la interacción entre el gesto musical, la
+          electrónica en tiempo real y el diseño espacial, creando experiencias
+          inmersivas donde el sonido y la luz forman un lenguaje expresivo
+          unificado.
+        </p>
+        <p>
+          Posee una Licenciatura en Música (Composición) y un Máster en Composición
+          y Teoría Musical, con mención en Música Computacional y Electrónica en Vivo,
+          ambos títulos de la <strong>Haute école de musique de Genève</strong>, donde
+          estudió con Michael Jarrell, Luis Naón, Gilbert Nouno y Katharina Rosenberger.
+          También ha participado en clases magistrales con Georges Aperghis, Rebecca
+          Saunders, Stefano Gervasoni, Clara Iannotta y José Miguel Fernández.
+        </p>
+        <p>
+          Su música se ha presentado en el Festival Archipel (Ginebra), el Festival KorSonoR
+          (Ginebra), el Festival Internacional de Música Contemporánea de la Universidad de
+          Chile (Santiago), y a nivel internacional en salas como Musiikkitalo (Helsinki),
+          Mayhem (Copenhague), The Horse Hospital (Londres), Muxikebarri (Getxo) y Thelonious
+          (Santiago). Como intérprete, recibió el <strong>Segundo Premio</strong> en el
+          <strong>Concurso Internacional de Ensembles del Getxo Jazz Festival</strong> con
+          <em>César Vidal & Artikulation Band</em>, y se presentó como artista invitado en el
+          Festival JazzBer en Bermeo, España.
+        </p>
+      </div>
+
+      <!-- PHOTO COLUMN (right) -->
+      <div class="about-foto-col">
+        <div class="about-foto-wrap">
+          <img src="../img/bio.jpg" alt="Jorge Care" />
+          <div class="foto-borde-cian"></div>
+          <div class="foto-borde-rojo"></div>
+        </div>
+        <p class="foto-label">Foto <span>/</span> Julie Brice</p>
+      </div>
+
     </div>
 
-    <div class="main-inner">
-      <div class="contact-inner">
+    <!-- FULL-WIDTH TEXT, continues below the photo -->
+    <div class="about-texto about-texto-full">
+      <p>
+        Ha realizado residencias artísticas en Suiza, Finlandia y Francia, y ha publicado
+        tres álbumes electroacústicos, dos producidos en Suiza y uno en los Países Bajos.
+        En 2025 fue nominado a los <strong>Premios Pulsar</strong> en la categoría
+        <strong>Mejor Compositor de Música Clásica o de Concierto</strong> por
+        <em>Bilis Negra – Solitude</em>. Presentados por la Sociedad Chilena del Derecho de
+        Autor (SCD), los Premios Pulsar reconocen los logros más destacados de la música
+        chilena. Al finalizar sus estudios en la HEM, recibió el <strong>Prix Contrechamps</strong>,
+        que incluye un encargo de obra para la temporada 2026–2027 del ensemble. Actualmente
+        compone una nueva obra para Ensemble Contrechamps, encargada en el marco del Prix
+        Contrechamps.
+      </p>
+      <p>
+        En junio de 2026 realizó una gira europea con <em>Des Visages</em>, su dúo junto al
+        saxofonista César Vidal, presentando aleas, una performance centrada en la
+        improvisación para saxofón, electrónica y luz. Con el apoyo del Ministerio de las
+        Culturas, las Artes y el Patrimonio de Chile, la gira incluyó presentaciones en
+        Berna, Ginebra, París, Marsella, Londres, Ámsterdam y Copenhague.
+      </p>
+      <p>
+        Su obra más reciente, <em>Séismes</em>, es una performance para dúo vocal, electrónica,
+        luz y video inspirada en el paisaje sísmico de Chile. A través de la traducción de datos
+        sísmicos reales en procesos sonoros y visuales, la obra explora la relación entre los
+        fenómenos naturales, la memoria y la percepción.
+      </p>
+    </div>
 
-        <!-- LEFT -->
-        <div class="contact-intro">
-          <h2>Get in touch</h2>
-          <p>
-            For booking, collaboration, commissions, or any inquiry
-            related to composition and live electronics work.
-          </p>
-
-          <!-- Decorative coordinates -->
-          <div class="contact-coords">
-            <div class="coord-line">
-              SCL <span class="coord-highlight">33°27'S / 70°40'W</span>
-            </div>
-            <div class="coord-line">
-              GVA <span class="coord-highlight">46°12'N / 6°09'E</span>
-            </div>
-          </div>
-
-          <!-- Decorative SVG circuit motif -->
-          <div class="contact-deco" aria-hidden="true">
-            <svg width="160" height="60" viewBox="0 0 160 60" xmlns="http://www.w3.org/2000/svg">
-              <!-- Horizontal main line -->
-              <line x1="0" y1="30" x2="140" y2="30" stroke="#1a1a1a" stroke-width="1"/>
-              <!-- Vertical branches -->
-              <line x1="40" y1="30" x2="40" y2="10" stroke="#1a1a1a" stroke-width="1"/>
-              <line x1="90" y1="30" x2="90" y2="50" stroke="#1a1a1a" stroke-width="1"/>
-              <line x1="130" y1="30" x2="130" y2="10" stroke="#1a1a1a" stroke-width="1"/>
-              <!-- Nodes -->
-              <circle cx="40"  cy="10" r="2.5" fill="none" stroke="#c0392b" stroke-width="1"/>
-              <circle cx="90"  cy="50" r="2.5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
-              <circle cx="130" cy="10" r="2.5" fill="none" stroke="#00b8c8" stroke-width="1" opacity="0.6"/>
-              <!-- End cap -->
-              <circle cx="140" cy="30" r="3" fill="#00b8c8" opacity="0.25"/>
-              <!-- Small horizontal tick at start -->
-              <line x1="0" y1="26" x2="0" y2="34" stroke="#555" stroke-width="1"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- RIGHT -->
-        <div>
-          <div class="contact-links">
-            <div class="contact-fila">
-              <span class="label">Email</span>
-              <div class="contact-link-wrap">
-                <a href="mailto:jorgecare@yahoo.es">jorgecare@yahoo.es</a>
-                <span class="contact-fila-arrow">&#8599;</span>
-              </div>
-            </div>
-            <div class="contact-fila">
-              <span class="label">Instagram</span>
-              <div class="contact-link-wrap">
-                <a href="https://www.instagram.com/mama.gyorgy/" target="_blank" rel="noopener">@mama.gyorgy</a>
-                <span class="contact-fila-arrow">&#8599;</span>
-              </div>
-            </div>
-            <div class="contact-fila">
-              <span class="label">YouTube</span>
-              <div class="contact-link-wrap">
-                <a href="https://youtube.com/@jorgecare" target="_blank" rel="noopener">@jorgecare</a>
-                <span class="contact-fila-arrow">&#8599;</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Availability status -->
-          <div class="contact-status">
-            <p class="contact-status-label">Current status</p>
-            <p>
-              Open to commissions, collaborations, and residencies.
-            </p>
-          </div>
-        </div>
-
-      </div>
+    <!-- FULL-WIDTH LOOP VIDEO -->
+    <div class="about-video-full">
+      <video src="../img/about-loop.mp4" autoplay loop muted playsinline></video>
     </div>
   </main>
 
   <footer>
     <span>2026 Jorge Care</span>
-    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+    <span><span class="rojo">·</span> Compositor · Artista digital · Improvisador</span>
   </footer>
 
   <script>

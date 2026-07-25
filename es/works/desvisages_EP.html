@@ -1,42 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Morbus Sacer · Jorge Care</title>
+  <title>Des Visages — Des Visages EP · Jorge Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     html, body {
       user-select: none;
     }
     
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --negro: #0a0a0a;
+      --negro:  #0a0a0a;
       --blanco: #f8f5f0;
-      --gris: #6b6b68;
-      --rojo: #e63946;
-      --cian: #00d4e8;
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Inter', system-ui, sans-serif;
+      --gris:   #6b6b68;
+      --rojo:   #e63946;
+      --cian:   #00d4e8;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
     }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
     body {
       background-color: var(--negro);
       color: var(--blanco);
@@ -50,11 +36,10 @@
       flex-direction: column;
     }
 
+    /* NAV */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
@@ -70,7 +55,6 @@
       backdrop-filter: blur(10px);
       z-index: -1;
     }
-
     nav .logo {
       font-family: var(--serif);
       font-size: 1rem;
@@ -79,17 +63,8 @@
       color: var(--blanco);
       text-decoration: none;
     }
-
-    nav .logo span {
-      color: var(--rojo);
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-
+    nav .logo span { color: var(--rojo); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
     nav a {
       text-decoration: none;
       color: var(--gris);
@@ -99,14 +74,8 @@
       font-weight: 400;
       transition: color 0.2s;
     }
-
-    nav a:hover {
-      color: var(--cian);
-    }
-
-    nav a.active {
-      color: var(--blanco);
-    }
+    nav a:hover { color: var(--cian); }
+    nav a.active { color: var(--blanco); }
 
 
     .lang-switch-item { display: flex; align-items: center; gap: 0.35rem; }
@@ -114,6 +83,7 @@
     .lang-switch-item a.active { color: var(--blanco); }
     .lang-switch-item a:hover { color: var(--cian); }
     .lang-switch-item .sep2 { color: #444; font-size: 0.65rem; }
+    /* HAMBURGER */
     .nav-toggle {
       display: none;
       flex-direction: column;
@@ -135,6 +105,7 @@
     .nav-toggle.open span:nth-child(2) { opacity: 0; }
     .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
+    /* HERO */
     .hero {
       position: relative;
       height: 70vh;
@@ -143,32 +114,26 @@
       display: flex;
       align-items: flex-end;
     }
-
     .hero-img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 100%;
+      object-fit: contain;
+      object-position: center center;
       background: #0d0d0d;
     }
-
     .hero-gradient {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, var(--negro) 0%, rgba(10, 10, 10, 0.2) 100%, transparent 100%);
+      background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 75%, transparent 100%);
     }
-
     .hero-top-line {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(to right, var(--cian) 30%, transparent);
+      background: linear-gradient(to right, var(--rojo) 30%, transparent);
     }
-
     .hero-content {
       position: relative;
       z-index: 2;
@@ -177,7 +142,6 @@
       padding: 0 3rem 4rem;
       width: 100%;
     }
-
     .hero-breadcrumb {
       font-size: 0.6rem;
       letter-spacing: 0.22em;
@@ -185,22 +149,9 @@
       color: #666;
       margin-bottom: 1.2rem;
     }
-
-    .hero-breadcrumb a {
-      color: #666;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .hero-breadcrumb a:hover {
-      color: var(--cian);
-    }
-
-    .hero-breadcrumb .sep {
-      margin: 0 0.5rem;
-      color: #444;
-    }
-
+    .hero-breadcrumb a { color: #666; text-decoration: none; transition: color 0.2s; }
+    .hero-breadcrumb a:hover { color: var(--cian); }
+    .hero-breadcrumb .sep { margin: 0 0.5rem; color: #444; }
     .hero-type {
       font-size: 0.62rem;
       letter-spacing: 0.22em;
@@ -208,16 +159,28 @@
       color: var(--cian);
       margin-bottom: 0.75rem;
     }
-
     .hero-title {
       font-family: var(--serif);
       font-size: clamp(2.4rem, 6vw, 5.5rem);
       font-weight: 300;
       line-height: 1.0;
       letter-spacing: -0.01em;
+    }
+    .hero-title .subtitle {
+      display: block;
       font-style: italic;
+      color: var(--blanco);
+    }
+    .hero-title .artist {
+      display: block;
+      color: #aaa;
+      font-size: 0.55em;
+      font-style: normal;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
     }
 
+    /* MAIN CONTENT */
     main {
       flex: 1;
       max-width: 1100px;
@@ -233,10 +196,10 @@
       align-items: start;
     }
 
+    /* LEFT: text + photos + video */
     .text-block {
       margin-bottom: 3.5rem;
     }
-
     .section-label {
       font-size: 0.58rem;
       letter-spacing: 0.24em;
@@ -244,62 +207,76 @@
       color: var(--rojo);
       margin-bottom: 1.2rem;
     }
-
     .text-block p {
       color: #c0bdb8;
       font-size: 0.9rem;
       line-height: 1.95;
       margin-bottom: 1.2rem;
     }
+    .text-block p:last-child { margin-bottom: 0; }
 
-    .text-block p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Three-part structure */
-    .structure-grid {
+    /* PHOTO GALLERY */
+    .photo-gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      margin: 2.5rem 0;
-      background: #2a2a2a;
+      grid-template-columns: 1fr;
+      gap: 1.5px;
+      margin-bottom: 3rem;
+    }
+    .photo-gallery img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
     }
 
-    .structure-item {
-      background: var(--negro);
-      padding: 1.5rem 1.25rem;
+    /* LINKS SECTION */
+    .links-section {
+      margin-bottom: 3.5rem;
     }
-
-    .structure-item .num {
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
+    .links-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
       color: var(--rojo);
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.75rem;
     }
-
-    .structure-item .part-title {
-      font-family: var(--serif);
-      font-size: 0.95rem;
-      font-style: italic;
+    .listen-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
       color: var(--blanco);
-      margin-bottom: 0.4rem;
-    }
-
-    .structure-item .part-desc {
       font-size: 0.72rem;
-      color: #777;
-      line-height: 1.6;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid #3a3a3a;
+      padding: 0.75rem 1.25rem;
+      transition: all 0.2s;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+    }
+    .listen-link:hover {
+      border-color: var(--cian);
+      color: var(--cian);
+    }
+    .listen-link svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
     }
 
+    /* VIDEO EMBED */
+    .videos-section { margin-top: 0; }
     .videos-label {
       font-size: 0.58rem;
       letter-spacing: 0.24em;
       text-transform: uppercase;
       color: var(--rojo);
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
-
     .video-wrapper {
       position: relative;
       padding-bottom: 56.25%;
@@ -308,51 +285,31 @@
       background: #111;
       border: 1px solid #2a2a2a;
     }
-
     .video-wrapper iframe {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    /* Photo gallery */
-    .photo-gallery {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5px;
-      margin-top: 2.5rem;
-    }
-
-    .photo-gallery img {
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      background: #0d0d0d;
-    }
-
+    /* RIGHT: sidebar */
     .sidebar {
       position: sticky;
       top: 8rem;
     }
-
     .sidebar-photo {
       width: 100%;
-      aspect-ratio: 3/5;
-      object-fit: cover;
-      object-position: center top;
+      aspect-ratio: 0;
+      object-fit: contain;
       display: block;
       margin-bottom: 2.5rem;
+      background: #0d0d0d;
     }
-
     .sidebar-meta {
       border-top: 1px solid #2a2a2a;
       padding-top: 1.75rem;
     }
-
     .meta-row {
       display: flex;
       justify-content: space-between;
@@ -361,7 +318,6 @@
       border-bottom: 1px solid #1e1e1e;
       gap: 1rem;
     }
-
     .meta-key {
       font-size: 0.6rem;
       letter-spacing: 0.18em;
@@ -369,13 +325,13 @@
       color: #555;
       flex: none;
     }
-
     .meta-val {
       font-size: 0.78rem;
       color: #aaa;
       text-align: right;
     }
 
+    /* BACK LINK */
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -388,19 +344,10 @@
       margin-bottom: 4rem;
       transition: color 0.2s;
     }
+    .back-link:hover { color: var(--cian); }
+    .back-link svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
 
-    .back-link:hover {
-      color: var(--cian);
-    }
-
-    .back-link svg {
-      width: 12px;
-      height: 12px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.5;
-    }
-
+    /* FOOTER */
     footer {
       border-top: 1px solid #3a3a3a;
       padding: 2rem 3rem;
@@ -411,31 +358,14 @@
       color: #777;
       letter-spacing: 0.1em;
     }
-
-    footer .rojo {
-      color: var(--rojo);
-    }
+    footer .rojo { color: var(--rojo); }
 
     @media (max-width: 900px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-
-      .sidebar {
-        position: static;
-      }
-
-      .structure-grid {
-        grid-template-columns: 1fr;
-      }
+      .content-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .sidebar { position: static; }
     }
-
     @media (max-width: 768px) {
-      nav {
-        padding: 1rem 1.5rem;
-      }
-
+      nav { padding: 1rem 1.5rem; }
       .nav-toggle { display: flex; }
       .nav-menu {
         display: none;
@@ -452,36 +382,12 @@
       .nav-menu li { list-style: none; }
       .nav-menu a { font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gris); }
       .nav-menu a.active { color: var(--blanco); }
-
-      main {
-        padding: 3.5rem 1.25rem 5rem;
-      }
-
+      main { padding: 3.5rem 1.25rem 5rem; }
       .hero { min-height: 520px; height: 55vh; }
-
-      .hero-content {
-        padding: 0 1.25rem 2.5rem;
-      }
-
-      .hero-title { font-size: clamp(2rem, 9vw, 3.5rem); }
-
+      .hero-content { padding: 0 1.25rem 2.5rem; }
+      .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .back-link { margin-bottom: 2.5rem; }
-
-      .photo-gallery {
-        grid-template-columns: 1fr;
-      }
-
-      .photo-gallery img.landscape {
-        grid-column: span 1;
-        aspect-ratio: 16/9;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-        padding: 2rem 1.25rem;
-      }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.25rem; }
     }
   
     /* PROJECT NAVIGATION */
@@ -541,128 +447,137 @@
     }
   </style>
 </head>
-
 <body>
 
   <nav>
     <a href="../index.html" class="logo">Jorge <span>Care</span></a>
-    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+    <button class="nav-toggle" aria-label="Menú" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-menu" id="navMenu">
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../works.html" class="active">Works</a></li>
-      <li><a href="../concerts.html">Concerts</a></li>
-      <li><a href="../contact.html">Contact</a></li>
-      <li class="lang-switch-item"><a href="morbus_sacer.html" class="active">EN</a><span class="sep2">/</span><a href="../es/works/morbus_sacer.html">ES</a><span class="sep2">/</span><a href="../fr/works/morbus_sacer.html">FR</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../works.html" class="active">Obras</a></li>
+      <li><a href="../concerts.html">Conciertos</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+      <li class="lang-switch-item"><a href="../../works/desvisages_EP.html">EN</a><span class="sep2">/</span><a href="desvisages_EP.html" class="active">ES</a><span class="sep2">/</span><a href="../../fr/works/desvisages_EP.html">FR</a></li>
     </ul>
   </nav>
 
   <div class="hero">
-    <img src="3__morbus_sacer.webp" alt="Morbus Sacer" class="hero-img" />
+    <img src="../../works/1__desvisages_EP.webp" alt="Des Visages — Des Visages EP" class="hero-img" />
     <div class="hero-gradient"></div>
     <div class="hero-top-line"></div>
     <div class="hero-content">
       <div class="hero-breadcrumb">
-        <a href="../index.html">Home</a>
+        <a href="../index.html">Inicio</a>
         <span class="sep">/</span>
-        <a href="../works.html">Works</a>
+        <a href="../works.html">Obras</a>
         <span class="sep">/</span>
-        Morbus Sacer
+        Des Visages EP
       </div>
-      <p class="hero-type">Mixed music · 2024</p>
-      <h1 class="hero-title">Morbus Sacer</h1>
+      <p class="hero-type">Álbum · 2025</p>
+      <h1 class="hero-title">
+        <span class="artist">Des Visages</span>
+        <span class="subtitle">Des Visages EP</span>
+      </h1>
     </div>
   </div>
 
   <main>
     <a href="../works.html" class="back-link">
-      <svg viewBox="0 0 12 12">
-        <line x1="11" y1="6" x2="1" y2="6" />
-        <polyline points="5,2 1,6 5,10" />
-      </svg>
-      All works
+      <svg viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
+      Todas las obras
     </a>
 
     <div class="content-grid">
       <div>
         <div class="text-block">
-          <p class="section-label">— About</p>
+          <p class="section-label">— Acerca de</p>
           <p>
-            <em>Morbus Sacer</em> is inspired by epileptic disorders and constructs its musical language around the
-            cycles, ruptures, and sensory distortions associated with a seizure. The vocal writing takes the form of a
-            controlled improvisation developed collaboratively with the performer, unfolding across three distinct
-            sections that mirror the stages of epileptic experience.
+            <em>Des Visages</em> marca el debut discográfico del dúo, grabado en 2025 en el Studio d'enregistrement de la HEM en Ginebra, Suiza, y registrado, mezclado y masterizado por Samuel Albert. Compuesto por tres piezas originales, el EP consolida la visión estética del grupo, donde los elementos acústicos y electrónicos se entrelazan mediante la improvisación para formar narrativas musicales coherentes y en constante evolución.
           </p>
           <p>
-            The electronic layer incorporates multichannel recordings encoded as fourth-order Ambisonic streams and
-            processed in real time with Panoramix, creating an immersive sound field that surrounds and reacts to the
-            performer. The spatial behavior of the electronics mirrors the instability of the vocal writing, shifting
-            between focused trajectories and diffuse, enveloping textures.
+            Inspiradas en parte en estructuras narrativas literarias, las obras se presentan como un tríptico titulado <em>Introduction</em>, <em>Corpo</em> y <em>Conclusions (for Peter Evans and Sam Pluta)</em>. Esta última es un modesto homenaje a dos artistas cuya práctica en dúo ha resonado profundamente con las propias exploraciones del ensemble, y que desde hace tiempo constituyen una referencia artística y filosófica importante para el proyecto.
           </p>
           <p>
-            A motion sensor (R-IoT) attached to the performer's right hand controls the Disklavier via MIDI in real
-            time. Movement data is mapped to Max for Live modules that translate gestural impulses into mechanical
-            responses, functioning as analogies for the involuntary muscular contractions characteristic of epilepsy.
+            Con esta grabación debut, el dúo buscó que el sonido se convirtiera en vehículo de lo impredecible, y que lo impredecible, a su vez, tomara forma, dando lugar a una obra que busca ser precisa en su concepción y, al mismo tiempo, fluida y abierta en su ejecución.
           </p>
-        </div>
-
-        <div class="structure-grid">
-          <div class="structure-item">
-            <div class="num">Section I</div>
-            <div class="part-title">Dostoyevsky</div>
-            <div class="part-desc">Manipulated passage from <em>The Idiot</em>, altered to reflect the gradual
-              destabilization preceding a seizure.</div>
-          </div>
-          <div class="structure-item">
-            <div class="num">Section II</div>
-            <div class="part-title">Syllabic series</div>
-            <div class="part-desc">Syllables derived from French consonants and vowels, serially organized to model the
-              agitation of a crisis.</div>
-          </div>
-          <div class="structure-item">
-            <div class="num">Section III</div>
-            <div class="part-title">Pseudo-words</div>
-            <div class="part-desc">Randomly reassembled syllables evoking the post-seizure state in which coherent
-              speech becomes momentarily unattainable.</div>
-          </div>
+          <p>
+            El EP se estrenó durante el concierto <em>Électrons libérés</em>, realizado en el Black Box de la HEM en Ginebra el 21 de febrero de 2025. Más tarde, ese mismo año, el proyecto se presentó nuevamente en Ginebra como parte de la reconocida Fête de la Musique.
+          </p>
         </div>
 
         <div class="photo-gallery">
-          <img src="2__morbus_sacer.webp" alt="Morbus Sacer performance" loading="lazy" />
+          <img src="../../works/3__desvisages_EP.webp" alt="Des Visages EP performance" loading="lazy" />
+          <img src="../../works/4__desvisages_EP.webp" alt="Des Visages EP performance" loading="lazy" />
+          <img src="../../works/5__desvisages_EP.webp" alt="Des Visages EP performance" loading="lazy" />
+          <img src="../../works/6__desvisages_EP.webp" alt="Des Visages EP performance" loading="lazy" />
+          <img src="../../works/7__desvisages_EP.webp" alt="Des Visages EP performance" loading="lazy" />
         </div>
 
-        <p class="videos-label" style="margin-top: 3rem;">— Video documentation</p>
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/bWoQD8r4xdM" title="Morbus Sacer" allowfullscreen
-            loading="lazy"></iframe>
+        <div class="links-section">
+          <p class="links-label">— Escuchar</p>
+          <a href="https://desvisages.bandcamp.com/album/des-visages" target="_blank" rel="noopener" class="listen-link">
+            <svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><polyline points="2,7 6,11 10,7"/></svg>
+            Escuchar en Bandcamp
+          </a>
+        </div>
+
+        <div class="videos-section">
+          <p class="videos-label">— Documentación en video</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/dpplfj0GDZE" title="Des Visages EP — Live premiere" allowfullscreen loading="lazy"></iframe>
+          </div>
         </div>
       </div>
 
       <aside class="sidebar">
-        <img src="1__morbus_sacer.webp" alt="Morbus Sacer" class="sidebar-photo" loading="lazy" />
+        <img src="../../works/2__desvisages_EP.webp" alt="Des Visages EP" class="sidebar-photo" loading="lazy" />
         <div class="sidebar-meta">
-          <div class="meta-row"><span class="meta-key">Performer</span><span class="meta-val">Julie Brice</span></div>
-          <div class="meta-row"><span class="meta-key">Year</span><span class="meta-val">2024</span></div>
-          <div class="meta-row"><span class="meta-key">Premiered at</span><span class="meta-val">Black Box HEM, Geneva, Switzerland</span></div>
-          <div class="meta-row"><span class="meta-key">Setup</span><span class="meta-val">Female voice, prepared disklavier, motion sensor, electronics</span></div>
-          <div class="meta-row"><span class="meta-key">Electronics</span><span class="meta-val">Ambisonics · Live electronics</span></div>
+          <div class="meta-row">
+            <span class="meta-key">Proyecto</span>
+            <span class="meta-val">Des Visages</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Año</span>
+            <span class="meta-val">2025</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Grabado en</span>
+            <span class="meta-val">Studio d'enregistrement HEM, Geneva</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Mezcla y masterización</span>
+            <span class="meta-val">Samuel Albert</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Estreno en</span>
+            <span class="meta-val">Black Box HEM, Geneva</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Formato</span>
+            <span class="meta-val">Saxophone · Electronics · Improvisation</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Piezas</span>
+            <span class="meta-val">Introduction · Corpo · Conclusions (for Peter Evans and Sam Pluta)</span>
+          </div>
         </div>
       </aside>
     </div>
   
     <div class="project-nav">
-      <a href="606.html" class="project-nav-link project-nav-prev">
+      <a href="bilis_negra.html" class="project-nav-link project-nav-prev">
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
         <span class="project-nav-copy">
-          <span class="project-nav-label">Previous</span>
-          <span class="project-nav-title">606</span>
+          <span class="project-nav-label">Anterior</span>
+          <span class="project-nav-title">Bilis Negra</span>
         </span>
       </a>
-      <a href="krishagatos.html" class="project-nav-link project-nav-next">
+      <a href="rayuela.html" class="project-nav-link project-nav-next">
         <span class="project-nav-copy">
-          <span class="project-nav-label">Next</span>
-          <span class="project-nav-title">Krishagatos</span>
+          <span class="project-nav-label">Siguiente</span>
+          <span class="project-nav-title">Rayuela.wav</span>
         </span>
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="1" y1="6" x2="11" y2="6"/><polyline points="7,2 11,6 7,10"/></svg>
       </a>
@@ -671,9 +586,8 @@
 
   <footer>
     <span>2026 Jorge Care</span>
-    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+    <span><span class="rojo">·</span> Compositor · Artista digital · Improvisador</span>
   </footer>
 
 </body>
-
 </html>

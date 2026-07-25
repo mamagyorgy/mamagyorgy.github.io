@@ -60,6 +60,12 @@
     nav a { text-decoration: none; color: var(--gris); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; transition: color 0.2s; }
     nav a:hover { color: var(--cian); }
     nav a.active { color: var(--blanco); }
+
+    .lang-switch-item { display: flex; align-items: center; gap: 0.35rem; }
+    .lang-switch-item a { color: var(--gris); }
+    .lang-switch-item a.active { color: var(--blanco); }
+    .lang-switch-item a:hover { color: var(--cian); }
+    .lang-switch-item .sep2 { color: #444; font-size: 0.65rem; }
     .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 101; }
     .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--blanco); transition: all 0.3s ease; }
     .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -200,6 +206,7 @@
       <li><a href="../works.html" class="active">Works</a></li>
       <li><a href="../concerts.html">Concerts</a></li>
       <li><a href="../contact.html">Contact</a></li>
+      <li class="lang-switch-item"><a href="ka.html" class="active">EN</a><span class="sep2">/</span><a href="../es/works/ka.html">ES</a><span class="sep2">/</span><a href="../fr/works/ka.html">FR</a></li>
     </ul>
   </nav>
 

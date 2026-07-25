@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>606 · Jorge Care</title>
+  <title>.jaArana+Ф — Krishagatos · Jorge Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
@@ -80,7 +80,7 @@
       display: flex;
       align-items: flex-end;
     }
-    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; background: #0d0d0d; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 10%; background: #0d0d0d; }
     .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--negro) 0%, rgba(10,10,10,0.2) 75%, transparent 100%); }
     .hero-top-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--rojo) 30%, transparent); }
     .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 3rem 4rem; width: 100%; }
@@ -90,6 +90,8 @@
     .hero-breadcrumb .sep { margin: 0 0.5rem; color: #444; }
     .hero-type { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cian); margin-bottom: 0.75rem; }
     .hero-title { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; }
+    .hero-title .artist { display: block; color: #aaa; font-size: 0.55em; font-style: normal; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .hero-title .subtitle { display: block; font-style: italic; color: var(--blanco); }
 
     main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 7rem; width: 100%; }
 
@@ -104,8 +106,25 @@
     .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #111; border: 1px solid #2a2a2a; }
     .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
+    .playlist-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--blanco);
+      border: 1px solid #555;
+      padding: 0.85rem 2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      margin-top: 1.5rem;
+    }
+    .playlist-link:hover { border-color: var(--rojo); color: var(--rojo); }
+    .playlist-link svg { width: 13px; height: 13px; fill: currentColor; }
+
     .sidebar { position: sticky; top: 8rem; }
-    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center; display: block; margin-bottom: 2.5rem; }
+    .sidebar-photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; margin-bottom: 2.5rem; background: #0d0d0d; }
     .sidebar-meta { border-top: 1px solid #2a2a2a; padding-top: 1.75rem; }
     .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.75rem 0; border-bottom: 1px solid #1e1e1e; gap: 1rem; }
     .meta-key { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; flex: none; }
@@ -130,7 +149,7 @@
       main { padding: 3.5rem 1.25rem 5rem; }
       .hero { min-height: 520px; height: 55vh; }
       .hero-content { padding: 0 1.25rem 2.5rem; }
-      .hero-title { font-size: clamp(2rem, 9vw, 3.5rem); }
+      .hero-title { font-size: clamp(2rem, 9vw, 3rem); }
       .back-link { margin-bottom: 2.5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.25rem; }
     }
@@ -196,96 +215,127 @@
 
   <nav>
     <a href="../index.html" class="logo">Jorge <span>Care</span></a>
-    <button class="nav-toggle" aria-label="Menu" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
+    <button class="nav-toggle" aria-label="Menú" onclick="this.classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open')">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-menu" id="navMenu">
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../works.html" class="active">Works</a></li>
-      <li><a href="../concerts.html">Concerts</a></li>
-      <li><a href="../contact.html">Contact</a></li>
-      <li class="lang-switch-item"><a href="606.html" class="active">EN</a><span class="sep2">/</span><a href="../es/works/606.html">ES</a><span class="sep2">/</span><a href="../fr/works/606.html">FR</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../works.html" class="active">Obras</a></li>
+      <li><a href="../concerts.html">Conciertos</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+      <li class="lang-switch-item"><a href="../../works/krishagatos.html">EN</a><span class="sep2">/</span><a href="krishagatos.html" class="active">ES</a><span class="sep2">/</span><a href="../../fr/works/krishagatos.html">FR</a></li>
     </ul>
   </nav>
 
   <div class="hero">
-    <img src="1__606.webp" alt="606" class="hero-img" />
+    <img src="../../works/1__krishagatos.webp" alt=".jaArana+Ф — Krishagatos" class="hero-img" />
     <div class="hero-gradient"></div>
     <div class="hero-top-line"></div>
     <div class="hero-content">
       <div class="hero-breadcrumb">
-        <a href="../index.html">Home</a>
+        <a href="../index.html">Inicio</a>
         <span class="sep">/</span>
-        <a href="../works.html">Works</a>
+        <a href="../works.html">Obras</a>
         <span class="sep">/</span>
-        606
+        Krishagatos
       </div>
-      <p class="hero-type">Orchestra · 2024</p>
-      <h1 class="hero-title"><em>606</em></h1>
+      <p class="hero-type">Álbum · 2023</p>
+      <h1 class="hero-title">
+        <span class="artist">.jaArana+Ф</span>
+        <span class="subtitle">Krishagatos</span>
+      </h1>
     </div>
   </div>
 
   <main>
     <a href="../works.html" class="back-link">
       <svg viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
-      All works
+      Todas las obras
     </a>
 
     <div class="content-grid">
       <div>
         <div class="text-block">
-          <p class="section-label">— About</p>
+          <p class="section-label">— Acerca de</p>
           <p>
-            <em>606</em> is an orchestral piece shaped by compositional techniques borrowed from electronic music. Stereo-oriented spatial design, brass and percussion back-layers, beating patterns, and loose loop structures are transposed into the acoustic domain, creating a large-scale metaphor for Chile's 2019 social uprising.
+            <em>Krishagatos</em> es el álbum debut del trío de improvisación electrónica .jaArana+Ф. Mediante electrónica en vivo experimental, el grupo explora texturas en constante evolución, capas de ruido e interacción espectral a través de una interpretación totalmente improvisada y sustentada en la tecnología.
           </p>
           <p>
-            Throughout the piece, the orchestra is treated as a spatial instrument. Sound masses build and dissipate across registers and sections, drawing on the logic of layering and gradual transformation that defines electronic music while remaining entirely acoustic in its means.
+            Nada está compuesto de antemano. Cada pieza surge de la negociación en tiempo real de tres voces electrónicas independientes: los materiales se acumulan, colisionan y se disuelven según la lógica del momento. El resultado es una música que resiste la repetición, donde el acto de escuchar y el acto de tocar comparten una misma condición de irreversibilidad.
+          </p>
+          <p>
+            Grabado en Ginebra, el álbum documenta una única sesión que captura al trío en la intersección entre el ruido, la textura y el rigor improvisatorio.
           </p>
         </div>
 
         <div style="margin-top: 3rem;">
-          <p class="videos-label">— Video documentation</p>
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/gQB6d2mmM7A" title="606" allowfullscreen loading="lazy"></iframe>
-          </div>
+          <p class="videos-label">— Álbum completo</p>
+          <a href="https://jorgecare.bandcamp.com/album/krishagatos" target="_blank" rel="noopener" class="playlist-link">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M0 18.75l7.437-13.5H24l-7.437 13.5H0z"/>
+            </svg>
+            Escuchar en Bandcamp
+          </a>
+          <a href="https://youtube.com/playlist?list=PL17jV3Lc4D5osD59zdjK_Vh86Bz5kiAvm" target="_blank" rel="noopener" class="playlist-link">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/>
+            </svg>
+            Escuchar en YouTube
+          </a>
+          <a href="https://open.spotify.com/intl-es/album/06ueKkpyf15HF1RSdLhqfp?si=GktNmIBMRaagyX-p9DWihQ" target="_blank" rel="noopener" class="playlist-link">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm5.52 17.28a.748.748 0 0 1-1.03.25c-2.818-1.722-6.365-2.112-10.542-1.157a.748.748 0 0 1-.354-1.453c4.573-1.045 8.492-.595 11.676 1.337a.748.748 0 0 1 .25 1.023zm1.474-3.278a.936.936 0 0 1-1.287.308C14.85 12.388 10.8 11.76 7.683 12.67a.936.936 0 0 1-.543-1.79c3.564-1.083 7.988-.558 11.046 1.835a.936.936 0 0 1 .308 1.287zm.127-3.41C15.576 8.32 9.09 8.1 5.546 9.176a1.123 1.123 0 1 1-.651-2.149c4.062-1.232 10.82-.994 15.088 1.568a1.123 1.123 0 0 1-1.862 1.116z"/>
+            </svg>
+            Escuchar en Spotify
+          </a>
+          <a href="https://music.apple.com/ch/album/krishagatos/1698404818" target="_blank" rel="noopener" class="playlist-link">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.05-.003-.098-.012-.15-.013H5.986c-.114.007-.228.01-.34.02-.465.04-.928.07-1.38.17-1.265.278-2.28 1.006-2.963 2.123A5.19 5.19 0 0 0 .61 4.2 11.196 11.196 0 0 0 .5 5.555V18.44c.007.146.013.292.026.437.07.845.272 1.657.69 2.406.526.944 1.318 1.598 2.352 1.944.507.17 1.03.25 1.566.284.456.028.912.033 1.37.034H18.47c.368 0 .737-.01 1.103-.045.47-.043.937-.122 1.386-.285 1.012-.36 1.79-1.008 2.317-1.937.417-.747.62-1.56.69-2.405.013-.146.02-.292.026-.438V6.57c0-.15-.003-.297-.018-.446zm-6.354 5.048l-6.275 3.65a.996.996 0 0 1-1.494-.864V7.938a.997.997 0 0 1 1.494-.864l6.275 3.65a.996.996 0 0 1 0 1.728z"/>
+            </svg>
+            Escuchar en Apple Music
+          </a>
         </div>
       </div>
 
       <aside class="sidebar">
-        <img src="2__606.webp" alt="606 performance" class="sidebar-photo" loading="lazy" />
+        <img src="../../works/2__krishagatos.webp" alt=".jaArana+Ф — Krishagatos" class="sidebar-photo" loading="lazy" />
         <div class="sidebar-meta">
           <div class="meta-row">
-            <span class="meta-key">Year</span>
-            <span class="meta-val">2024</span>
+            <span class="meta-key">Proyecto</span>
+            <span class="meta-val">.jaArana+Ф</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Conductor</span>
-            <span class="meta-val">Clement Power</span>
+            <span class="meta-key">Intérpretes</span>
+            <span class="meta-val">Jorge Care · Sergei Leonov · Pedro Espinosa</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Premiered at</span>
-            <span class="meta-val">Auditorium Ansermet, Geneva, Switzerland</span>
+            <span class="meta-key">Año</span>
+            <span class="meta-val">2023</span>
           </div>
           <div class="meta-row">
-            <span class="meta-key">Instrumentation</span>
-            <span class="meta-val">Orchestra</span>
+            <span class="meta-key">Grabado en</span>
+            <span class="meta-val">Geneva, Switzerland</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Formato</span>
+            <span class="meta-val">Electronics · Improvisation</span>
           </div>
         </div>
       </aside>
     </div>
   
     <div class="project-nav">
-      <a href="rayuela.html" class="project-nav-link project-nav-prev">
+      <a href="morbus_sacer.html" class="project-nav-link project-nav-prev">
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="11" y1="6" x2="1" y2="6"/><polyline points="5,2 1,6 5,10"/></svg>
         <span class="project-nav-copy">
-          <span class="project-nav-label">Previous</span>
-          <span class="project-nav-title">Rayuela.wav</span>
+          <span class="project-nav-label">Anterior</span>
+          <span class="project-nav-title">Morbus Sacer</span>
         </span>
       </a>
-      <a href="morbus_sacer.html" class="project-nav-link project-nav-next">
+      <a href="ka.html" class="project-nav-link project-nav-next">
         <span class="project-nav-copy">
-          <span class="project-nav-label">Next</span>
-          <span class="project-nav-title">Morbus Sacer</span>
+          <span class="project-nav-label">Siguiente</span>
+          <span class="project-nav-title">KA</span>
         </span>
         <svg class="project-nav-arrow" viewBox="0 0 12 12"><line x1="1" y1="6" x2="11" y2="6"/><polyline points="7,2 11,6 7,10"/></svg>
       </a>
@@ -294,7 +344,7 @@
 
   <footer>
     <span>2026 Jorge Care</span>
-    <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
+    <span><span class="rojo">·</span> Compositor · Artista digital · Improvisador</span>
   </footer>
 
 </body>
