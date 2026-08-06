@@ -369,6 +369,19 @@
     }
     footer .rojo { color: var(--rojo); }
 
+    /* ── NO-SCROLL DESKTOP LAYOUT ── */
+    /* On tall-enough desktop viewports, trim only the empty vertical
+       space above and below the contact content (between the header's
+       bottom line and "Get in touch", and between the content and the
+       footer line) so the page fits without scrolling. Title and footer
+       sizing/spacing stay identical to the rest of the site. */
+    @media (min-width: 901px) {
+      html, body { height: 100%; }
+      body { overflow: hidden; }
+
+      .main-inner { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
