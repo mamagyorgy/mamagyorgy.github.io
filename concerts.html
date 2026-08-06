@@ -358,6 +358,23 @@
 
     /* ── PAST CONCERTS ── */
     .concerts-past-block { margin-top: 0; }
+
+    /* Year sub-divider within Past concerts */
+    .concierto-year {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 3rem 0 0.5rem;
+    }
+    .concierto-year:first-child { margin-top: 0; }
+    .concierto-year-text {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: #999;
+    }
+    .concierto-year-linea { flex: 1; height: 1px; background: #2e2e2e; }
     .concierto-fila-static .concierto-evento { color: #c0c0bd; }
     .concierto-fila-static .concierto-fecha strong { color: #aaa; }
     .concierto-fila-static .concierto-fecha { color: #777; }
@@ -622,16 +639,23 @@
         <span class="concierto-arrow">&#8599;</span>
       </a>
 
-      <a href="https://pakt-bern.ch/de/veranstaltungen/impaktjam-mit-des-visages-ft-cesar-vidal-and-jorge-care/" target="_blank" rel="noopener" class="concierto-fila">
+      <div class="concierto-fila-static">
         <div class="concierto-fecha">
           <strong>01</strong>Jun 2026
         </div>
         <div class="concierto-info">
           <span class="concierto-evento">Impakt Jam — Des Visages</span>
           <span class="concierto-lugar">Pakt Bern <span>/</span> Bern, Switzerland</span>
+          <a href="https://pakt-bern.ch/de/veranstaltungen/impaktjam-mit-des-visages-ft-cesar-vidal-and-jorge-care/" target="_blank" rel="noopener" class="concierto-recording">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Event page
+          </a>
+          <a href="https://youtu.be/M2Cn6_n5CJc?si=XpMtbzcmHm8ynong" target="_blank" rel="noopener" class="concierto-recording">
+            <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+            Recording
+          </a>
         </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
+      </div>
     </div>
 
     <!-- ── PAST CONCERTS ── -->
@@ -641,7 +665,12 @@
         <div class="seccion-linea"></div>
       </div>
 
-      <a href="https://www.instagram.com/p/DX9yT94OZfM/" target="_blank" rel="noopener" class="concierto-fila-past concierto-fila-first">
+      <div class="concierto-year">
+        <span class="concierto-year-text">2026</span>
+        <div class="concierto-year-linea"></div>
+      </div>
+
+      <a href="https://www.instagram.com/p/DX9yT94OZfM/" target="_blank" rel="noopener" class="concierto-fila-past">
         <div class="concierto-fecha">
           <strong>08</strong>May 2026
         </div>
@@ -668,6 +697,11 @@
             Recording
           </a>
         </div>
+      </div>
+
+      <div class="concierto-year">
+        <span class="concierto-year-text">2025</span>
+        <div class="concierto-year-linea"></div>
       </div>
 
       <a href="https://artasperto.ch/en/evenement/niemandsland-a-journey-to-what-lies-between-us/" target="_blank" rel="noopener" class="concierto-fila-past">
@@ -775,6 +809,11 @@
         </div>
       </div>
 
+      <div class="concierto-year">
+        <span class="concierto-year-text">2024</span>
+        <div class="concierto-year-linea"></div>
+      </div>
+
       <div class="concierto-fila-static">
         <div class="concierto-fecha">
           <strong>04</strong>Oct 2024
@@ -809,6 +848,11 @@
             Recording
           </a>
         </div>
+      </div>
+
+      <div class="concierto-year">
+        <span class="concierto-year-text">2023</span>
+        <div class="concierto-year-linea"></div>
       </div>
 
       <div class="concierto-fila-static">
