@@ -105,8 +105,77 @@
 
     /* Photo gallery — columna única, mismas proporciones 16/9 que el video */
     .photo-gallery { display: grid; grid-template-columns: 1fr; gap: 1.5px; margin-bottom: 3rem; }
-    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; display: block; }
+    .photo-gallery .gallery-item { position: relative; overflow: hidden; cursor: pointer; display: block; }
+    .photo-gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; display: block; transition: transform 0.45s ease; }
     .photo-gallery img.img-zoom-in { transform: scale(1.32); transform-origin: center center; }
+    /* ── HOVER ZOOM: cambia el valor 1.05 para ajustar la intensidad del acercamiento ── */
+    .photo-gallery .gallery-item:hover img { transform: scale(1.05); }
+
+    /* ── LIGHTBOX (modal de la galería) ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10,10,10,0.96);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 85vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border: 1px solid #2a2a2a;
+    }
+    .lightbox-close,
+    .lightbox-arrow {
+      position: absolute;
+      background: rgba(10,10,10,0.6);
+      border: 1px solid #555;
+      color: var(--blanco);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lightbox-close:hover,
+    .lightbox-arrow:hover { border-color: var(--cian); color: var(--cian); }
+    .lightbox-close {
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 42px;
+      height: 42px;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+    .lightbox-arrow {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+    }
+    .lightbox-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .lightbox-prev { left: 1.5rem; }
+    .lightbox-next { right: 1.5rem; }
+    @media (max-width: 768px) {
+      .lightbox-arrow { width: 38px; height: 38px; }
+      .lightbox-prev { left: 0.5rem; }
+      .lightbox-next { right: 0.5rem; }
+      .lightbox-close { top: 1rem; right: 1rem; width: 36px; height: 36px; }
+    }
 
     .sidebar { position: sticky; top: 8rem; }
     .sidebar-photo { width: 100%; aspect-ratio: 0; object-fit: contain; object-position: center; display: block; margin-bottom: 2.5rem; background: #0d0d0d; }
@@ -255,13 +324,27 @@
         </div>
 
         <div class="photo-gallery">
-          <img src="../../works/5__seismes.webp" alt="Séismes performance" loading="lazy" />
-          <img src="../../works/6__seismes.webp" alt="Séismes performance" loading="lazy" />
-          <img src="../../works/7__seismes.webp" alt="Séismes performance" loading="lazy" />
-          <img src="../../works/8__seismes.webp" alt="Séismes performance" loading="lazy" />
-          <img src="../../works/9__seismes.webp" alt="Séismes performance" loading="lazy" />
-          <img src="../../works/4__seismes.webp" alt="Séismes performance" loading="lazy" />
-          <img src="../../works/3__seismes.webp" alt="Séismes detail" loading="lazy" />
+          <div class="gallery-item">
+            <img src="../../works/5__seismes.webp" alt="Séismes performance" loading="lazy" />
+          </div>
+          <div class="gallery-item">
+            <img src="../../works/6__seismes.webp" alt="Séismes performance" loading="lazy" />
+          </div>
+          <div class="gallery-item">
+            <img src="../../works/7__seismes.webp" alt="Séismes performance" loading="lazy" />
+          </div>
+          <div class="gallery-item">
+            <img src="../../works/8__seismes.webp" alt="Séismes performance" loading="lazy" />
+          </div>
+          <div class="gallery-item">
+            <img src="../../works/9__seismes.webp" alt="Séismes performance" loading="lazy" />
+          </div>
+          <div class="gallery-item">
+            <img src="../../works/4__seismes.webp" alt="Séismes performance" loading="lazy" />
+          </div>
+          <div class="gallery-item">
+            <img src="../../works/3__seismes.webp" alt="Séismes detail" loading="lazy" />
+          </div>
         </div>
 
         <div style="margin-top: 3rem;">
@@ -321,6 +404,75 @@
     <span>2026 Jorge Care</span>
     <span><span class="rojo">·</span> Compositor · Artista digital · Improvisador</span>
   </footer>
+
+  <!-- ── LIGHTBOX MODAL (galería) ── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">&times;</button>
+    <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Imagen anterior">
+      <svg viewBox="0 0 24 24"><polyline points="15,4 7,12 15,20"/></svg>
+    </button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImg" />
+    </div>
+    <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Imagen siguiente">
+      <svg viewBox="0 0 24 24"><polyline points="9,4 17,12 9,20"/></svg>
+    </button>
+  </div>
+
+  <script>
+  // ── GALLERY LIGHTBOX ── solo afecta a las imágenes dentro de .photo-gallery
+  (function() {
+    const galleryImages = Array.from(document.querySelectorAll('.photo-gallery .gallery-item img'));
+    if (!galleryImages.length) return;
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const prevBtn = document.getElementById('lightboxPrev');
+    const nextBtn = document.getElementById('lightboxNext');
+
+    let currentIndex = 0;
+
+    function showImage(index) {
+      currentIndex = (index + galleryImages.length) % galleryImages.length;
+      const img = galleryImages[currentIndex];
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+    }
+
+    function openLightbox(index) {
+      showImage(index);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    galleryImages.forEach((img, index) => {
+      img.closest('.gallery-item').addEventListener('click', () => openLightbox(index));
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+    nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    });
+  })();
+  </script>
 
 </body>
 </html>
