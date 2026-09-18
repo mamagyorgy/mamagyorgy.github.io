@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Jorge Care</title>
   <meta name="description" content="Contact Jorge Care — Composer, digital artist, and improviser." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
@@ -231,8 +234,8 @@
     /* ── CONTACT GRID ── */
     .contact-inner {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
       align-items: start;
     }
 
@@ -249,30 +252,38 @@
       color: #aaa;
     }
 
-    /* Decorative coordinates block */
-    .contact-coords {
-      margin-top: 0;
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #666;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .contact-coords .coord-line::before {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 1px;
-      background: #666;
-    }
-    .contact-coords .coord-highlight { color: var(--cian); opacity: 0.65; }
+    /* Route motif: Santiago / Paris / Geneva */
+    .contact-route { margin-top: 2.5rem; }
+    .route-svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .route-base { stroke: #333; stroke-width: 1; }
 
-    /* Decorative SVG: small circuit-like shape */
-    .contact-deco {
-      margin-top: 3rem;
+    /* Static lanes: red = eastbound (towards Europe), cian = westbound */
+    .route-lane { fill: none; stroke-width: 1; stroke-dasharray: 1.5 4; opacity: 0.5; }
+    .route-lane--east { stroke: var(--rojo); }
+    .route-lane--west { stroke: var(--cian); }
+
+    /* Pulses are created and animated by the script at the end of the page */
+    .route-comet { fill: none; stroke-width: 1.8; stroke-linecap: round; }
+    .route-comet--east { stroke: var(--rojo); }
+    .route-comet--west { stroke: var(--cian); }
+    .route-comet--tail { opacity: 0.3; }
+
+    .route-coords {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.9rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #777;
     }
+    .route-coord { display: flex; flex-direction: column; gap: 0.1rem; white-space: nowrap; }
+    .route-coord:nth-child(2) { align-items: center; }
+    .route-coord:last-child { align-items: flex-end; }
+    .route-coords .coord-code--rojo   { color: var(--rojo); opacity: 0.85; }
+    .route-coords .coord-code--blanco { color: var(--blanco); opacity: 0.8; }
+    .route-coords .coord-code--cian   { color: var(--cian); opacity: 0.85; }
 
     .contact-links {
       border-top: 1px solid #3a3a3a;
@@ -332,7 +343,7 @@
 
     /* Status block */
     .contact-status {
-      margin-top: 3rem;
+      margin-top: 2.5rem;
       border: 1px solid #2a2a2a;
       padding: 1.25rem 1.5rem;
       position: relative;
@@ -355,6 +366,9 @@
     .contact-status p {
       color: #999;
     }
+    .contact-status .contact-status-label {
+      color: var(--cian);
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -370,16 +384,19 @@
     footer .rojo { color: var(--rojo); }
 
     /* ── NO-SCROLL DESKTOP LAYOUT ── */
-    /* On tall-enough desktop viewports, trim only the empty vertical
-       space above and below the contact content (between the header's
-       bottom line and "Get in touch", and between the content and the
-       footer line) so the page fits without scrolling. Title and footer
-       sizing/spacing stay identical to the rest of the site. */
-    @media (min-width: 901px) {
+    /* On desktop viewports tall enough to hold the whole contact block,
+       the page fits without scrolling and the content is centred between
+       the header and the footer. Shorter windows scroll normally so
+       nothing is clipped. */
+    @media (min-width: 901px) and (min-height: 790px) {
       html, body { height: 100%; }
       body { overflow: hidden; }
 
-      .main-inner { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+      main { display: flex; align-items: center; }
+      .main-inner { width: 100%; padding-top: 0.75rem; padding-bottom: 0.75rem; }
+      .contact-fila { padding: 1.05rem 0; }
+      .contact-route { margin-top: 1.5rem; }
+      .contact-status { margin-top: 2rem; }
     }
 
     /* ── RESPONSIVE ── */
@@ -478,34 +495,17 @@
             related to composition and live electronics work.
           </p>
 
-          <!-- Decorative coordinates -->
-          <div class="contact-coords">
-            <div class="coord-line">
-              SCL <span class="coord-highlight">33°27'S / 70°40'W</span>
-            </div>
-            <div class="coord-line">
-              GVA <span class="coord-highlight">46°12'N / 6°09'E</span>
-            </div>
-          </div>
 
-          <!-- Decorative SVG circuit motif -->
-          <div class="contact-deco" aria-hidden="true">
-            <svg width="160" height="60" viewBox="0 0 160 60" xmlns="http://www.w3.org/2000/svg">
-              <!-- Horizontal main line -->
-              <line x1="0" y1="30" x2="140" y2="30" stroke="#1a1a1a" stroke-width="1"/>
-              <!-- Vertical branches -->
-              <line x1="40" y1="30" x2="40" y2="10" stroke="#1a1a1a" stroke-width="1"/>
-              <line x1="90" y1="30" x2="90" y2="50" stroke="#1a1a1a" stroke-width="1"/>
-              <line x1="130" y1="30" x2="130" y2="10" stroke="#1a1a1a" stroke-width="1"/>
-              <!-- Nodes -->
-              <circle cx="40"  cy="10" r="2.5" fill="none" stroke="#c0392b" stroke-width="1"/>
-              <circle cx="90"  cy="50" r="2.5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
-              <circle cx="130" cy="10" r="2.5" fill="none" stroke="#00b8c8" stroke-width="1" opacity="0.6"/>
-              <!-- End cap -->
-              <circle cx="140" cy="30" r="3" fill="#00b8c8" opacity="0.25"/>
-              <!-- Small horizontal tick at start -->
-              <line x1="0" y1="26" x2="0" y2="34" stroke="#555" stroke-width="1"/>
-            </svg>
+          <!-- Availability status -->
+          <div class="contact-status">
+            <p class="contact-status-label">Current status</p>
+            <p>
+              Currently writing a new work for Ensemble Contrechamps and in residence at the
+              Fondation <span style="white-space: nowrap;">Singer-Polignac</span> for the <span style="white-space: nowrap;">2026–2027</span> season.
+            </p>
+            <p style="margin-top: 0.6rem;">
+              Open to commissions and collaborations for the <span style="white-space: nowrap;">2027–2028</span> season.
+            </p>
           </div>
         </div>
 
@@ -535,17 +535,67 @@
             </div>
           </div>
 
-          <!-- Availability status -->
-          <div class="contact-status">
-            <p class="contact-status-label">Current status</p>
-            <p>
-              Currently writing a new work for Ensemble Contrechamps and in residence at the
-              Fondation Singer-Polignac for the 2026–2027 season.
-            </p>
-            <p style="margin-top: 0.6rem;">
-              Open to commissions and collaborations for the 2027–2028 season.
-            </p>
+          <!-- Route motif: Santiago / Paris / Geneva -->
+          <div class="contact-route">
+            <svg class="route-svg" viewBox="0 0 400 104" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <pattern id="rt-minor" x="20" y="0" width="9" height="6" patternUnits="userSpaceOnUse">
+                  <line x1="0.5" y1="0" x2="0.5" y2="3" stroke="#333" stroke-width="1"/>
+                </pattern>
+                <pattern id="rt-major" x="20" y="0" width="45" height="6" patternUnits="userSpaceOnUse">
+                  <line x1="0.5" y1="0" x2="0.5" y2="6" stroke="#484848" stroke-width="1"/>
+                </pattern>
+              </defs>
+
+              <!-- Baseline ruler -->
+              <line class="route-base" x1="20" y1="96" x2="380" y2="96"/>
+              <rect x="20" y="96" width="361" height="6" fill="url(#rt-minor)"/>
+              <rect x="20" y="96" width="361" height="6" fill="url(#rt-major)"/>
+
+              <!-- Lanes: SCL-GVA, SCL-PAR, PAR-GVA, one per direction -->
+              <path class="route-lane route-lane--east" data-dir="east" data-to="GVA" d="M20 96 Q200 -78 380 96"/>
+              <path class="route-lane route-lane--west" data-dir="west" data-to="SCL" d="M380 96 Q200 -54 20 96"/>
+              <path class="route-lane route-lane--east" data-dir="east" data-to="PAR" d="M20 96 Q155 -30 290 96"/>
+              <path class="route-lane route-lane--west" data-dir="west" data-to="SCL" d="M290 96 Q155 -8 20 96"/>
+              <path class="route-lane route-lane--east" data-dir="east" data-to="GVA" d="M290 96 Q335 30 380 96"/>
+              <path class="route-lane route-lane--west" data-dir="west" data-to="PAR" d="M380 96 Q335 52 290 96"/>
+
+              <g id="route-ripples"></g>
+              <g id="route-comets"></g>
+
+              <!-- SCL node (Puente Alto) -->
+              <g transform="translate(20 96)">
+                <circle r="3.2" fill="#0a0a0a" stroke="#e63946" stroke-width="1"/>
+                <circle r="1.2" fill="#e63946"/>
+              </g>
+              <!-- PAR node (Gare du Nord) -->
+              <g transform="translate(290 96)">
+                <circle r="3.2" fill="#0a0a0a" stroke="#f8f5f0" stroke-width="1"/>
+                <circle r="1.2" fill="#f8f5f0"/>
+              </g>
+              <!-- GVA node (Plainpalais) -->
+              <g transform="translate(380 96)">
+                <circle r="3.2" fill="#0a0a0a" stroke="#00d4e8" stroke-width="1"/>
+                <circle r="1.2" fill="#00d4e8"/>
+              </g>
+            </svg>
+
+            <div class="route-coords">
+              <div class="route-coord">
+                <span class="coord-code--rojo">SCL</span>
+                <span>33°37'S / 70°35'W</span>
+              </div>
+              <div class="route-coord">
+                <span class="coord-code--blanco">PAR</span>
+                <span>48°53'N / 2°21'E</span>
+              </div>
+              <div class="route-coord">
+                <span class="coord-code--cian">GVA</span>
+                <span>46°12'N / 6°08'E</span>
+              </div>
+            </div>
           </div>
+
         </div>
 
       </div>
@@ -681,6 +731,83 @@
       raf = requestAnimationFrame(draw);
     }
     raf = requestAnimationFrame(draw);
+  })();
+  </script>
+
+  <script>
+  // ── ROUTE MOTIF: pulses travelling at random between SCL / PAR / GVA ──
+  // Red pulses head east (towards Europe), cian pulses head west.
+  (function () {
+    const svg = document.querySelector('.route-svg');
+    if (!svg) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const NODES = { SCL: [20, 96], PAR: [290, 96], GVA: [380, 96] };
+    const cometLayer = svg.querySelector('#route-comets');
+    const rippleLayer = svg.querySelector('#route-ripples');
+    const COLOR = { east: '#e63946', west: '#00d4e8' };
+    const MAX_AT_ONCE = 6;
+
+    const lanes = Array.from(svg.querySelectorAll('.route-lane')).map(el => ({
+      d: el.getAttribute('d'),
+      len: el.getTotalLength(),
+      dir: el.dataset.dir,
+      to: NODES[el.dataset.to],
+      busy: false
+    }));
+
+    function ripple(pt, color) {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', pt[0]); c.setAttribute('cy', pt[1]); c.setAttribute('r', 3);
+      c.setAttribute('fill', 'none'); c.setAttribute('stroke', color); c.setAttribute('stroke-width', 1);
+      c.setAttribute('vector-effect', 'non-scaling-stroke');
+      c.style.transformBox = 'fill-box'; c.style.transformOrigin = 'center';
+      rippleLayer.appendChild(c);
+      c.animate(
+        [{ transform: 'scale(1)', opacity: 0.7 }, { transform: 'scale(5)', opacity: 0 }],
+        { duration: 1600, easing: 'ease-out' }
+      ).onfinish = () => c.remove();
+    }
+
+    function launch(lane) {
+      lane.busy = true;
+      const len = lane.len;
+      const duration = Math.min(8000, Math.max(1800, len / 0.058));
+      const make = (extraClass, dash) => {
+        const p = document.createElementNS(NS, 'path');
+        p.setAttribute('d', lane.d);
+        p.setAttribute('class', 'route-comet route-comet--' + lane.dir + ' ' + extraClass);
+        p.style.strokeDasharray = dash + 'px ' + (len + 60) + 'px';
+        p.style.strokeDashoffset = dash + 'px';
+        cometLayer.appendChild(p);
+        return p;
+      };
+      const tail = make('route-comet--tail', 34);
+      const head = make('', 10);
+      const opts = { duration, easing: 'cubic-bezier(.42,0,.58,1)', fill: 'forwards' };
+      tail.animate([{ strokeDashoffset: '34px' }, { strokeDashoffset: -len + 'px' }], opts);
+      head.animate([{ strokeDashoffset: '10px' }, { strokeDashoffset: -(len + 24) + 'px' }], opts).onfinish = () => {
+        head.remove(); tail.remove(); lane.busy = false;
+      };
+      setTimeout(() => ripple(lane.to, COLOR[lane.dir]), duration * 0.9);
+    }
+
+    function tick() {
+      if (!document.hidden) {
+        const free = lanes.filter(l => !l.busy);
+        if (free.length && lanes.length - free.length < MAX_AT_ONCE) {
+          launch(free[Math.floor(Math.random() * free.length)]);
+        }
+      }
+      setTimeout(tick, 450 + Math.random() * 1000);
+    }
+
+    [0, 350, 800].forEach(delay => setTimeout(() => {
+      const free = lanes.filter(l => !l.busy);
+      if (free.length) launch(free[Math.floor(Math.random() * free.length)]);
+    }, delay));
+    setTimeout(tick, 1200);
   })();
   </script>
 
