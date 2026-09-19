@@ -1,0 +1,52 @@
+/* Page transitions for the whole site.
+   Chrome, Edge and Safari cross-fade between pages with View Transitions.
+   Other browsers get the fade-out in transition.js; every page already fades in. */
+
+html { background: #0a0a0a; }
+
+@view-transition { navigation: auto; }
+
+/* The navigation bar stays put while the page changes underneath it */
+nav { view-transition-name: site-nav; }
+nav:has(.nav-menu.open) { view-transition-name: none; }
+
+::view-transition-group(site-nav) { animation-duration: 0.3s; }
+::view-transition-old(root),
+::view-transition-new(root) { mix-blend-mode: normal; }
+
+/* Leaving page: lifts away and fades */
+::view-transition-old(root) {
+  animation: vt-out 0.24s cubic-bezier(0.4, 0, 1, 1) both;
+}
+/* Arriving page: powers on with a short flicker (same language as the hero) and settles */
+::view-transition-new(root) {
+  animation:
+    vt-flicker 0.46s linear 0.05s both,
+    vt-rise 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+@keyframes vt-out     { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-rise    { from { transform: translateY(14px); } to { transform: none; } }
+@keyframes vt-flicker {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.7; }
+  30%  { opacity: 0.32; }
+  48%  { opacity: 0.95; }
+  62%  { opacity: 0.78; }
+  100% { opacity: 1; }
+}
+
+/* Browsers without cross-document View Transitions: fade the page out before leaving */
+html.is-leaving body > :not(nav):not(script) {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 1, 1), transform 0.22s cubic-bezier(0.4, 0, 1, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(site-nav) { animation-duration: 0.01s; }
+  ::view-transition-old(root) { animation: vt-fade-out 0.12s linear both; }
+  ::view-transition-new(root) { animation: vt-fade-in 0.12s linear both; }
+  @keyframes vt-fade-out { to { opacity: 0; } }
+  @keyframes vt-fade-in  { from { opacity: 0; } to { opacity: 1; } }
+  html.is-leaving body > :not(nav):not(script) { transform: none; transition: opacity 0.12s linear; }
+}
