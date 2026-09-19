@@ -8,6 +8,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/transition.css" />
+  <script src="/transition.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&family=Orbitron:wght@400;700&family=Audiowide&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&family=Syne+Mono&family=Space+Mono:wght@400;700&family=VT323&family=Major+Mono+Display&family=Zen+Dots&family=Unica+One&family=JetBrains+Mono:wght@400;700&family=Michroma&family=Iceland&family=Wallpoet&family=Aldrich&display=swap" rel="stylesheet" />
@@ -167,7 +169,8 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .boot-flash { display: none; }
-      #inicio h1.font-cycling { animation: none; }
+      #inicio h1.resonating { animation: none; }
+      #inicio h1.name-echo, #inicio h1.name-slice { display: none; }
     }
 
     /* ── SCAN LINE OVERLAY ── */
@@ -270,17 +273,42 @@
       color: var(--blanco);
       text-shadow: 0 0 80px rgba(0,212,232,0.08);
     }
-    #inicio h1.font-cycling {
-      animation: font-flicker 0.24s steps(1, end);
+    /* ── NAME: resonance and reverb tails whenever the typeface changes ── */
+    #inicio h1.resonating { animation: name-ring 0.9s ease-in-out both; }
+    @keyframes name-ring {
+      0%   { opacity: 0.35; transform: translate3d(-10px, 0, 0) skewX(-9deg);   text-shadow: 10px 0 var(--rojo), -10px 0 var(--cian), 0 0 28px rgba(230,57,70,0.55); }
+      10%  { opacity: 1;    transform: translate3d(7px, -1px, 0) skewX(5deg);    text-shadow: -8px 0 var(--cian), 8px 0 var(--rojo), 0 0 30px rgba(0,212,232,0.55); }
+      24%  {                transform: translate3d(-4.5px, 0, 0) skewX(-3deg);   text-shadow: 5px 0 var(--rojo), -5px 0 var(--cian), 0 0 24px rgba(230,57,70,0.3); }
+      40%  {                transform: translate3d(2.6px, 0, 0) skewX(1.6deg);   text-shadow: -3px 0 var(--cian), 3px 0 var(--rojo), 0 0 20px rgba(0,212,232,0.25); }
+      58%  {                transform: translate3d(-1.3px, 0, 0) skewX(-0.7deg); text-shadow: 1.8px 0 var(--rojo), -1.8px 0 var(--cian); }
+      78%  {                transform: translate3d(0.5px, 0, 0);                 text-shadow: -0.8px 0 var(--cian), 0.8px 0 var(--rojo); }
+      100% { opacity: 1;    transform: none;                                     text-shadow: 0 0 80px rgba(0,212,232,0.08); }
     }
-    @keyframes font-flicker {
-      0%   { opacity: 0.1;  transform: translate(-4px, 0) skewX(-8deg);  text-shadow: 6px 0 var(--rojo), -6px 0 var(--cian), 0 0 24px rgba(230,57,70,0.7); }
-      14%  { opacity: 0.95; transform: translate(4px, -1px) skewX(6deg); text-shadow: -7px 0 var(--cian), 7px 0 var(--rojo), 0 0 28px rgba(0,212,232,0.8); }
-      28%  { opacity: 0.2;  transform: translate(-3px, 1px) skewX(-4deg); text-shadow: 5px 0 var(--rojo), -5px 0 var(--cian); }
-      42%  { opacity: 1;    transform: translate(3px, 0) skewX(3deg);   text-shadow: -6px 0 var(--cian), 6px 0 var(--rojo), 0 0 30px rgba(0,212,232,0.6); }
-      58%  { opacity: 0.3;  transform: translate(-2px, 0) skewX(0deg); text-shadow: 4px 0 var(--rojo), -4px 0 var(--cian); }
-      75%  { opacity: 0.9;  transform: translate(0, 0);                 text-shadow: -3px 0 var(--cian), 3px 0 var(--rojo); }
-      100% { opacity: 1;    transform: translate(0, 0);                 text-shadow: 0 0 80px rgba(0,212,232,0.08); }
+    /* Echoes of the previous typeface, drawn as outlines like the site's wireframes:
+       they drift away and fade, like the tail of a reverb */
+    #inicio h1.name-echo {
+      position: absolute; left: 0; top: 0; margin: 0;
+      pointer-events: none; z-index: -1;
+      color: transparent; -webkit-text-stroke: 1.2px var(--eco-color, var(--cian)); text-shadow: none;
+      transform-origin: 0 55%;
+      animation: name-echo var(--eco-dur, 0.8s) ease-out var(--eco-delay, 0s) both;
+    }
+    @keyframes name-echo {
+      from { opacity: var(--eco-op, 0.5); transform: translate3d(0, 0, 0) scale(1); }
+      to   { opacity: 0; transform: translate3d(var(--eco-x, 12px), var(--eco-y, 0px), 0) scale(var(--eco-s, 1.015)); }
+    }
+    /* Occasional horizontal slices that jump sideways for a split second */
+    #inicio h1.name-slice {
+      position: absolute; left: 0; top: 0; margin: 0;
+      pointer-events: none; z-index: 1;
+      color: var(--eco-color, var(--blanco)); text-shadow: none;
+      clip-path: inset(var(--cut-a) 0 var(--cut-b) 0);
+      animation: name-slice 0.18s steps(3, end) both;
+    }
+    @keyframes name-slice {
+      0%   { opacity: 1; transform: translate3d(var(--sx), 0, 0); }
+      60%  { opacity: 1; transform: translate3d(calc(var(--sx) * -0.45), 0, 0); }
+      100% { opacity: 0; transform: translate3d(0, 0, 0); }
     }
     .hero-descripcion {
       font-size: 0.78rem;
@@ -516,6 +544,15 @@
     const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
     let t = 0;
 
+    // ── TEMPO & PULSE ──
+    // Everything runs at a lively base tempo. Every few seconds a "pulse" bursts
+    // in: rotations accelerate, the lines glitch, a ripple leaves the centre and
+    // the name (separate script) flips through a few fonts in quick succession.
+    const BASE_TEMPO = 1.6;
+    let surge = 0, surgeTimer = 3.2, simT = 0, trT = 0, crawlT = 0;
+    let floorGlitch = 0, floorGlitchTimer = 2;
+    let sweep = null;
+
     // ── 3D HELPERS ──
     function rotX(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0], v[1] * c - v[2] * s, v[1] * s + v[2] * c]; }
     function rotY(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c]; }
@@ -634,7 +671,7 @@
     }
     const FLOOR = [170, 200, 210];
 
-    function drawFloor(time) {
+    function drawFloor() {
       const hy = H * 0.62, vx = W * 0.40 + ptr.x * W * 0.015;
       // horizon hairline: cian, brightest on the left third
       fadeLine(0, hy, W, hy, CIAN, (x) => {
@@ -648,12 +685,19 @@
         if (xb > W * 0.82 || xb < -W * 0.1) continue;
         fadeLine(vx + i * step * 0.05, hy, xb, H, FLOOR, (x, y) => 0.26 * (y - hy) / (H - hy), 0.6, 10);
       }
-      // crossbars crawling towards the viewer
-      const crawl = (time * 0.035) % 1, N = 9;
+      // crossbars crawling towards the viewer (they stutter and double up when the floor glitches)
+      const crawl = crawlT % 1, N = 9, gj = floorGlitch > 0;
       for (let j = 0; j < N; j++) {
         const p = ((j / N) + crawl) % 1;
-        const y = hy + (H - hy) * Math.pow(p, 2.1), k = 0.12 + 0.6 * p;
-        fadeLine(0, y, W, y, FLOOR, (x) => k * (1 - smooth(0.5 * W, 0.8 * W, x)), 0.6, 20);
+        let y = hy + (H - hy) * Math.pow(p, 2.1);
+        const k = 0.12 + 0.6 * p;
+        if (gj && Math.random() < 0.55) y += rand(-5, 5);
+        const env = x => k * (1 - smooth(0.5 * W, 0.8 * W, x));
+        fadeLine(gj ? rand(-14, 14) : 0, y, W, y, FLOOR, env, 0.6, 20);
+        if (gj && Math.random() < 0.3) {
+          const y2 = y + rand(-18, 18);
+          fadeLine(rand(-40, 40), y2, W, y2, Math.random() < 0.5 ? CIAN : ROJO, x => env(x) * 0.9, 0.7, 20);
+        }
       }
     }
 
@@ -664,45 +708,95 @@
       { y: 0.53,  baseAmp: 20, freqBase: 0.028, freqMod: 0.016, ampMod: 22, speed: 0.00030, speedMod: -0.00006, phase: 2.6, color: WHITE, lw: 0.7, op: 0.25 },
       { y: 0.595, baseAmp: 14, freqBase: 0.010, freqMod: 0.018, ampMod: 16, speed: -0.00010, speedMod: 0.00007, phase: 4.1, color: CIAN,  lw: 0.5, op: 0.20 },
     ];
-    waves.forEach((w, i) => { w.noisePhase = i * 2.7; w.burstTimer = Math.random() * 2; w.burstAmp = 0; w.burstDecay = 0; });
+    waves.forEach((w, i) => {
+      w.noisePhase = i * 2.7; w.burstTimer = Math.random() * 2; w.burstAmp = 0; w.burstDecay = 0;
+      w.g = { t: 0, dur: 0, amp: 0, quant: 0, slices: [], spikes: [], jump: 0 };
+      w.glitchIn = rand(0.6, 3.2);
+    });
+
+    // A glitch episode on one wave: displaced slices, stair-stepped samples,
+    // needle spikes and a jump of phase. Short, violent, and only now and then.
+    function triggerWaveGlitch(w, k) {
+      const g = w.g;
+      g.t = 0; g.dur = rand(0.14, 0.5); g.amp = k;
+      g.quant = Math.random() < 0.55 ? rand(3, 10) : 0;
+      g.slices = Array.from({ length: 1 + Math.floor(Math.random() * 3) }, () => {
+        const a = rand(0, 0.8);
+        return { x0: a, x1: a + rand(0.05, 0.28), dx: rand(-80, 80), dy: rand(-16, 16) };
+      });
+      g.spikes = Array.from({ length: Math.floor(Math.random() * 4) }, () => ({
+        x: rand(0.03, 0.62), h: rand(18, 70) * (Math.random() < 0.5 ? -1 : 1), w: rand(0.003, 0.012),
+      }));
+      g.jump = rand(-3, 3);
+    }
 
     function drawWave(w, time, dt, pass) {
       const offY = pass * 12, ampScale = 1 - pass * 0.18, opScale = 1 - pass * 0.34, compress = 1 - pass * 0.045;
-      const baseY = w.y * H + offY, centerX = W / 2;
+      const baseY = w.y * H + offY, centerX = W / 2, g = w.g;
       if (pass === 0) {
         w.burstTimer -= dt;
         if (w.burstTimer <= 0) { w.burstAmp = rand(14, 40); w.burstDecay = rand(0.06, 0.26); w.burstTimer = rand(0.8, 2.8); }
         w.burstAmp *= (1 - dt / Math.max(w.burstDecay, 0.001));
         if (w.burstAmp < 0.5) w.burstAmp = 0;
+        if (!reduceMotion) {
+          w.glitchIn -= dt * (1 + 1.5 * surge);
+          if (w.glitchIn <= 0) { triggerWaveGlitch(w, rand(0.35, 0.9)); w.glitchIn = rand(1.1, 4.2); }
+        }
+        if (g.dur > 0) { g.t += dt; if (g.t >= g.dur) g.dur = 0; }
       }
+      const ga = g.dur > 0 ? g.amp * (1 - 0.35 * g.t / g.dur) : 0;   // glitch strength right now
       const noiseBase = Math.sin(time * 1.37 + w.noisePhase) * Math.cos(time * 0.89 + w.noisePhase * 1.6);
       const freq1 = w.freqBase + w.freqMod * Math.sin(time * 0.31 + w.phase);
       const freq2 = freq1 * 1.618, freq3 = freq1 * 6.87, freq4 = freq1 * 0.11;
       const amp1 = (w.baseAmp + w.ampMod * Math.sin(time * 0.17 + w.phase * 1.3)) * ampScale;
       const amp2 = amp1 * 0.45, amp3 = amp1 * 0.22 * (0.5 + 0.5 * Math.abs(noiseBase)), amp4 = amp1 * 0.30;
       const spd = w.speed + w.speedMod * Math.sin(time * 0.11);
-      const T = time * spd * 1000 + pass * 0.6;
+      const T = time * spd * 1000 + pass * 0.6 + g.jump * ga;
       const burstCenter = 0.3 + 0.4 * Math.abs(Math.sin(w.noisePhase + time * 0.5));
+      const jit = 1.1 + 6 * ga;
       const xs = [], ys = [];
       for (let x = 0; x <= W; x += 3) {
-        const nx = x / W;
+        let sx = x, dy = 0;
+        if (ga > 0) {
+          const u = x / W;
+          for (let q = 0; q < g.slices.length; q++) {
+            const sl = g.slices[q];
+            if (u >= sl.x0 && u <= sl.x1) { sx = x + sl.dx * ga; dy += sl.dy * ga; }
+          }
+        }
+        const nx = sx / W;
         const noisy = Math.sin(nx * W * freq3 * 0.06 + T * 1.9 + w.noisePhase) * Math.cos(nx * W * freq3 * 0.041 + T * 2.3);
         const burst = w.burstAmp * ampScale * Math.exp(-Math.pow(nx - burstCenter, 2) * 18) * Math.sin(nx * W * 0.08 + T * 4.1);
-        const y = baseY
+        let y = baseY + dy
           + amp1 * Math.sin(nx * W * freq1 * 0.06 + T)
           + amp2 * Math.sin(nx * W * freq2 * 0.06 + T * 1.3 + 1.1)
           + amp3 * noisy
           + amp4 * Math.sin(nx * W * freq4 * 0.06 + T * 0.3)
-          + burst;
+          + burst
+          + (Math.random() - 0.5) * jit;
+        if (ga > 0) {
+          for (let q = 0; q < g.spikes.length; q++) {
+            const sp = g.spikes[q], d = (nx - sp.x) / sp.w;
+            y += sp.h * ga * Math.exp(-d * d);
+          }
+          if (g.quant && ga > 0.05) y = Math.round(y / g.quant) * g.quant;
+        }
         xs.push(centerX + (x - centerX) * compress); ys.push(y);
       }
       // drawn in short chunks so the trace dissolves towards the right and over the text
-      const base = w.op * opScale, CH = 8;
+      const base = w.op * opScale, CH = 8, sh = 2.6 * ga;
       ctx.lineWidth = w.lw * (1 - pass * 0.25);
       for (let i = 0; i < xs.length - 1; i += CH) {
         const j = Math.min(i + CH, xs.length - 1), m = (i + j) >> 1;
         const a = base * (1 - 0.97 * smooth(0.5 * W, 0.92 * W, xs[m])) * clearance(xs[m], ys[m]);
         if (a < 0.008) continue;
+        if (ga > 0.2 && pass === 0) {           // chromatic split while the line glitches
+          [[CIAN, -sh, -sh * 0.5], [ROJO, sh, sh * 0.5]].forEach(c => {
+            ctx.beginPath(); ctx.moveTo(xs[i] + c[1], ys[i] + c[2]);
+            for (let k = i + 1; k <= j; k++) ctx.lineTo(xs[k] + c[1], ys[k] + c[2]);
+            ctx.strokeStyle = rgba(c[0], a * 0.6); ctx.stroke();
+          });
+        }
         ctx.beginPath(); ctx.moveTo(xs[i], ys[i]);
         for (let k = i + 1; k <= j; k++) ctx.lineTo(xs[k], ys[k]);
         ctx.strokeStyle = rgba(w.color, a); ctx.stroke();
@@ -746,10 +840,11 @@
       const e = tr.px[tr.px.length - 1];
       ctx.strokeStyle = rgba(tr.color, 0.45); ctx.lineWidth = 0.9;
       ctx.strokeRect(e[0] - 3.5, e[1] - 3.5, 7, 7);
-      // pulse
+      // two pulses per trace, half a cycle apart
       const cycle = tr.len + 260;
-      const s = (time * tr.sp + tr.off) % cycle;
-      if (s < tr.len + 40) {
+      [0, cycle / 2].forEach(o => {
+        const s = (time * tr.sp + tr.off + o) % cycle;
+        if (s >= tr.len + 40) return;
         ctx.lineWidth = 1.5; ctx.lineCap = 'round';
         for (let j = 0; j < 14; j++) {
           const a = s - j * 6, b = s - (j + 1) * 6;
@@ -763,7 +858,7 @@
           ctx.fillStyle = rgba(tr.color, 0.95); ctx.beginPath(); ctx.arc(h[0], h[1], 2, 0, TAU); ctx.fill();
           ctx.fillStyle = rgba(tr.color, 0.12); ctx.beginPath(); ctx.arc(h[0], h[1], 7, 0, TAU); ctx.fill();
         }
-      }
+      });
       ctx.restore();
     }
 
@@ -923,7 +1018,7 @@
     const sonar = [];
     let sonarTimer = 1.5;
 
-    function drawCentrepiece(time, dt) {
+    function drawCentrepiece(time, dt, sdt) {
       view.y = time * 0.09 + ptr.x * 0.55;
       view.x = 0.5 + ptr.y * 0.35 + Math.sin(time * 0.17) * 0.12;
       ox = -ptr.x * S * 0.014; oy = -ptr.y * S * 0.010;
@@ -931,19 +1026,19 @@
 
       // sonar ripples
       sonarTimer -= dt;
-      if (sonarTimer <= 0) { sonar.push({ age: 0 }); sonarTimer = rand(4.2, 6.5); }
+      if (sonarTimer <= 0) { sonar.push({ age: 0 }); sonarTimer = rand(5, 8); }
       for (let i = sonar.length - 1; i >= 0; i--) {
-        const rp = sonar[i]; rp.age += dt / 3.4;
+        const rp = sonar[i]; rp.age += dt / (rp.big ? 2.2 : 3.4);
         if (rp.age >= 1) { sonar.splice(i, 1); continue; }
-        ctx.beginPath(); ctx.arc(cx + ox, cy + oy, S * (0.06 + rp.age * 0.36) * sc, 0, TAU);
-        ctx.strokeStyle = rgba(CIAN, 0.22 * (1 - rp.age)); ctx.lineWidth = 0.9; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx + ox, cy + oy, S * (0.06 + rp.age * (rp.big ? 0.62 : 0.36)) * sc, 0, TAU);
+        ctx.strokeStyle = rgba(rp.big ? WHITE : CIAN, (rp.big ? 0.4 : 0.22) * (1 - rp.age)); ctx.lineWidth = rp.big ? 1.2 : 0.9; ctx.stroke();
       }
 
       // rings: compute once, draw back halves first
-      rings.forEach(r => { r.dt = dt; });
+      rings.forEach(r => { r.dt = sdt; });
       const geos = rings.map(r => ringGeometry(r, time));
       const obs = orbiters.map(ob => {
-        ob.a += ob.sp * dt;
+        ob.a += ob.sp * sdt;
         const rd = rings[ob.ring];
         return { ob, rd, pos: proj(ringPoint(rd, ob.a)) };
       });
@@ -974,6 +1069,12 @@
       HC_E.forEach(e => {
         const p1 = P[e[0]], p2 = P[e[1]], st = EDGE[e[2]];
         const d = 0.45 + 0.55 * clamp(((p1[2] + p2[2]) / 2 / zr + 1) / 2, 0, 1);
+        if (surge > 0.06 && e[2] < 2) {         // chromatic aberration while the pulse lasts
+          const ab = 3.4 * surge;
+          ctx.lineWidth = st.lw;
+          ctx.strokeStyle = rgba(CIAN, 0.55 * surge * d); ctx.beginPath(); ctx.moveTo(p1[0] - ab, p1[1]); ctx.lineTo(p2[0] - ab, p2[1]); ctx.stroke();
+          ctx.strokeStyle = rgba(ROJO, 0.55 * surge * d); ctx.beginPath(); ctx.moveTo(p1[0] + ab, p1[1]); ctx.lineTo(p2[0] + ab, p2[1]); ctx.stroke();
+        }
         ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]);
         ctx.strokeStyle = rgba(st.col, st.op * 0.13 * d); ctx.lineWidth = st.lw * 4; ctx.stroke();
         ctx.strokeStyle = rgba(st.col, st.op * d); ctx.lineWidth = st.lw; ctx.stroke();
@@ -1065,34 +1166,57 @@
       ctx.beginPath(); ctx.moveTo(0, tear.y + tear.h); ctx.lineTo(W, tear.y + tear.h); ctx.stroke();
     }
 
+    // ══════════════════════════ PULSE ══════════════════════════
+    function firePulse() {
+      surge = 1;
+      sonar.push({ age: 0, big: true });
+      waves.forEach(w => triggerWaveGlitch(w, rand(0.7, 1)));
+      floorGlitch = rand(0.25, 0.5);
+      for (let i = 0; i < 2 && glitchShapes.length < 5; i++) spawnGlitchShape();
+      if (Math.random() < 0.7) tearTimer = 99;
+      if (!compact && Math.random() < 0.6) sweep = { x: -20, v: rand(1600, 2400), w: rand(50, 100) };
+      window.dispatchEvent(new CustomEvent('hero:pulse'));
+    }
+
     // ══════════════════════════ FRAME ══════════════════════════
     function render(dt) {
+      surgeTimer -= dt;
+      if (!reduceMotion && surgeTimer <= 0) { firePulse(); surgeTimer = rand(4, 8.5); }
+      surge *= Math.exp(-dt / 0.8);
+      const sdt = dt * BASE_TEMPO * (1 + 1.8 * surge);
+      simT += sdt;
+      trT += dt * (1 + 2.6 * surge);
+      crawlT += dt * 0.05 * (1 + 2.5 * surge);
+      floorGlitch = Math.max(0, floorGlitch - dt);
+      floorGlitchTimer -= dt;
+      if (!reduceMotion && floorGlitchTimer <= 0) { floorGlitch = rand(0.08, 0.22); floorGlitchTimer = rand(2.5, 6); }
       ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 2.5);
       ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 2.5);
       ctx.clearRect(0, 0, W, H);
 
       ctx.fillStyle = gl.glow; ctx.fillRect(0, 0, W, H);
       ctx.fillStyle = gl.glowR; ctx.fillRect(0, 0, W, H);
+      if (surge > 0.02) { ctx.globalAlpha = Math.min(1, surge * 1.6); ctx.fillStyle = gl.glow; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
 
-      drawFloor(t);
+      drawFloor();
 
       // long diagonal hairlines
       fadeLine(0, H, W * 0.35, H * 0.45, [120, 120, 120], (x, y) => 0.55 * clamp((y - H * 0.45) / (H * 0.55), 0, 1), 0.8, 24);
       fadeLine(W * 0.05, H, W * 0.48, H * 0.25, [100, 100, 100], (x, y) => 0.45 * clamp((y - H * 0.25) / (H * 0.75), 0, 1), 0.5, 24);
 
       waves.forEach(w => { drawWave(w, t, dt, 2); drawWave(w, t, dt, 1); drawWave(w, t, dt, 0); });
-      if (!compact) traces.forEach(tr => drawTrace(tr, t));
+      if (!compact) traces.forEach(tr => drawTrace(tr, trT));
       drawDots(t);
-      solids.forEach(s => drawSolid(s, t, dt));
-      drawCentrepiece(t, dt);
+      solids.forEach(s => drawSolid(s, t, sdt));
+      drawCentrepiece(simT, dt, sdt);
 
       // top-left crosshair
       ctx.strokeStyle = 'rgba(120,120,120,0.45)'; ctx.lineWidth = 0.7;
       ctx.beginPath(); ctx.moveTo(26, 80); ctx.lineTo(54, 80); ctx.moveTo(40, 66); ctx.lineTo(40, 94); ctx.stroke();
 
       // glitch lines
-      glitchTimer += dt;
-      if (glitchTimer > 0.6 + Math.random() * 1.4) { spawnGlitchLines(); glitchTimer = 0; }
+      glitchTimer += dt * (1 + 2 * surge);
+      if (glitchTimer > 0.5 + Math.random() * 1.2) { spawnGlitchLines(); glitchTimer = 0; }
       glitchLines.forEach(g => {
         g.life += dt;
         if (g.life >= g.maxLife) return;
@@ -1103,10 +1227,20 @@
       });
 
       // shapes that assemble out of noise and dissolve back into it
-      glitchShapeTimer += dt;
-      if (glitchShapeTimer > 0.9 + Math.random() * 1.6 && glitchShapes.length < 3) { spawnGlitchShape(); glitchShapeTimer = 0; }
+      glitchShapeTimer += dt * (1 + 2 * surge);
+      if (glitchShapeTimer > 0.8 + Math.random() * 1.4 && glitchShapes.length < (surge > 0.3 ? 5 : 3)) { spawnGlitchShape(); glitchShapeTimer = 0; }
       glitchShapes = glitchShapes.filter(g => g.life < g.tIn + g.tHold + g.tOut);
       glitchShapes.forEach(g => drawGlitchShape(g, dt));
+
+      // scanning beam that crosses the hero right after some pulses
+      if (sweep) {
+        sweep.x += sweep.v * dt;
+        if (sweep.x > W + sweep.w) sweep = null;
+        else for (let k = 0; k < 6; k++) {
+          const xk = sweep.x - k * sweep.w / 6;
+          fadeLine(xk, 0, xk, H, k === 0 ? WHITE : CIAN, () => (k === 0 ? 0.5 : 0.22 * (1 - k / 6)), 1, 14);
+        }
+      }
 
       drawTear(dt);
     }
@@ -1126,7 +1260,7 @@
 
     if (reduceMotion) {
       // one composed still frame; redraw if the size changes
-      t = 9; render(0.016);
+      t = 9; simT = 12; render(0.016);
       window.addEventListener('resize', () => { resize(); render(0.016); });
     } else {
       setInterval(measureZones, 500);
@@ -1214,13 +1348,19 @@
 
   <script>
   // ── NAME FONT CYCLER ──
-  // Cycles the hero name through a bank of 17 typefaces every 0.7s,
-  // in an endless random loop, for as long as the visitor stays on the page.
-  (function() {
+  // The hero name keeps changing typeface. Each change leaves reverb-like echoes
+  // of the previous face, rings down with a damped resonance, and now and then
+  // is cut by sideways slices. When the background fires a "pulse" the name
+  // flips through several faces in quick succession. Fonts are preloaded so a
+  // change never shows a fallback face.
+  (function () {
     const nameEl = document.querySelector('#inicio h1');
     if (!nameEl) return;
+    const host = nameEl.parentElement;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const rand = (a, b) => a + Math.random() * (b - a);
 
-    const fontBank = [
+    const bank = [
       "'Cormorant Garamond', Georgia, serif",
       "'Inter', system-ui, sans-serif",
       "'Orbitron', sans-serif",
@@ -1239,22 +1379,92 @@
       "'Wallpoet', sans-serif",
       "'Aldrich', sans-serif",
     ];
-
-    let lastIndex = -1;
-
-    function cycleFont() {
-      let idx = Math.floor(Math.random() * fontBank.length);
-      if (idx === lastIndex) idx = (idx + 1) % fontBank.length;
-      lastIndex = idx;
-      nameEl.style.fontFamily = fontBank[idx];
-      nameEl.classList.remove('font-cycling');
-      // restart the flicker animation on every change
-      void nameEl.offsetWidth;
-      nameEl.classList.add('font-cycling');
+    const ready = new Set([bank[0], bank[1]]);
+    if (document.fonts && document.fonts.load) {
+      bank.forEach(f => document.fonts.load('112px ' + f, 'Jorge Care').then(() => ready.add(f), () => {}));
+    }
+    let last = bank[0];
+    function pick() {
+      const pool = Array.from(ready).filter(f => f !== last);
+      return pool.length ? pool[Math.floor(Math.random() * pool.length)] : bank[0];
     }
 
-    cycleFont();
-    setInterval(cycleFont, 700);
+    const ECHOES = [
+      { color: 'rgb(0,212,232)',   op: 0.85, x: 14, y: -1, s: 1.012, dur: 0.6, delay: 0 },
+      { color: 'rgb(230,57,70)',   op: 0.65, x: -12, y: 1, s: 1.020, dur: 0.7, delay: 0.08 },
+      { color: 'rgb(248,245,240)', op: 0.32, x: 26, y: 2, s: 1.032, dur: 0.85, delay: 0.18 },
+    ];
+    const live = [];
+    function ghost(cls, vars) {
+      while (live.length > 6) { const old = live.shift(); if (old.parentNode) old.remove(); }
+      const c = nameEl.cloneNode(true);
+      live.push(c);
+      c.removeAttribute('id');
+      c.className = cls;
+      c.setAttribute('aria-hidden', 'true');
+      c.style.left = nameEl.offsetLeft + 'px';
+      c.style.top = nameEl.offsetTop + 'px';
+      c.style.width = nameEl.offsetWidth + 'px';
+      Object.keys(vars).forEach(k => c.style.setProperty(k, vars[k]));
+      c.addEventListener('animationend', () => c.remove(), { once: true });
+      host.appendChild(c);
+    }
+
+    function change(level) {
+      if (!reduce) {
+        // echoes are cloned from the OLD typeface, before it is swapped
+        const n = level === 'light' ? 1 : 3;
+        for (let i = 0; i < n; i++) {
+          const e = ECHOES[i];
+          ghost('name-echo', {
+            '--eco-color': e.color, '--eco-op': e.op, '--eco-x': e.x + 'px', '--eco-y': e.y + 'px',
+            '--eco-s': e.s, '--eco-dur': e.dur + 's', '--eco-delay': e.delay + 's',
+          });
+        }
+      }
+      last = pick();
+      nameEl.style.fontFamily = last;
+      if (reduce) return;
+      nameEl.classList.remove('resonating');
+      void nameEl.offsetWidth;
+      nameEl.classList.add('resonating');
+      if (level !== 'light' && Math.random() < 0.35) {
+        const cuts = 1 + Math.floor(Math.random() * 2);
+        for (let i = 0; i < cuts; i++) {
+          const a = rand(5, 70), h = rand(8, 22);
+          ghost('name-slice', {
+            '--cut-a': a.toFixed(1) + '%', '--cut-b': (100 - a - h).toFixed(1) + '%',
+            '--sx': Math.round(rand(18, 70) * (Math.random() < 0.5 ? -1 : 1)) + 'px',
+            '--eco-color': Math.random() < 0.5 ? 'rgb(248,245,240)' : 'rgb(0,212,232)',
+          });
+        }
+      }
+    }
+
+    if (reduce) {
+      change('none');
+      setInterval(() => change('none'), 1600);
+      return;
+    }
+
+    let burst = 0, timer = 0;
+    function step() {
+      if (burst > 0) {
+        burst--;
+        change(burst === 0 ? 'full' : 'light');
+        timer = setTimeout(step, burst === 0 ? rand(750, 1050) : rand(85, 140));
+        return;
+      }
+      change('full');
+      if (Math.random() < 0.16) burst = 2 + Math.floor(Math.random() * 3);   // a short burst of interference follows
+      timer = setTimeout(step, burst > 0 ? rand(240, 380) : rand(650, 1050));
+    }
+    window.addEventListener('hero:pulse', () => {
+      burst = 3 + Math.floor(Math.random() * 2);
+      clearTimeout(timer);
+      step();
+    });
+    step();
   })();
   </script>
 
