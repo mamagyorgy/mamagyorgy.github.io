@@ -290,36 +290,56 @@
     }
     .hero-descripcion span { color: var(--rojo); margin: 0 0.75rem; opacity: 0.8; }
 
-    /* ── HERO BOTTOM ── */
-    .hero-bottom {
+    /* ── ROUTE HUD (bottom right): Santiago / Paris / Geneva ── */
+    .hero-route {
+      position: absolute;
+      right: 3rem;
+      bottom: 5rem;
+      width: clamp(320px, 28vw, 430px);
+      z-index: 3;
+      animation: fade-in-hero 1.4s ease-out 0.5s both;
+    }
+    .hero-route::before {
+      content: '';
+      position: absolute;
+      inset: -2.4rem -2.6rem -1.8rem;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 58%, rgba(10,10,10,0.84) 0%, rgba(10,10,10,0.62) 42%, rgba(10,10,10,0) 74%);
+    }
+    /* Route motif: Santiago / Paris / Geneva */
+    .route-svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .route-base { stroke: #333; stroke-width: 1; }
+
+    /* Static lanes: red = eastbound (towards Europe), cian = westbound */
+    .route-lane { fill: none; stroke-width: 1; stroke-dasharray: 1.5 4; opacity: 0.5; }
+    .route-lane--east { stroke: var(--rojo); }
+    .route-lane--west { stroke: var(--cian); }
+
+    /* Pulses are created and animated by the script at the end of the page */
+    .route-comet { fill: none; stroke-width: 1.8; stroke-linecap: round; }
+    .route-comet--east { stroke: var(--rojo); }
+    .route-comet--west { stroke: var(--cian); }
+    .route-comet--tail { opacity: 0.3; }
+    .hero-route .route-comet--east.route-comet--head { filter: drop-shadow(0 0 3px rgba(230,57,70,0.9)); }
+    .hero-route .route-comet--west.route-comet--head { filter: drop-shadow(0 0 3px rgba(0,212,232,0.9)); }
+
+    .route-coords {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      position: relative;
-      z-index: 2;
-    }
-    /* Outer block stacks the two location rows (SCL / GVA) */
-    .hero-location-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      align-items: flex-end;
-    }
-    /* Each row is a single line: city code, then coordinates */
-    .hero-location {
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
+      gap: 1rem;
+      margin-top: 0.9rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #666;
-      display: flex;
-      align-items: baseline;
-      white-space: nowrap;
+      color: #777;
     }
-    /* City label beside coord */
-    .coord-city {
-      color: #555;
-      margin-right: 0.5rem;
-    }
+    .route-coord { display: flex; flex-direction: column; gap: 0.1rem; white-space: nowrap; }
+    .route-coord:nth-child(2) { align-items: center; }
+    .route-coord:last-child { align-items: flex-end; }
+    .route-coords .coord-code--rojo   { color: var(--rojo); opacity: 0.85; }
+    .route-coords .coord-code--blanco { color: var(--blanco); opacity: 0.8; }
+    .route-coords .coord-code--cian   { color: var(--cian); opacity: 0.85; }
 
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
@@ -345,6 +365,7 @@
       nav ul { display: none; }
       #inicio { padding: 0 1.5rem 4rem; }
       .hud-tl, .hud-tr { display: none; }
+      .hero-route { position: relative; right: auto; bottom: auto; width: 100%; max-width: 380px; margin-top: 2.25rem; }
     }
   </style>
 </head>
@@ -394,641 +415,800 @@
     </div>
 
     <div class="hero-content">
-      <p class="hero-etiqueta">Chile — Suiza</p>
+      <p class="hero-etiqueta">Chile — Francia — Suiza</p>
       <h1>Jorge<br>Care</h1>
       <p class="hero-descripcion">
         Compositor <span>/</span> Artista digital <span>/</span> Improvisador
       </p>
     </div>
 
-    <div class="hero-bottom">
-      <div style="flex:1"></div>
-      <div class="hero-location-block">
-        <div class="hero-location">
-          <span class="coord-city">SCL</span>33°27'S <span>·</span> 70°40'W
+    <!-- Route HUD: Santiago / Paris / Geneva -->
+    <div class="hero-route">
+      <svg class="route-svg" viewBox="0 0 400 104" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <pattern id="rt-minor" x="20" y="0" width="9" height="6" patternUnits="userSpaceOnUse">
+            <line x1="0.5" y1="0" x2="0.5" y2="3" stroke="#333" stroke-width="1"/>
+          </pattern>
+          <pattern id="rt-major" x="20" y="0" width="45" height="6" patternUnits="userSpaceOnUse">
+            <line x1="0.5" y1="0" x2="0.5" y2="6" stroke="#484848" stroke-width="1"/>
+          </pattern>
+        </defs>
+
+        <!-- Baseline ruler -->
+        <line class="route-base" x1="20" y1="96" x2="380" y2="96"/>
+        <rect x="20" y="96" width="361" height="6" fill="url(#rt-minor)"/>
+        <rect x="20" y="96" width="361" height="6" fill="url(#rt-major)"/>
+
+        <!-- Lanes: SCL-GVA, SCL-PAR, PAR-GVA, one per direction -->
+        <path class="route-lane route-lane--east" data-dir="east" data-to="GVA" d="M20 96 Q200 -78 380 96"/>
+        <path class="route-lane route-lane--west" data-dir="west" data-to="SCL" d="M380 96 Q200 -54 20 96"/>
+        <path class="route-lane route-lane--east" data-dir="east" data-to="PAR" d="M20 96 Q155 -30 290 96"/>
+        <path class="route-lane route-lane--west" data-dir="west" data-to="SCL" d="M290 96 Q155 -8 20 96"/>
+        <path class="route-lane route-lane--east" data-dir="east" data-to="GVA" d="M290 96 Q335 30 380 96"/>
+        <path class="route-lane route-lane--west" data-dir="west" data-to="PAR" d="M380 96 Q335 52 290 96"/>
+
+        <g id="route-ripples"></g>
+        <g id="route-comets"></g>
+
+        <!-- SCL node (Puente Alto) -->
+        <g transform="translate(20 96)">
+          <circle r="3.2" fill="#0a0a0a" stroke="#e63946" stroke-width="1"/>
+          <circle r="1.2" fill="#e63946"/>
+        </g>
+        <!-- PAR node (Gare du Nord) -->
+        <g transform="translate(290 96)">
+          <circle r="3.2" fill="#0a0a0a" stroke="#f8f5f0" stroke-width="1"/>
+          <circle r="1.2" fill="#f8f5f0"/>
+        </g>
+        <!-- GVA node (Plainpalais) -->
+        <g transform="translate(380 96)">
+          <circle r="3.2" fill="#0a0a0a" stroke="#00d4e8" stroke-width="1"/>
+          <circle r="1.2" fill="#00d4e8"/>
+        </g>
+      </svg>
+
+      <div class="route-coords">
+        <div class="route-coord">
+          <span class="coord-code--rojo">SCL</span>
+          <span>33°37'S / 70°35'W</span>
         </div>
-        <div class="hero-location">
-          <span class="coord-city">GVA</span>46°12'N <span>·</span> 6°09'E
+        <div class="route-coord">
+          <span class="coord-code--blanco">PAR</span>
+          <span>48°53'N / 2°21'E</span>
+        </div>
+        <div class="route-coord">
+          <span class="coord-code--cian">GVA</span>
+          <span>46°12'N / 6°08'E</span>
         </div>
       </div>
     </div>
   </section>
 
   <script>
-  (function() {
+  // ── HERO BACKGROUND ──────────────────────────────────────────────────────
+  // Centrepiece: a rotating tesseract (cube within a cube, in 4D) wrapped by
+  // gyroscopic rings. Around it: drifting wireframe solids at several depths,
+  // circuit traces carrying light pulses, an oscilloscope band, a perspective
+  // floor and the usual glitches. Pointer parallax on desktop; a single still
+  // frame when the visitor prefers reduced motion.
+  (function () {
+    'use strict';
+
+    const hero = document.getElementById('inicio');
     const canvas = document.getElementById('bgCanvas');
     const parent = canvas.parentElement;
     const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Colors
-    const CIAN  = { r:0,   g:212, b:232 };
-    const ROJO  = { r:230, g:57,  b:70  };
-    const WHITE = { r:248, g:245, b:240 };
+    const TAU = Math.PI * 2;
+    const CIAN = [0, 212, 232], ROJO = [230, 57, 70], WHITE = [248, 245, 240];
+    const rgba = (c, a) => 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')';
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    const smooth = (a, b, v) => { const x = clamp((v - a) / (b - a), 0, 1); return x * x * (3 - 2 * x); };
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const hash = seed => { const s = Math.sin(seed) * 43758.5453; return s - Math.floor(s); };
 
-    let W, H, t = 0, raf;
-
-    function resize() {
-      W = canvas.width  = parent.offsetWidth;
-      H = canvas.height = parent.offsetHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+    // ── STATE ──
+    let W = 0, H = 0, DPR = 1, S = 1, compact = false;
+    let cx = 0, cy = 0;
+    let zones = [];
+    let gl = {};
+    const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
+    let t = 0;
 
     // ── 3D HELPERS ──
-    // Simple perspective projection for local wireframe shapes (each shape
-    // has its own tiny "camera" so the overall composition stays identical,
-    // only the shapes themselves gain depth).
-    function rotateY(v, a) {
-      const cos = Math.cos(a), sin = Math.sin(a);
-      return [ v[0]*cos + v[2]*sin, v[1], -v[0]*sin + v[2]*cos ];
-    }
-    function rotateX(v, a) {
-      const cos = Math.cos(a), sin = Math.sin(a);
-      return [ v[0], v[1]*cos - v[2]*sin, v[1]*sin + v[2]*cos ];
-    }
-    function project(v, focal) {
-      const scale = focal / (focal + v[2]);
-      return { x: v[0]*scale, y: v[1]*scale, scale };
-    }
+    function rotX(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0], v[1] * c - v[2] * s, v[1] * s + v[2] * c]; }
+    function rotY(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c]; }
+    function rotZ(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]]; }
 
-    // ── RINGS (now tilted, rotating in 3D like orbital rails) ──
-    const rings = [
-      { cx: 0.68, cy: 0.44, r: 0.28, speed:  0.0004, color: CIAN,  lw: 1.2, op: 0.55, tiltSpeed:  0.00035, phase: 0.0 },
-      { cx: 0.68, cy: 0.44, r: 0.34, speed: -0.00025, color: ROJO, lw: 0.9, op: 0.40, tiltSpeed: -0.00022, phase: 1.1 },
-      { cx: 0.68, cy: 0.44, r: 0.20, speed:  0.0007, color: WHITE, lw: 0.7, op: 0.28, tiltSpeed:  0.0005,  phase: 2.3 },
-      { cx: 0.68, cy: 0.44, r: 0.42, speed: -0.00015,color: CIAN,  lw: 0.5, op: 0.25, tiltSpeed: -0.00014, phase: 3.6 },
-    ];
-
-    function ringGeometry(rng, time) {
-      const cx = rng.cx * W, cy = rng.cy * H, r = rng.r * Math.min(W, H);
-      const tiltPhase = rng.phase + time * rng.tiltSpeed * 1000;
-      // vertical squash oscillates between 0.22 and 1 → the ring appears to
-      // rotate around a horizontal axis, going edge-on and back to face-on
-      const squash = 0.22 + 0.78 * Math.abs(Math.cos(tiltPhase));
-      const depth  = 0.35 + 0.65 * Math.abs(Math.cos(tiltPhase));
-      return { cx, cy, r, ry: r * squash, depth };
-    }
-
-    // ── ORBITING PARTICLES on rings (z comes from where they sit on the tilted ellipse) ──
-    const orbiters = [
-      { ringIdx:0, angle:0,       speed:0.0012,  size:3.0, color:CIAN,  op:1.0 },
-      { ringIdx:0, angle:Math.PI, speed:0.0012,  size:2.0, color:WHITE, op:0.85},
-      { ringIdx:1, angle:1.2,     speed:-0.0008, size:2.5, color:ROJO,  op:1.0 },
-      { ringIdx:1, angle:3.8,     speed:-0.0008, size:1.5, color:ROJO,  op:0.75 },
-      { ringIdx:2, angle:0.5,     speed:0.002,   size:2.0, color:CIAN,  op:0.9 },
-      { ringIdx:3, angle:2.1,     speed:-0.0005, size:1.5, color:CIAN,  op:0.65 },
-    ];
-
-    // ── SHARED 3D WIREFRAME GEOMETRY (tetra / cube / sphere) ──
-    const TETRA_V = [
-      [0, -1, 0],
-      [0.94, 0.33, 0],
-      [-0.47, 0.33, 0.82],
-      [-0.47, 0.33, -0.82],
-    ];
-    const TETRA_E = [[0,1],[0,2],[0,3],[1,2],[2,3],[3,1]];
-
-    const CUBE_V = [
-      [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
-      [-1,-1, 1], [1,-1, 1], [1,1, 1], [-1,1, 1],
-    ];
-    const CUBE_E = [
-      [0,1],[1,2],[2,3],[3,0],
-      [4,5],[5,6],[6,7],[7,4],
-      [0,4],[1,5],[2,6],[3,7],
-    ];
-
-    // Sphere as three orthogonal wireframe "gyroscope" rings
-    function buildSphereSegments(seg) {
+    // ── GEOMETRY ──
+    const seg = (V, E) => E.map(e => [V[e[0]], V[e[1]]]);
+    function sphereSegs(n) {
       const base = [];
-      for (let i = 0; i < seg; i++) {
-        const a1 = (i / seg) * Math.PI * 2, a2 = ((i + 1) / seg) * Math.PI * 2;
+      for (let i = 0; i < n; i++) {
+        const a1 = (i / n) * TAU, a2 = ((i + 1) / n) * TAU;
         base.push([[Math.cos(a1), Math.sin(a1), 0], [Math.cos(a2), Math.sin(a2), 0]]);
       }
-      const segs = [];
-      base.forEach(s => segs.push(s)); // XY ring
-      base.forEach(([p1, p2]) => segs.push([[p1[2], p1[1], -p1[0]], [p2[2], p2[1], -p2[0]]])); // YZ ring
-      base.forEach(([p1, p2]) => segs.push([[p1[0], p1[2], -p1[1]], [p2[0], p2[2], -p2[1]]])); // XZ ring
-      return segs;
+      const out = base.slice();
+      base.forEach(([p, q]) => out.push([[p[2], p[1], -p[0]], [q[2], q[1], -q[0]]]));
+      base.forEach(([p, q]) => out.push([[p[0], p[2], -p[1]], [q[0], q[2], -q[1]]]));
+      return out;
     }
+    const GEO = {
+      tetra: seg([[0, -1, 0], [0.94, 0.33, 0], [-0.47, 0.33, 0.82], [-0.47, 0.33, -0.82]],
+                 [[0, 1], [0, 2], [0, 3], [1, 2], [2, 3], [3, 1]]),
+      cube: seg([[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]],
+                [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]]),
+      pyramid: seg([[-1, 0.7, -1], [1, 0.7, -1], [1, 0.7, 1], [-1, 0.7, 1], [0, -1.1, 0]],
+                   [[0, 1], [1, 2], [2, 3], [3, 0], [0, 4], [1, 4], [2, 4], [3, 4]]),
+      octa: seg([[1.25, 0, 0], [-1.25, 0, 0], [0, 1.25, 0], [0, -1.25, 0], [0, 0, 1.25], [0, 0, -1.25]],
+                [[0, 2], [0, 3], [0, 4], [0, 5], [1, 2], [1, 3], [1, 4], [1, 5], [2, 4], [2, 5], [3, 4], [3, 5]]),
+      tri: seg([[0, -1.2, 0], [1.04, 0.6, 0], [-1.04, 0.6, 0]], [[0, 1], [1, 2], [2, 0]]),
+      square: seg([[-1, -1, 0], [1, -1, 0], [1, 1, 0], [-1, 1, 0]], [[0, 1], [1, 2], [2, 3], [3, 0]]),
+      sphere: sphereSegs(14),
+    };
 
-    const TETRA_SEGMENTS  = TETRA_E.map(([a, b]) => [TETRA_V[a], TETRA_V[b]]);
-    const CUBE_SEGMENTS   = CUBE_E.map(([a, b]) => [CUBE_V[a], CUBE_V[b]]);
-    const SPHERE_SEGMENTS = buildSphereSegments(14);
-
-    function segmentsFor(type) {
-      return type === 'tetra' ? TETRA_SEGMENTS : type === 'cube' ? CUBE_SEGMENTS : SPHERE_SEGMENTS;
-    }
-
-    // Deterministic pseudo-random hash, used to give each glitch-shape's
-    // edges a stable (but varied) reveal threshold.
-    function hash(seed) {
-      const s = Math.sin(seed) * 43758.5453;
-      return s - Math.floor(s);
-    }
-
-    // ── DRIFTING 3D WIREFRAME SHAPES — tetrahedra, cubes and spheres that ──
-    // ── travel progressively across the whole canvas, wrapping at the edges ──
-    const driftShapes = [
-      // tetrahedra ("pirámides")
-      { type:'tetra',  x:0.72, y:0.12, r:60, angle:0,   tilt:0.4, spin:0.0003,  tiltSpin:0.00018,  vx: 0.017, vy: 0.011, color:CIAN,  lw:1.4, op:0.60 },
-      { type:'tetra',  x:0.15, y:0.60, r:40, angle:Math.PI, tilt:1.1, spin:-0.0005, tiltSpin:-0.00024, vx:-0.013, vy: 0.019, color:CIAN,  lw:0.8, op:0.40 },
-      { type:'tetra',  x:0.30, y:0.78, r:45, angle:0.3, tilt:0.7, spin:0.0004,  tiltSpin:0.0002,   vx: 0.021, vy:-0.015, color:ROJO,  lw:1.1, op:0.45 },
-      { type:'tetra',  x:0.88, y:0.30, r:30, angle:1.0, tilt:2.0, spin:-0.0003, tiltSpin:-0.00016, vx:-0.012, vy:-0.019, color:WHITE, lw:0.7, op:0.30 },
-      // cubes
-      { type:'cube',   x:0.15, y:0.20, r:26, angle:0.6, tilt:0.9, spin:0.00022, tiltSpin:0.00015,  vx: 0.015, vy: 0.010, color:ROJO,  lw:1.0, op:0.42 },
-      { type:'cube',   x:0.55, y:0.85, r:34, angle:2.1, tilt:0.3, spin:-0.00018,tiltSpin:0.0002,   vx:-0.012, vy:-0.009, color:CIAN,  lw:1.1, op:0.40 },
-      // spheres
-      { type:'sphere', x:0.35, y:0.30, r:24, angle:0.2, tilt:1.4, spin:0.00028, tiltSpin:0.0002,   vx: 0.010, vy:-0.013, color:CIAN,  lw:0.8, op:0.35 },
-      { type:'sphere', x:0.80, y:0.55, r:20, angle:1.7, tilt:0.5, spin:-0.00024,tiltSpin:-0.00018, vx:-0.014, vy: 0.011, color:ROJO,  lw:0.8, op:0.35 },
-    ];
-    driftShapes.forEach((s, i) => { s._phase = i * 1.3; });
-
-    function updateDriftShape(s, dtSec) {
-      s.angle += s.spin;
-      s.tilt  += s.tiltSpin;
-      s.x += s.vx * dtSec;
-      s.y += s.vy * dtSec;
-      const margin = 0.12; // let shapes fully exit before wrapping to the far side
-      if (s.x < -margin) s.x = 1 + margin; else if (s.x > 1 + margin) s.x = -margin;
-      if (s.y < -margin) s.y = 1 + margin; else if (s.y > 1 + margin) s.y = -margin;
-    }
-
-    function drawDriftShape3D(s, time) {
-      const segs = segmentsFor(s.type);
-      // small organic wobble layered on top of the long-range drift
-      const wobX = 16 * Math.sin(time * 0.23 + s._phase);
-      const wobY = 11 * Math.cos(time * 0.17 + s._phase * 1.2);
-      const cx = s.x * W + wobX, cy = s.y * H + wobY;
-      const focal = s.r * 2.4;
-
-      segs.forEach(seg => {
-        const p1 = rotateX(rotateY(seg[0], s.angle), s.tilt);
-        const p2 = rotateX(rotateY(seg[1], s.angle), s.tilt);
-        const pr1 = project(p1, focal / s.r);
-        const pr2 = project(p2, focal / s.r);
-        const x1 = cx + pr1.x * s.r, y1 = cy + pr1.y * s.r;
-        const x2 = cx + pr2.x * s.r, y2 = cy + pr2.y * s.r;
-        const df = Math.max(0.15, Math.min(1.3, (pr1.scale + pr2.scale) / 2));
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.strokeStyle = `rgba(${s.color.r},${s.color.g},${s.color.b},${s.op * df})`;
-        ctx.lineWidth = s.lw * df;
-        ctx.stroke();
-        ctx.restore();
+    // ── SIZING ──
+    function measureZones() {
+      zones = [];
+      const hr = hero.getBoundingClientRect();
+      const box = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+      ['h1', '.hero-etiqueta', '.hero-descripcion'].forEach(sel => {
+        const el = hero.querySelector(sel);
+        if (!el) return;
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const r = range.getBoundingClientRect();
+        if (!r.width) return;
+        box.x0 = Math.min(box.x0, r.left - hr.left); box.y0 = Math.min(box.y0, r.top - hr.top);
+        box.x1 = Math.max(box.x1, r.right - hr.left); box.y1 = Math.max(box.y1, r.bottom - hr.top);
       });
-    }
-
-    // ── GLITCH-FORMING 3D SHAPES — cubes, spheres and tetrahedra that ──
-    // ── assemble out of noise and dissolve back into it, chromatic-split ──
-    const GLITCH_SHAPE_TYPES = ['tetra', 'cube', 'sphere'];
-    let glitchShapes = [];
-    let glitchShapeTimer = 0;
-
-    function spawnGlitchShape() {
-      const type = GLITCH_SHAPE_TYPES[Math.floor(Math.random() * GLITCH_SHAPE_TYPES.length)];
-      glitchShapes.push({
-        type,
-        x: 0.08 + Math.random() * 0.84,
-        y: 0.10 + Math.random() * 0.68,
-        r: 22 + Math.random() * 44,
-        angle: Math.random() * Math.PI * 2,
-        tilt: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.0022,
-        tiltSpin: (Math.random() - 0.5) * 0.0018,
-        color: Math.random() > 0.5 ? CIAN : ROJO,
-        lw: 1 + Math.random() * 0.9,
-        life: 0,
-        tIn:   0.16 + Math.random() * 0.14,
-        tHold: 0.30 + Math.random() * 0.55,
-        tOut:  0.14 + Math.random() * 0.16,
-        seed: Math.random() * 1000,
-      });
-    }
-
-    function drawGlitchShape3D(gs, dtSec) {
-      const segs = segmentsFor(gs.type);
-      gs.angle += gs.spin;
-      gs.tilt  += gs.tiltSpin;
-      const cx = gs.x * W, cy = gs.y * H;
-      const focal = gs.r * 2.4;
-
-      let mode, progress, jitterAmt;
-      if (gs.life < gs.tIn) {
-        mode = 'in';
-        progress = gs.life / gs.tIn;
-        jitterAmt = (1 - progress) * gs.r * 0.5;
-      } else if (gs.life < gs.tIn + gs.tHold) {
-        mode = 'hold';
-        progress = 1;
-        jitterAmt = 0;
-      } else {
-        mode = 'out';
-        const p2 = (gs.life - gs.tIn - gs.tHold) / gs.tOut;
-        progress = 1 - p2;
-        jitterAmt = p2 * gs.r * 0.65;
+      if (box.x0 < Infinity) zones.push(box);
+      const route = hero.querySelector('.hero-route');
+      if (route) {
+        const r = route.getBoundingClientRect();
+        zones.push({ x0: r.left - hr.left, y0: r.top - hr.top, x1: r.right - hr.left, y1: r.bottom - hr.top });
       }
-
-      segs.forEach((seg, i) => {
-        const edgeThresh = hash(gs.seed + i * 13.37);
-        let visible;
-        if (mode === 'hold') {
-          visible = Math.random() > 0.012; // rare hold-phase flicker
-        } else {
-          visible = edgeThresh < progress;
-          if (Math.abs(edgeThresh - progress) < 0.09 && Math.random() < 0.5) visible = !visible;
-        }
-        if (!visible) return;
-
-        const p1 = rotateX(rotateY(seg[0], gs.angle), gs.tilt);
-        const p2v = rotateX(rotateY(seg[1], gs.angle), gs.tilt);
-        const pr1 = project(p1, focal / gs.r);
-        const pr2 = project(p2v, focal / gs.r);
-        const jx = (Math.random() - 0.5) * jitterAmt;
-        const jy = (Math.random() - 0.5) * jitterAmt;
-        const x1 = cx + pr1.x * gs.r + jx, y1 = cy + pr1.y * gs.r + jy;
-        const x2 = cx + pr2.x * gs.r + jx, y2 = cy + pr2.y * gs.r + jy;
-        const df = Math.max(0.2, Math.min(1.3, (pr1.scale + pr2.scale) / 2));
-        const chroma = mode === 'in' ? 3 * (1 - progress) : mode === 'out' ? 3 * progress : 0;
-
-        ctx.save();
-        ctx.lineWidth = gs.lw * df;
-        if (chroma > 0.4) {
-          ctx.strokeStyle = `rgba(${CIAN.r},${CIAN.g},${CIAN.b},${0.55 * df})`;
-          ctx.beginPath(); ctx.moveTo(x1 - chroma, y1); ctx.lineTo(x2 - chroma, y2); ctx.stroke();
-          ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},${0.55 * df})`;
-          ctx.beginPath(); ctx.moveTo(x1 + chroma, y1); ctx.lineTo(x2 + chroma, y2); ctx.stroke();
-        }
-        ctx.strokeStyle = `rgba(${gs.color.r},${gs.color.g},${gs.color.b},${0.85 * df})`;
-        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-        ctx.restore();
-      });
-
-      gs.life += dtSec;
     }
 
-    // ── GRID LINES (perspective floor, now animated for a sense of forward drift) ──
-    function drawGrid(time) {
-      ctx.save();
-      ctx.strokeStyle = '#2e2e2e';
-      ctx.lineWidth = 0.6;
-      const vx = W * 0.1, vy = H * 0.9;
-      const lines = 12;
-      for (let i = 0; i <= lines; i++) {
-        const px = (W * 0.05) + (W * 0.55) * (i / lines);
+    // How "free" of text a point is: 1 = far away, ~0.2 = right on top of it.
+    function clearance(x, y) {
+      let f = 1;
+      for (let i = 0; i < zones.length; i++) {
+        const z = zones[i];
+        const dx = Math.max(z.x0 - x, 0, x - z.x1), dy = Math.max(z.y0 - y, 0, y - z.y1);
+        f = Math.min(f, 0.2 + 0.8 * smooth(0, 120, Math.hypot(dx, dy)));
+      }
+      return f;
+    }
+
+    function resize() {
+      const nW = parent.offsetWidth, nH = parent.offsetHeight, nD = Math.min(window.devicePixelRatio || 1, 2);
+      if (W && nW === W && nH === H && nD === DPR) { measureZones(); return; }
+      DPR = nD; W = nW; H = nH;
+      canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      S = Math.min(W, H);
+      compact = W < 768;
+      cx = compact ? W * 0.5 : W * 0.66;
+      cy = compact ? H * 0.29 : H * 0.40;
+      measureZones();
+
+      // gradients that depend on the canvas size
+      gl.glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, S * 0.6);
+      gl.glow.addColorStop(0, 'rgba(0,212,232,0.085)');
+      gl.glow.addColorStop(0.45, 'rgba(0,212,232,0.03)');
+      gl.glow.addColorStop(1, 'rgba(0,212,232,0)');
+      gl.glowR = ctx.createRadialGradient(W * 0.12, H * 0.95, 0, W * 0.12, H * 0.95, S * 0.7);
+      gl.glowR.addColorStop(0, 'rgba(230,57,70,0.05)');
+      gl.glowR.addColorStop(1, 'rgba(230,57,70,0)');
+
+      traces.forEach(buildTrace);
+    }
+
+    // ── POINTER PARALLAX ──
+    if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+      window.addEventListener('pointermove', e => {
+        const r = hero.getBoundingClientRect();
+        ptr.tx = clamp(((e.clientX - r.left) / r.width - 0.5) * 2, -1, 1);
+        ptr.ty = clamp(((e.clientY - r.top) / r.height - 0.5) * 2, -1, 1);
+      }, { passive: true });
+    }
+
+    // ══════════════════════════ FLOOR ══════════════════════════
+    // Straight line drawn in short chunks whose opacity is scaled by how far
+    // they are from the text, so nothing crosses the name or the route HUD.
+    function fadeLine(x0, y0, x1, y1, color, alphaFn, lw, n) {
+      ctx.lineWidth = lw;
+      for (let i = 0; i < n; i++) {
+        const a0 = i / n, a1 = (i + 1) / n, am = (a0 + a1) / 2;
+        const mx = x0 + (x1 - x0) * am, my = y0 + (y1 - y0) * am;
+        const a = alphaFn(mx, my) * clearance(mx, my);
+        if (a < 0.006) continue;
+        ctx.strokeStyle = rgba(color, a);
         ctx.beginPath();
-        ctx.moveTo(px, H * 0.55);
-        ctx.lineTo(vx + (px - vx) * 0.15, vy);
+        ctx.moveTo(x0 + (x1 - x0) * a0, y0 + (y1 - y0) * a0);
+        ctx.lineTo(x0 + (x1 - x0) * a1, y0 + (y1 - y0) * a1);
         ctx.stroke();
       }
-      const crawl = (time * 0.035) % 1;
-      for (let j = 0; j <= 8; j++) {
-        const t2 = ((j / 8) + crawl) % 1;
-        const y = H * 0.55 + (vy - H * 0.55) * t2;
-        const xL = W * 0.05 + (vx - W * 0.05) * t2;
-        const xR = W * 0.60 + (vx - W * 0.60) * t2;
-        ctx.save();
-        ctx.globalAlpha = 0.25 + 0.65 * t2; // near lines (larger t2) read as closer → brighter
-        ctx.beginPath();
-        ctx.moveTo(xL, y);
-        ctx.lineTo(xR, y);
-        ctx.stroke();
-        ctx.restore();
+    }
+    const FLOOR = [170, 200, 210];
+
+    function drawFloor(time) {
+      const hy = H * 0.62, vx = W * 0.40 + ptr.x * W * 0.015;
+      // horizon hairline: cian, brightest on the left third
+      fadeLine(0, hy, W, hy, CIAN, (x) => {
+        const u = x / W;
+        return u < 0.25 ? 0.42 * (u / 0.25) : u < 0.62 ? 0.42 - 0.30 * ((u - 0.25) / 0.37) : 0.12 * (1 - (u - 0.62) / 0.38);
+      }, 1, 30);
+      // lines running to the vanishing point
+      const step = W * 0.085;
+      for (let i = -9; i <= 9; i++) {
+        const xb = vx + i * step * 1.55;
+        if (xb > W * 0.82 || xb < -W * 0.1) continue;
+        fadeLine(vx + i * step * 0.05, hy, xb, H, FLOOR, (x, y) => 0.26 * (y - hy) / (H - hy), 0.6, 10);
       }
-      ctx.restore();
+      // crossbars crawling towards the viewer
+      const crawl = (time * 0.035) % 1, N = 9;
+      for (let j = 0; j < N; j++) {
+        const p = ((j / N) + crawl) % 1;
+        const y = hy + (H - hy) * Math.pow(p, 2.1), k = 0.12 + 0.6 * p;
+        fadeLine(0, y, W, y, FLOOR, (x) => k * (1 - smooth(0.5 * W, 0.8 * W, x)), 0.6, 20);
+      }
     }
 
-    // ── WAVES (each wave now draws 3 stacked depth passes, like a receding oscilloscope stack) ──
+    // ══════════════════════════ WAVES ══════════════════════════
     const waves = [
-      { y: 0.84, baseAmp: 38, freqBase: 0.014, freqMod: 0.007,
-        ampMod: 22, speed: 0.00022, speedMod: 0.00008,
-        phase: 0, color: CIAN, lw: 1.4, op: 0.55 },
-      { y: 0.70, baseAmp: 30, freqBase: 0.021, freqMod: 0.012,
-        ampMod: 28, speed: -0.00016, speedMod: 0.00012,
-        phase: 1.2, color: ROJO, lw: 1.0, op: 0.40 },
-      { y: 0.61, baseAmp: 20, freqBase: 0.028, freqMod: 0.016,
-        ampMod: 32, speed: 0.00030, speedMod: -0.00006,
-        phase: 2.6, color: WHITE, lw: 0.7, op: 0.25 },
-      { y: 0.50, baseAmp: 14, freqBase: 0.010, freqMod: 0.018,
-        ampMod: 26, speed: -0.00010, speedMod: 0.00007,
-        phase: 4.1, color: CIAN, lw: 0.5, op: 0.20 },
+      { y: 0.40,  baseAmp: 32, freqBase: 0.014, freqMod: 0.007, ampMod: 18, speed: 0.00022, speedMod: 0.00008, phase: 0.0, color: CIAN,  lw: 1.4, op: 0.55 },
+      { y: 0.465, baseAmp: 26, freqBase: 0.021, freqMod: 0.012, ampMod: 20, speed: -0.00016, speedMod: 0.00012, phase: 1.2, color: ROJO,  lw: 1.0, op: 0.40 },
+      { y: 0.53,  baseAmp: 20, freqBase: 0.028, freqMod: 0.016, ampMod: 22, speed: 0.00030, speedMod: -0.00006, phase: 2.6, color: WHITE, lw: 0.7, op: 0.25 },
+      { y: 0.595, baseAmp: 14, freqBase: 0.010, freqMod: 0.018, ampMod: 16, speed: -0.00010, speedMod: 0.00007, phase: 4.1, color: CIAN,  lw: 0.5, op: 0.20 },
     ];
+    waves.forEach((w, i) => { w.noisePhase = i * 2.7; w.burstTimer = Math.random() * 2; w.burstAmp = 0; w.burstDecay = 0; });
 
-    waves.forEach((w, i) => {
-      w._noisePhase = i * 2.7;
-      w._burstTimer = Math.random() * 2;
-      w._burstAmp = 0;
-      w._burstDecay = 0;
-    });
-
-    function drawWave(wave, time, depthPass) {
-      // depthPass: 0 = front layer (as before), 1/2 = receding echoes behind it
-      const depthOffsetY = depthPass * 16;
-      const ampScale = 1 - depthPass * 0.18;
-      const opScale  = 1 - depthPass * 0.34;
-      const compress = 1 - depthPass * 0.045; // pulls the trace toward the horizontal center → perspective
-      const baseY = wave.y * H + depthOffsetY;
-      const centerX = W / 2;
-
-      if (depthPass === 0) {
-        wave._burstTimer -= 0.016;
-        if (wave._burstTimer <= 0) {
-          wave._burstAmp   = 25 + Math.random() * 60;
-          wave._burstDecay = 0.06 + Math.random() * 0.20;
-          wave._burstTimer = 0.6 + Math.random() * 2.0;
-        }
-        wave._burstAmp *= (1 - 0.016 / Math.max(wave._burstDecay, 0.001));
-        if (wave._burstAmp < 0.5) wave._burstAmp = 0;
+    function drawWave(w, time, dt, pass) {
+      const offY = pass * 12, ampScale = 1 - pass * 0.18, opScale = 1 - pass * 0.34, compress = 1 - pass * 0.045;
+      const baseY = w.y * H + offY, centerX = W / 2;
+      if (pass === 0) {
+        w.burstTimer -= dt;
+        if (w.burstTimer <= 0) { w.burstAmp = rand(14, 40); w.burstDecay = rand(0.06, 0.26); w.burstTimer = rand(0.8, 2.8); }
+        w.burstAmp *= (1 - dt / Math.max(w.burstDecay, 0.001));
+        if (w.burstAmp < 0.5) w.burstAmp = 0;
       }
-
-      const noiseBase = Math.sin(time * 1.37 + wave._noisePhase) *
-                        Math.cos(time * 0.89 + wave._noisePhase * 1.6);
-
-      ctx.save();
-      ctx.beginPath();
-      for (let x = 0; x <= W; x += 2) {
+      const noiseBase = Math.sin(time * 1.37 + w.noisePhase) * Math.cos(time * 0.89 + w.noisePhase * 1.6);
+      const freq1 = w.freqBase + w.freqMod * Math.sin(time * 0.31 + w.phase);
+      const freq2 = freq1 * 1.618, freq3 = freq1 * 6.87, freq4 = freq1 * 0.11;
+      const amp1 = (w.baseAmp + w.ampMod * Math.sin(time * 0.17 + w.phase * 1.3)) * ampScale;
+      const amp2 = amp1 * 0.45, amp3 = amp1 * 0.22 * (0.5 + 0.5 * Math.abs(noiseBase)), amp4 = amp1 * 0.30;
+      const spd = w.speed + w.speedMod * Math.sin(time * 0.11);
+      const T = time * spd * 1000 + pass * 0.6;
+      const burstCenter = 0.3 + 0.4 * Math.abs(Math.sin(w.noisePhase + time * 0.5));
+      const xs = [], ys = [];
+      for (let x = 0; x <= W; x += 3) {
         const nx = x / W;
-
-        const freq1 = wave.freqBase + wave.freqMod * Math.sin(time * 0.31 + wave.phase);
-        const freq2 = freq1 * 1.618;
-        const freq3 = freq1 * 6.87;
-        const freq4 = freq1 * 0.11;
-
-        const amp1 = (wave.baseAmp + wave.ampMod * Math.sin(time * 0.17 + wave.phase * 1.3)) * ampScale;
-        const amp2 = amp1 * 0.45;
-        const amp3 = amp1 * 0.22 * (0.5 + 0.5 * Math.abs(noiseBase));
-        const amp4 = amp1 * 0.30;
-
-        const spd = wave.speed + wave.speedMod * Math.sin(time * 0.11);
-        const T   = time * spd * 1000 + depthPass * 0.6;
-
-        const noisy = Math.sin(nx * W * freq3 * 0.06 + T * 1.9 + wave._noisePhase)
-                    * Math.cos(nx * W * freq3 * 0.041 + T * 2.3);
-
-        const burstCenter = 0.3 + 0.4 * Math.abs(Math.sin(wave._noisePhase + time * 0.5));
-        const burstShape  = wave._burstAmp * ampScale
-          * Math.exp(-Math.pow(nx - burstCenter, 2) * 18)
-          * Math.sin(nx * W * 0.08 + T * 4.1);
-
+        const noisy = Math.sin(nx * W * freq3 * 0.06 + T * 1.9 + w.noisePhase) * Math.cos(nx * W * freq3 * 0.041 + T * 2.3);
+        const burst = w.burstAmp * ampScale * Math.exp(-Math.pow(nx - burstCenter, 2) * 18) * Math.sin(nx * W * 0.08 + T * 4.1);
         const y = baseY
           + amp1 * Math.sin(nx * W * freq1 * 0.06 + T)
           + amp2 * Math.sin(nx * W * freq2 * 0.06 + T * 1.3 + 1.1)
           + amp3 * noisy
           + amp4 * Math.sin(nx * W * freq4 * 0.06 + T * 0.3)
-          + burstShape;
-
-        const px = centerX + (x - centerX) * compress;
-
-        if (x === 0) ctx.moveTo(px, y);
-        else ctx.lineTo(px, y);
+          + burst;
+        xs.push(centerX + (x - centerX) * compress); ys.push(y);
       }
-      ctx.strokeStyle = `rgba(${wave.color.r},${wave.color.g},${wave.color.b},${wave.op * opScale})`;
-      ctx.lineWidth = wave.lw * (1 - depthPass * 0.25);
+      // drawn in short chunks so the trace dissolves towards the right and over the text
+      const base = w.op * opScale, CH = 8;
+      ctx.lineWidth = w.lw * (1 - pass * 0.25);
+      for (let i = 0; i < xs.length - 1; i += CH) {
+        const j = Math.min(i + CH, xs.length - 1), m = (i + j) >> 1;
+        const a = base * (1 - 0.97 * smooth(0.5 * W, 0.92 * W, xs[m])) * clearance(xs[m], ys[m]);
+        if (a < 0.008) continue;
+        ctx.beginPath(); ctx.moveTo(xs[i], ys[i]);
+        for (let k = i + 1; k <= j; k++) ctx.lineTo(xs[k], ys[k]);
+        ctx.strokeStyle = rgba(w.color, a); ctx.stroke();
+      }
+    }
+
+    // ══════════════════════════ CIRCUIT TRACES ══════════════════════════
+    // Thin right-angled lines with light pulses running along them: the same
+    // visual language as the route between the three cities.
+    const traces = [
+      { pts: [[-0.02, 0.24], [0.12, 0.24], [0.16, 0.19], [0.36, 0.19], [0.40, 0.23], [0.47, 0.23]], color: CIAN, sp: 95, off: 0 },
+      { pts: [[-0.02, 0.335], [0.07, 0.335], [0.10, 0.30], [0.22, 0.30]], color: ROJO, sp: 70, off: 260 },
+      { pts: [[0.30, -0.02], [0.30, 0.075], [0.335, 0.115], [0.55, 0.115], [0.575, 0.14]], color: ROJO, sp: 85, off: 90 },
+    ];
+    function buildTrace(tr) {
+      tr.px = tr.pts.map(p => [p[0] * W, p[1] * H]);
+      tr.cum = [0];
+      for (let i = 1; i < tr.px.length; i++) {
+        tr.cum.push(tr.cum[i - 1] + Math.hypot(tr.px[i][0] - tr.px[i - 1][0], tr.px[i][1] - tr.px[i - 1][1]));
+      }
+      tr.len = tr.cum[tr.cum.length - 1];
+    }
+    function tracePoint(tr, s) {
+      s = clamp(s, 0, tr.len);
+      let i = 1;
+      while (i < tr.cum.length - 1 && tr.cum[i] < s) i++;
+      const a = tr.px[i - 1], b = tr.px[i], k = (s - tr.cum[i - 1]) / ((tr.cum[i] - tr.cum[i - 1]) || 1);
+      return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+    }
+    function drawTrace(tr, time) {
+      const pxo = ptr.x * 6, pyo = ptr.y * 4;
+      ctx.save();
+      ctx.translate(pxo, pyo);
+      ctx.strokeStyle = 'rgba(248,245,240,0.075)'; ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      tr.px.forEach((p, i) => { if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); });
       ctx.stroke();
+      // bends and terminal square
+      ctx.fillStyle = 'rgba(248,245,240,0.18)';
+      for (let i = 1; i < tr.px.length - 1; i++) { ctx.beginPath(); ctx.arc(tr.px[i][0], tr.px[i][1], 1.3, 0, TAU); ctx.fill(); }
+      const e = tr.px[tr.px.length - 1];
+      ctx.strokeStyle = rgba(tr.color, 0.45); ctx.lineWidth = 0.9;
+      ctx.strokeRect(e[0] - 3.5, e[1] - 3.5, 7, 7);
+      // pulse
+      const cycle = tr.len + 260;
+      const s = (time * tr.sp + tr.off) % cycle;
+      if (s < tr.len + 40) {
+        ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+        for (let j = 0; j < 14; j++) {
+          const a = s - j * 6, b = s - (j + 1) * 6;
+          if (a < 0 || b > tr.len) continue;
+          const p1 = tracePoint(tr, a), p2 = tracePoint(tr, b);
+          ctx.strokeStyle = rgba(tr.color, 0.9 * (1 - j / 14));
+          ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke();
+        }
+        if (s <= tr.len) {
+          const h = tracePoint(tr, s);
+          ctx.fillStyle = rgba(tr.color, 0.95); ctx.beginPath(); ctx.arc(h[0], h[1], 2, 0, TAU); ctx.fill();
+          ctx.fillStyle = rgba(tr.color, 0.12); ctx.beginPath(); ctx.arc(h[0], h[1], 7, 0, TAU); ctx.fill();
+        }
+      }
       ctx.restore();
     }
 
-    // ── FLOATING DOTS (each carries a depth "z" for parallax + size/opacity falloff) ──
-    const dots = Array.from({ length: 26 }, (_, i) => ({
-      x: Math.random(),
-      y: Math.random(),
-      z: 0.4 + Math.random() * 1.3, // smaller = nearer/bigger/brighter
-      r: 0.8 + Math.random() * 1.6,
-      color: i % 3 === 0 ? ROJO : i % 3 === 1 ? CIAN : WHITE,
-      op: 0.25 + Math.random() * 0.55,
-      phase: Math.random() * Math.PI * 2,
-      freq: 0.0004 + Math.random() * 0.0008,
-      driftPhase: Math.random() * Math.PI * 2,
-    })).sort((a, b) => b.z - a.z); // draw far → near
+    // ══════════════════════════ DRIFTING SOLIDS ══════════════════════════
+    // r = size in px, par = parallax depth (bigger = nearer)
+    const solids = [
+      { type: 'cube',    x: 0.10, y: 0.14, r: 30, par: 1.5, angle: 0.6, tilt: 0.9, spin: 0.070, tiltSpin: 0.045, vx: 0.011, vy: 0.008, color: ROJO,  lw: 1.1, op: 0.50 },
+      { type: 'tetra',   x: 0.27, y: 0.10, r: 42, par: 1.2, angle: 0.0, tilt: 0.4, spin: 0.050, tiltSpin: 0.030, vx: 0.014, vy: 0.009, color: CIAN,  lw: 1.2, op: 0.55 },
+      { type: 'pyramid', x: 0.44, y: 0.34, r: 28, par: 0.9, angle: 1.1, tilt: 0.6, spin: -0.060, tiltSpin: 0.035, vx: -0.010, vy: 0.012, color: WHITE, lw: 0.8, op: 0.35 },
+      { type: 'octa',    x: 0.90, y: 0.16, r: 26, par: 1.0, angle: 0.3, tilt: 1.3, spin: 0.055, tiltSpin: -0.040, vx: -0.012, vy: 0.010, color: CIAN,  lw: 0.9, op: 0.42 },
+      { type: 'cube',    x: 0.36, y: 0.50, r: 20, par: 0.6, angle: 2.1, tilt: 0.3, spin: -0.045, tiltSpin: 0.050, vx: 0.012, vy: -0.008, color: CIAN,  lw: 0.7, op: 0.30 },
+      { type: 'tetra',   x: 0.14, y: 0.42, r: 26, par: 0.7, angle: 3.1, tilt: 1.1, spin: -0.075, tiltSpin: -0.030, vx: 0.013, vy: -0.011, color: ROJO,  lw: 0.8, op: 0.35 },
+      { type: 'sphere',  x: 0.53, y: 0.08, r: 22, par: 0.8, angle: 0.2, tilt: 1.4, spin: 0.060, tiltSpin: 0.040, vx: 0.009, vy: 0.012, color: CIAN,  lw: 0.7, op: 0.32 },
+      { type: 'square',  x: 0.06, y: 0.30, r: 30, par: 1.1, angle: 0.5, tilt: 0.8, spin: 0.080, tiltSpin: 0.055, vx: 0.010, vy: -0.006, color: WHITE, lw: 0.8, op: 0.32 },
+      { type: 'tri',     x: 0.94, y: 0.50, r: 34, par: 1.3, angle: 1.0, tilt: 0.7, spin: -0.070, tiltSpin: 0.030, vx: -0.011, vy: -0.010, color: ROJO,  lw: 0.9, op: 0.42 },
+      { type: 'pyramid', x: 0.80, y: 0.06, r: 20, par: 0.5, angle: 2.4, tilt: 1.0, spin: 0.065, tiltSpin: -0.030, vx: -0.008, vy: 0.011, color: CIAN,  lw: 0.6, op: 0.28 },
+      { type: 'cube',    x: 0.72, y: 0.78, r: 24, par: 0.9, angle: 0.9, tilt: 1.6, spin: 0.050, tiltSpin: 0.040, vx: -0.012, vy: -0.009, color: ROJO,  lw: 0.8, op: 0.30 },
+      { type: 'octa',    x: 0.22, y: 0.62, r: 18, par: 0.5, angle: 1.9, tilt: 0.2, spin: -0.050, tiltSpin: 0.050, vx: 0.011, vy: -0.012, color: WHITE, lw: 0.6, op: 0.25 },
+    ];
+    solids.forEach((s, i) => { s.phase = i * 1.3; });
 
-    // ── GLITCH ACCENT LINES ──
-    let glitchTimer = 0;
-    let glitchLines = [];
-    let tearTimer = 0;
-    let tearActive = false;
-    let tearY = 0, tearH2 = 0, tearShift = 0, tearLife = 0, tearMaxLife = 0;
+    function drawSolid(s, time, dt) {
+      s.angle += s.spin * dt; s.tilt += s.tiltSpin * dt;
+      s.x += s.vx * dt; s.y += s.vy * dt;
+      const m = 0.12;
+      if (s.x < -m) s.x = 1 + m; else if (s.x > 1 + m) s.x = -m;
+      if (s.y < -m) s.y = 1 + m; else if (s.y > 1 + m) s.y = -m;
 
-    function spawnGlitch() {
-      const count = 3 + Math.floor(Math.random() * 5);
-      glitchLines = Array.from({ length: count }, () => ({
-        x1: Math.random() * W * 0.7,
-        y1: 0.2 * H + Math.random() * 0.6 * H,
-        len: 30 + Math.random() * 200,
-        angle: -Math.PI / 4 + (Math.random() - 0.5) * 1.2,
-        color: Math.random() > 0.5 ? CIAN : ROJO,
-        op: 0.5 + Math.random() * 0.5,
-        life: 0, maxLife: 0.04 + Math.random() * 0.14,
+      const x = s.x * W + 16 * Math.sin(time * 0.23 + s.phase) + ptr.x * s.par * 16;
+      const y = s.y * H + 11 * Math.cos(time * 0.17 + s.phase * 1.2) + ptr.y * s.par * 10;
+      const clr = clearance(x, y);
+      if (clr < 0.05) return;
+      const r = compact ? s.r * 0.7 : s.r;
+      const F = 2.4;
+      GEO[s.type].forEach(sg => {
+        const p1 = rotX(rotY(sg[0], s.angle), s.tilt), p2 = rotX(rotY(sg[1], s.angle), s.tilt);
+        const k1 = F / (F + p1[2]), k2 = F / (F + p2[2]);
+        const df = clamp((k1 + k2) / 2, 0.15, 1.3);
+        ctx.beginPath();
+        ctx.moveTo(x + p1[0] * r * k1, y + p1[1] * r * k1);
+        ctx.lineTo(x + p2[0] * r * k2, y + p2[1] * r * k2);
+        ctx.strokeStyle = rgba(s.color, s.op * df * clr);
+        ctx.lineWidth = s.lw * df;
+        ctx.stroke();
+      });
+    }
+
+    // ══════════════════════════ FLOATING DOTS ══════════════════════════
+    const COLS = [ROJO, CIAN, WHITE];
+    const dots = Array.from({ length: 34 }, (_, i) => ({
+      x: Math.random(), y: Math.random(), z: 0.4 + Math.random() * 1.3, r: 0.8 + Math.random() * 1.6,
+      color: COLS[i % 3], op: 0.25 + Math.random() * 0.55, phase: Math.random() * TAU,
+      freq: 0.4 + Math.random() * 0.8, drift: Math.random() * TAU,
+    })).sort((a, b) => b.z - a.z);
+
+    function drawDots(time) {
+      dots.forEach(d => {
+        const k = 1 / d.z;
+        const pulse = 0.5 + 0.5 * Math.sin(time * d.freq + d.phase);
+        const x = d.x * W + Math.sin(time * 0.05 * k + d.drift) * 2.2 * k + ptr.x * 12 * k;
+        const y = d.y * H + Math.cos(time * 0.04 * k + d.drift * 1.3) * 1.6 * k + ptr.y * 8 * k;
+        const a = Math.min(0.9, d.op * pulse * k * 0.75) * clearance(x, y);
+        ctx.beginPath(); ctx.arc(x, y, d.r * k * 0.85, 0, TAU);
+        ctx.fillStyle = rgba(d.color, a); ctx.fill();
+      });
+    }
+
+    // ══════════════════════════ CENTREPIECE ══════════════════════════
+    // Tesseract: 16 vertices (±1,±1,±1,±1); an edge joins vertices that differ
+    // in one coordinate. Edges along w are the ones that join the two cubes.
+    const HC_V = [];
+    for (let i = 0; i < 16; i++) HC_V.push([(i & 1) ? 1 : -1, (i & 2) ? 1 : -1, (i & 4) ? 1 : -1, (i & 8) ? 1 : -1]);
+    const HC_E = [];
+    for (let i = 0; i < 16; i++) [1, 2, 4, 8].forEach(b => {
+      if (i & b) return;
+      HC_E.push([i, i | b, b === 8 ? 2 : ((i & 8) ? 0 : 1)]);
+    });
+    function rot4(v, a, b, c) {
+      let x = v[0], y = v[1], z = v[2], w = v[3], ca, sa, n;
+      ca = Math.cos(a); sa = Math.sin(a); n = x * ca - w * sa; w = x * sa + w * ca; x = n;   // x-w
+      ca = Math.cos(b); sa = Math.sin(b); n = z * ca - w * sa; w = z * sa + w * ca; z = n;   // z-w
+      ca = Math.cos(c); sa = Math.sin(c); n = x * ca - y * sa; y = x * sa + y * ca; x = n;   // x-y
+      return [x, y, z, w];
+    }
+
+    const view = { x: 0.5, y: 0 };
+    let ox = 0, oy = 0;
+    // 3D point (in units of S) -> screen, with a touch of perspective
+    function proj(p) {
+      const k = 1 / (1 - 0.45 * p[2]);
+      return [cx + ox + p[0] * S * k, cy + oy + p[1] * S * k, p[2]];
+    }
+
+    const rings = [
+      { R: 0.205, rx: 0.9, ry: 0.2, rz: 0.0, drx: 0.10, dry: 0.16, drz: 0.05, color: CIAN,  lw: 1.3, op: 0.70 },
+      { R: 0.265, rx: 1.2, ry: 1.0, rz: 0.8, drx: -0.07, dry: 0.11, drz: -0.06, color: ROJO,  lw: 1.0, op: 0.55 },
+      { R: 0.325, rx: 0.4, ry: 2.0, rz: 1.6, drx: 0.05, dry: -0.09, drz: 0.04, color: WHITE, lw: 0.7, op: 0.32 },
+      { R: 0.385, rx: 1.6, ry: 0.6, rz: 2.4, drx: -0.04, dry: 0.06, drz: 0.03, color: CIAN,  lw: 0.55, op: 0.26 },
+    ];
+    const orbiters = [
+      { ring: 0, a: 0,       sp: 0.55,  size: 3.0, color: CIAN },
+      { ring: 0, a: Math.PI, sp: 0.55,  size: 2.0, color: WHITE },
+      { ring: 1, a: 1.2,     sp: -0.42, size: 2.6, color: ROJO },
+      { ring: 1, a: 4.0,     sp: -0.42, size: 1.6, color: ROJO },
+      { ring: 2, a: 0.5,     sp: 0.90,  size: 2.0, color: CIAN },
+      { ring: 3, a: 2.1,     sp: -0.28, size: 1.7, color: CIAN },
+    ];
+    function ringPoint(r, th, radial) {
+      let p = [Math.cos(th) * r.R * (radial || 1), Math.sin(th) * r.R * (radial || 1), 0];
+      p = rotZ(p, r.rz); p = rotX(p, r.rx); p = rotY(p, r.ry);
+      p = rotY(p, view.y * 0.6); p = rotX(p, (view.x - 0.5) * 0.6);
+      return p;
+    }
+    const RING_N = 96;
+
+    function ringGeometry(r, time) {
+      r.rx += r.drx * r.dt; r.ry += r.dry * r.dt; r.rz += r.drz * r.dt;
+      const pts = [];
+      for (let i = 0; i <= RING_N; i++) pts.push(proj(ringPoint(r, (i / RING_N) * TAU)));
+      return pts;
+    }
+    function strokeRingHalf(pts, front, color, lw, op) {
+      ctx.beginPath();
+      for (let i = 0; i < RING_N; i++) {
+        const zm = (pts[i][2] + pts[i + 1][2]) / 2;
+        if ((zm >= 0) !== front) continue;
+        ctx.moveTo(pts[i][0], pts[i][1]); ctx.lineTo(pts[i + 1][0], pts[i + 1][1]);
+      }
+      ctx.strokeStyle = rgba(color, front ? op : op * 0.34);
+      ctx.lineWidth = front ? lw : lw * 0.75;
+      ctx.stroke();
+    }
+    function drawRingTicks(r, time) {
+      for (let k = 0; k < 4; k++) {
+        const th = k * Math.PI / 2 + time * 0.12;
+        const a = proj(ringPoint(r, th, 0.965)), b = proj(ringPoint(r, th, 1.04));
+        const d = 0.4 + 0.6 * clamp((a[2] / r.R + 1) / 2, 0, 1);
+        ctx.strokeStyle = rgba(r.color, r.op * 1.4 * d); ctx.lineWidth = 0.9;
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      }
+    }
+    function drawOrbiter(ob, pos, ringDef) {
+      const df = 0.55 + 0.45 * clamp((pos[2] / ringDef.R + 1) / 2, 0, 1);
+      // short comet trail along the ring
+      for (let j = 6; j >= 1; j--) {
+        const q = proj(ringPoint(ringDef, ob.a - Math.sign(ob.sp) * j * 0.05));
+        const q2 = proj(ringPoint(ringDef, ob.a - Math.sign(ob.sp) * (j - 1) * 0.05));
+        ctx.strokeStyle = rgba(ob.color, 0.5 * df * (1 - j / 7)); ctx.lineWidth = 1.2 * df;
+        ctx.beginPath(); ctx.moveTo(q[0], q[1]); ctx.lineTo(q2[0], q2[1]); ctx.stroke();
+      }
+      ctx.beginPath(); ctx.arc(pos[0], pos[1], ob.size * df, 0, TAU);
+      ctx.fillStyle = rgba(ob.color, df); ctx.fill();
+      ctx.beginPath(); ctx.arc(pos[0], pos[1], ob.size * df * 3.2, 0, TAU);
+      ctx.fillStyle = rgba(ob.color, 0.07); ctx.fill();
+    }
+
+    const sonar = [];
+    let sonarTimer = 1.5;
+
+    function drawCentrepiece(time, dt) {
+      view.y = time * 0.09 + ptr.x * 0.55;
+      view.x = 0.5 + ptr.y * 0.35 + Math.sin(time * 0.17) * 0.12;
+      ox = -ptr.x * S * 0.014; oy = -ptr.y * S * 0.010;
+      const sc = compact ? 0.82 : 1;
+
+      // sonar ripples
+      sonarTimer -= dt;
+      if (sonarTimer <= 0) { sonar.push({ age: 0 }); sonarTimer = rand(4.2, 6.5); }
+      for (let i = sonar.length - 1; i >= 0; i--) {
+        const rp = sonar[i]; rp.age += dt / 3.4;
+        if (rp.age >= 1) { sonar.splice(i, 1); continue; }
+        ctx.beginPath(); ctx.arc(cx + ox, cy + oy, S * (0.06 + rp.age * 0.36) * sc, 0, TAU);
+        ctx.strokeStyle = rgba(CIAN, 0.22 * (1 - rp.age)); ctx.lineWidth = 0.9; ctx.stroke();
+      }
+
+      // rings: compute once, draw back halves first
+      rings.forEach(r => { r.dt = dt; });
+      const geos = rings.map(r => ringGeometry(r, time));
+      const obs = orbiters.map(ob => {
+        ob.a += ob.sp * dt;
+        const rd = rings[ob.ring];
+        return { ob, rd, pos: proj(ringPoint(rd, ob.a)) };
+      });
+
+      ctx.save();
+      ctx.lineCap = 'round';
+      rings.forEach((r, i) => strokeRingHalf(geos[i], false, r.color, r.lw, r.op));
+      obs.filter(o => o.pos[2] < 0).forEach(o => drawOrbiter(o.ob, o.pos, o.rd));
+
+      // tesseract
+      const a = time * 0.34, b = time * 0.23, c = time * 0.11;
+      const U = 0.095 * sc;
+      const P = HC_V.map(v => {
+        const q = rot4(v, a, b, c);
+        const k = 2.4 / (4.3 - q[3]);
+        let p = [q[0] * k * U, q[1] * k * U, q[2] * k * U];
+        p = rotY(p, view.y); p = rotX(p, view.x);
+        const s = proj(p);
+        s.w = q[3];
+        return s;
+      });
+      const zr = 2.4 * U;
+      const EDGE = [
+        { col: CIAN,  lw: 1.5, op: 0.90 },
+        { col: ROJO,  lw: 1.3, op: 0.85 },
+        { col: WHITE, lw: 0.8, op: 0.34 },
+      ];
+      HC_E.forEach(e => {
+        const p1 = P[e[0]], p2 = P[e[1]], st = EDGE[e[2]];
+        const d = 0.45 + 0.55 * clamp(((p1[2] + p2[2]) / 2 / zr + 1) / 2, 0, 1);
+        ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]);
+        ctx.strokeStyle = rgba(st.col, st.op * 0.13 * d); ctx.lineWidth = st.lw * 4; ctx.stroke();
+        ctx.strokeStyle = rgba(st.col, st.op * d); ctx.lineWidth = st.lw; ctx.stroke();
+      });
+      P.forEach(p => {
+        const d = 0.5 + 0.5 * clamp((p[2] / zr + 1) / 2, 0, 1);
+        ctx.beginPath(); ctx.arc(p[0], p[1], 1.2 + 1.3 * d, 0, TAU);
+        ctx.fillStyle = rgba(WHITE, 0.85 * d); ctx.fill();
+      });
+
+      rings.forEach((r, i) => { strokeRingHalf(geos[i], true, r.color, r.lw, r.op); if (i < 3) drawRingTicks(r, time); });
+      obs.filter(o => o.pos[2] >= 0).forEach(o => drawOrbiter(o.ob, o.pos, o.rd));
+      ctx.restore();
+    }
+
+    // ══════════════════════════ GLITCHES ══════════════════════════
+    const GLITCH_TYPES = ['tetra', 'cube', 'pyramid', 'octa', 'sphere', 'tri', 'square'];
+    let glitchShapes = [], glitchShapeTimer = 0;
+    function spawnGlitchShape() {
+      let x = 0, y = 0;
+      for (let tries = 0; tries < 8; tries++) {
+        x = rand(0.06, 0.94) * W; y = rand(0.08, 0.58) * H;
+        if (clearance(x, y) > 0.9) break;
+      }
+      glitchShapes.push({
+        type: GLITCH_TYPES[Math.floor(Math.random() * GLITCH_TYPES.length)], x, y,
+        r: rand(22, 60) * (compact ? 0.7 : 1), angle: Math.random() * TAU, tilt: Math.random() * TAU,
+        spin: rand(-0.6, 0.6), tiltSpin: rand(-0.5, 0.5), color: Math.random() > 0.5 ? CIAN : ROJO, lw: rand(1, 1.9),
+        life: 0, tIn: rand(0.16, 0.30), tHold: rand(0.30, 0.85), tOut: rand(0.14, 0.30), seed: Math.random() * 1000,
+      });
+    }
+    function drawGlitchShape(gs, dt) {
+      gs.angle += gs.spin * dt; gs.tilt += gs.tiltSpin * dt;
+      let mode, progress, jitter;
+      if (gs.life < gs.tIn) { mode = 'in'; progress = gs.life / gs.tIn; jitter = (1 - progress) * gs.r * 0.5; }
+      else if (gs.life < gs.tIn + gs.tHold) { mode = 'hold'; progress = 1; jitter = 0; }
+      else { mode = 'out'; const p2 = (gs.life - gs.tIn - gs.tHold) / gs.tOut; progress = 1 - p2; jitter = p2 * gs.r * 0.65; }
+      const F = 2.4;
+      GEO[gs.type].forEach((sg, i) => {
+        const th = hash(gs.seed + i * 13.37);
+        let visible;
+        if (mode === 'hold') visible = Math.random() > 0.012;
+        else { visible = th < progress; if (Math.abs(th - progress) < 0.09 && Math.random() < 0.5) visible = !visible; }
+        if (!visible) return;
+        const p1 = rotX(rotY(sg[0], gs.angle), gs.tilt), p2 = rotX(rotY(sg[1], gs.angle), gs.tilt);
+        const k1 = F / (F + p1[2]), k2 = F / (F + p2[2]);
+        const jx = (Math.random() - 0.5) * jitter, jy = (Math.random() - 0.5) * jitter;
+        const x1 = gs.x + p1[0] * gs.r * k1 + jx, y1 = gs.y + p1[1] * gs.r * k1 + jy;
+        const x2 = gs.x + p2[0] * gs.r * k2 + jx, y2 = gs.y + p2[1] * gs.r * k2 + jy;
+        const df = clamp((k1 + k2) / 2, 0.2, 1.3);
+        const chroma = mode === 'in' ? 3 * (1 - progress) : mode === 'out' ? 3 * progress : 0;
+        ctx.lineWidth = gs.lw * df;
+        if (chroma > 0.4) {
+          ctx.strokeStyle = rgba(CIAN, 0.55 * df); ctx.beginPath(); ctx.moveTo(x1 - chroma, y1); ctx.lineTo(x2 - chroma, y2); ctx.stroke();
+          ctx.strokeStyle = rgba(ROJO, 0.55 * df); ctx.beginPath(); ctx.moveTo(x1 + chroma, y1); ctx.lineTo(x2 + chroma, y2); ctx.stroke();
+        }
+        ctx.strokeStyle = rgba(gs.color, 0.85 * df);
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      });
+      gs.life += dt;
+    }
+
+    let glitchTimer = 0, glitchLines = [];
+    function spawnGlitchLines() {
+      const n = 3 + Math.floor(Math.random() * 5);
+      glitchLines = Array.from({ length: n }, () => ({
+        x1: Math.random() * W * 0.7, y1: (0.12 + Math.random() * 0.5) * H, len: 30 + Math.random() * 200,
+        angle: -Math.PI / 4 + (Math.random() - 0.5) * 1.2, color: Math.random() > 0.5 ? CIAN : ROJO,
+        op: 0.5 + Math.random() * 0.5, life: 0, maxLife: 0.04 + Math.random() * 0.14,
       }));
     }
 
-    // ── DRAW RING TICKS on the tilted ellipse ──
-    function drawRingTicks(geo, angle, color, op) {
-      ctx.save();
-      [0, Math.PI/2, Math.PI, Math.PI*1.5].forEach(a => {
-        const ra = a + angle;
-        const x1 = geo.cx + Math.cos(ra) * (geo.r - 8);
-        const y1 = geo.cy + Math.sin(ra) * (geo.ry - 8 * (geo.ry / geo.r));
-        const x2 = geo.cx + Math.cos(ra) * (geo.r + 8);
-        const y2 = geo.cy + Math.sin(ra) * (geo.ry + 8 * (geo.ry / geo.r));
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.strokeStyle = `rgba(${color.r},${color.g},${color.b},${op * 1.5 * geo.depth})`;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-      });
-      ctx.restore();
+    let tearTimer = 0, tear = null;
+    function drawTear(dt) {
+      tearTimer += dt;
+      if (!tear && tearTimer > 3 + Math.random() * 5) {
+        tear = { y: H * (0.2 + Math.random() * 0.4), h: 4 + Math.random() * 16, shift: (Math.random() > 0.5 ? 1 : -1) * (8 + Math.random() * 36), life: 0, max: 0.04 + Math.random() * 0.08 };
+        tearTimer = 0;
+      }
+      if (!tear) return;
+      tear.life += dt;
+      if (tear.life >= tear.max) { tear = null; return; }
+      const y = Math.round(tear.y * DPR), h = Math.max(1, Math.round(tear.h * DPR));
+      const img = ctx.getImageData(0, y, canvas.width, h);
+      ctx.putImageData(img, Math.round(tear.shift * DPR), y);
+      ctx.strokeStyle = rgba(CIAN, 0.5); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, tear.y); ctx.lineTo(W, tear.y); ctx.stroke();
+      ctx.strokeStyle = rgba(ROJO, 0.4);
+      ctx.beginPath(); ctx.moveTo(0, tear.y + tear.h); ctx.lineTo(W, tear.y + tear.h); ctx.stroke();
     }
 
-    function draw(timestamp) {
-      t = timestamp * 0.001;
+    // ══════════════════════════ FRAME ══════════════════════════
+    function render(dt) {
+      ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 2.5);
+      ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 2.5);
       ctx.clearRect(0, 0, W, H);
 
-      // Grid
-      drawGrid(t);
+      ctx.fillStyle = gl.glow; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = gl.glowR; ctx.fillRect(0, 0, W, H);
 
-      // Rings — tilted ellipses simulating 3D rotation
-      const ringGeos = rings.map(rng => ringGeometry(rng, t));
-      rings.forEach((rng, i) => {
-        const angle = t * rng.speed * 1000;
-        const geo = ringGeos[i];
-        ctx.save();
-        ctx.beginPath();
-        ctx.ellipse(geo.cx, geo.cy, geo.r, geo.ry, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${rng.color.r},${rng.color.g},${rng.color.b},${rng.op * geo.depth})`;
-        ctx.lineWidth = rng.lw * (0.55 + 0.45 * geo.depth);
-        ctx.stroke();
-        ctx.restore();
-        drawRingTicks(geo, angle, rng.color, rng.op);
-      });
+      drawFloor(t);
 
-      // Inner polygon (rotates with ring 1, tilted to match its ellipse)
-      {
-        const rng = rings[1];
-        const geo = ringGeos[1];
-        const angle = t * rng.speed * 1000;
-        const rr = geo.r * 0.75, rry = geo.ry * 0.75;
-        ctx.save();
-        ctx.translate(geo.cx, geo.cy);
-        ctx.rotate(angle * 0.4);
-        ctx.beginPath();
-        for (let i = 0; i < 3; i++) {
-          const a = (i / 3) * Math.PI * 2;
-          const px = Math.cos(a) * rr, py = Math.sin(a) * rry;
-          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-        }
-        ctx.closePath();
-        ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},${0.45 * geo.depth})`;
-        ctx.lineWidth = 0.9;
-        ctx.stroke();
-        ctx.restore();
-      }
+      // long diagonal hairlines
+      fadeLine(0, H, W * 0.35, H * 0.45, [120, 120, 120], (x, y) => 0.55 * clamp((y - H * 0.45) / (H * 0.55), 0, 1), 0.8, 24);
+      fadeLine(W * 0.05, H, W * 0.48, H * 0.25, [100, 100, 100], (x, y) => 0.45 * clamp((y - H * 0.25) / (H * 0.75), 0, 1), 0.5, 24);
 
-      // Orbiting particles on the tilted ellipses — sized/lit by depth, back-to-front
-      const orbiterPositions = orbiters.map(ob => {
-        const geo = ringGeos[ob.ringIdx];
-        const angle = (ob.angle += ob.speed);
-        const px = geo.cx + Math.cos(angle) * geo.r;
-        const py = geo.cy + Math.sin(angle) * geo.ry;
-        const z = Math.sin(angle); // -1 back, +1 front
-        return { ob, px, py, z };
-      }).sort((a, b) => a.z - b.z);
+      waves.forEach(w => { drawWave(w, t, dt, 2); drawWave(w, t, dt, 1); drawWave(w, t, dt, 0); });
+      if (!compact) traces.forEach(tr => drawTrace(tr, t));
+      drawDots(t);
+      solids.forEach(s => drawSolid(s, t, dt));
+      drawCentrepiece(t, dt);
 
-      orbiterPositions.forEach(({ ob, px, py, z }) => {
-        const df = 0.55 + 0.45 * ((z + 1) / 2); // depth factor 0.55..1
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(px, py, ob.size * df, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},${ob.op * df})`;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(px, py, ob.size * df * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${ob.color.r},${ob.color.g},${ob.color.b},0.06)`;
-        ctx.fill();
+      // top-left crosshair
+      ctx.strokeStyle = 'rgba(120,120,120,0.45)'; ctx.lineWidth = 0.7;
+      ctx.beginPath(); ctx.moveTo(26, 80); ctx.lineTo(54, 80); ctx.moveTo(40, 66); ctx.lineTo(40, 94); ctx.stroke();
+
+      // glitch lines
+      glitchTimer += dt;
+      if (glitchTimer > 0.6 + Math.random() * 1.4) { spawnGlitchLines(); glitchTimer = 0; }
+      glitchLines.forEach(g => {
+        g.life += dt;
+        if (g.life >= g.maxLife) return;
+        ctx.save(); ctx.translate(g.x1, g.y1); ctx.rotate(g.angle);
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(g.len, 0);
+        ctx.strokeStyle = rgba(g.color, g.op * (1 - g.life / g.maxLife)); ctx.lineWidth = 1.2; ctx.stroke();
         ctx.restore();
       });
 
-      // Drifting 3D wireframe shapes — tetrahedra, cubes and spheres,
-      // travelling progressively across the whole canvas
-      driftShapes.forEach(s => {
-        updateDriftShape(s, 0.016);
-        drawDriftShape3D(s, t);
-      });
+      // shapes that assemble out of noise and dissolve back into it
+      glitchShapeTimer += dt;
+      if (glitchShapeTimer > 0.9 + Math.random() * 1.6 && glitchShapes.length < 3) { spawnGlitchShape(); glitchShapeTimer = 0; }
+      glitchShapes = glitchShapes.filter(g => g.life < g.tIn + g.tHold + g.tOut);
+      glitchShapes.forEach(g => drawGlitchShape(g, dt));
 
-      // Diagonal accent lines (left quadrant)
-      ctx.save();
-      ctx.strokeStyle = '#333333';
-      ctx.lineWidth = 0.8;
-      ctx.beginPath();
-      ctx.moveTo(0, H);
-      ctx.lineTo(W * 0.35, H * 0.45);
-      ctx.stroke();
-      ctx.strokeStyle = '#282828';
-      ctx.lineWidth = 0.5;
-      ctx.beginPath();
-      ctx.moveTo(W * 0.05, H);
-      ctx.lineTo(W * 0.48, H * 0.25);
-      ctx.stroke();
-      ctx.restore();
-
-      // Waves — front pass plus two receding depth echoes
-      waves.forEach(w => {
-        drawWave(w, t, 2);
-        drawWave(w, t, 1);
-        drawWave(w, t, 0);
-      });
-
-      // Floating dots — parallax depth (far → near already sorted at creation)
-      dots.forEach(d => {
-        const depthScale = 1 / d.z;
-        const pulse = 0.5 + 0.5 * Math.sin(t * d.freq * 1000 + d.phase);
-        const parallaxX = Math.sin(t * 0.05 * depthScale + d.driftPhase) * 2.2 * depthScale;
-        const parallaxY = Math.cos(t * 0.04 * depthScale + d.driftPhase * 1.3) * 1.6 * depthScale;
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(d.x * W + parallaxX, d.y * H + parallaxY, d.r * depthScale * 0.85, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${d.color.r},${d.color.g},${d.color.b},${Math.min(0.9, d.op * pulse * depthScale * 0.75)})`;
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Crosshairs (corners)
-      [[40, 80], [W - 40, H - 80]].forEach(([cx2, cy2]) => {
-        ctx.save();
-        ctx.strokeStyle = 'rgba(120,120,120,0.45)';
-        ctx.lineWidth = 0.7;
-        ctx.beginPath(); ctx.moveTo(cx2 - 14, cy2); ctx.lineTo(cx2 + 14, cy2); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(cx2, cy2 - 14); ctx.lineTo(cx2, cy2 + 14); ctx.stroke();
-        ctx.restore();
-      });
-
-      // Glitch lines
-      glitchTimer += 0.016;
-      if (glitchTimer > (0.6 + Math.random() * 1.4)) {
-        spawnGlitch();
-        glitchTimer = 0;
-      }
-      glitchLines.forEach(gl => {
-        gl.life += 0.016;
-        if (gl.life < gl.maxLife) {
-          const fade = 1 - gl.life / gl.maxLife;
-          ctx.save();
-          ctx.translate(gl.x1, gl.y1);
-          ctx.rotate(gl.angle);
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(gl.len, 0);
-          ctx.strokeStyle = `rgba(${gl.color.r},${gl.color.g},${gl.color.b},${gl.op * fade})`;
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
-          ctx.restore();
-        }
-      });
-
-      // Glitch-forming 3D shapes — cubes, spheres and tetrahedra that
-      // assemble and dissolve out of the noise, chromatic-split at the edges
-      glitchShapeTimer += 0.016;
-      if (glitchShapeTimer > (0.9 + Math.random() * 1.6) && glitchShapes.length < 3) {
-        spawnGlitchShape();
-        glitchShapeTimer = 0;
-      }
-      glitchShapes = glitchShapes.filter(gs => gs.life < gs.tIn + gs.tHold + gs.tOut);
-      glitchShapes.forEach(gs => drawGlitchShape3D(gs, 0.016));
-
-      // Screen-tear glitch
-      tearTimer += 0.016;
-      if (tearTimer > (2.0 + Math.random() * 4.0) && !tearActive) {
-        tearActive  = true;
-        tearY       = H * (0.25 + Math.random() * 0.5);
-        tearH2      = 4 + Math.random() * 18;
-        tearShift   = (Math.random() > 0.5 ? 1 : -1) * (8 + Math.random() * 40);
-        tearLife    = 0;
-        tearMaxLife = 0.04 + Math.random() * 0.08;
-        tearTimer   = 0;
-      }
-      if (tearActive) {
-        tearLife += 0.016;
-        if (tearLife < tearMaxLife) {
-          const imageData = ctx.getImageData(0, tearY, W, tearH2);
-          ctx.putImageData(imageData, tearShift, tearY);
-          ctx.save();
-          ctx.strokeStyle = `rgba(${CIAN.r},${CIAN.g},${CIAN.b},0.5)`;
-          ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(0, tearY); ctx.lineTo(W, tearY); ctx.stroke();
-          ctx.strokeStyle = `rgba(${ROJO.r},${ROJO.g},${ROJO.b},0.4)`;
-          ctx.beginPath(); ctx.moveTo(0, tearY + tearH2); ctx.lineTo(W, tearY + tearH2); ctx.stroke();
-          ctx.restore();
-        } else {
-          tearActive = false;
-        }
-      }
-
-      raf = requestAnimationFrame(draw);
+      drawTear(dt);
     }
 
-    raf = requestAnimationFrame(draw);
+    let last = 0;
+    function frame(ts) {
+      if (!last) last = ts;
+      const dt = Math.min((ts - last) / 1000, 0.05);
+      last = ts; t += dt;
+      render(dt);
+      requestAnimationFrame(frame);
+    }
+
+    resize();
+    if ('ResizeObserver' in window) new ResizeObserver(resize).observe(parent);
+    else window.addEventListener('resize', resize);
+
+    if (reduceMotion) {
+      // one composed still frame; redraw if the size changes
+      t = 9; render(0.016);
+      window.addEventListener('resize', () => { resize(); render(0.016); });
+    } else {
+      setInterval(measureZones, 500);
+      requestAnimationFrame(frame);
+    }
+  })();
+  </script>
+
+  <script>
+  // ── ROUTE MOTIF: pulses travelling at random between SCL / PAR / GVA ──
+  // Red pulses head east (towards Europe), cian pulses head west.
+  (function () {
+    const svg = document.querySelector('.route-svg');
+    if (!svg) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const NODES = { SCL: [20, 96], PAR: [290, 96], GVA: [380, 96] };
+    const cometLayer = svg.querySelector('#route-comets');
+    const rippleLayer = svg.querySelector('#route-ripples');
+    const COLOR = { east: '#e63946', west: '#00d4e8' };
+    const MAX_AT_ONCE = 6;
+
+    const lanes = Array.from(svg.querySelectorAll('.route-lane')).map(el => ({
+      d: el.getAttribute('d'),
+      len: el.getTotalLength(),
+      dir: el.dataset.dir,
+      to: NODES[el.dataset.to],
+      busy: false
+    }));
+
+    function ripple(pt, color) {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', pt[0]); c.setAttribute('cy', pt[1]); c.setAttribute('r', 3);
+      c.setAttribute('fill', 'none'); c.setAttribute('stroke', color); c.setAttribute('stroke-width', 1);
+      c.setAttribute('vector-effect', 'non-scaling-stroke');
+      c.style.transformBox = 'fill-box'; c.style.transformOrigin = 'center';
+      rippleLayer.appendChild(c);
+      c.animate(
+        [{ transform: 'scale(1)', opacity: 0.7 }, { transform: 'scale(5)', opacity: 0 }],
+        { duration: 1600, easing: 'ease-out' }
+      ).onfinish = () => c.remove();
+    }
+
+    function launch(lane) {
+      lane.busy = true;
+      const len = lane.len;
+      const duration = Math.min(8000, Math.max(1800, len / 0.058));
+      const make = (extraClass, dash) => {
+        const p = document.createElementNS(NS, 'path');
+        p.setAttribute('d', lane.d);
+        p.setAttribute('class', 'route-comet route-comet--' + lane.dir + ' ' + extraClass);
+        p.style.strokeDasharray = dash + 'px ' + (len + 60) + 'px';
+        p.style.strokeDashoffset = dash + 'px';
+        cometLayer.appendChild(p);
+        return p;
+      };
+      const tail = make('route-comet--tail', 34);
+      const head = make('route-comet--head', 10);
+      const opts = { duration, easing: 'cubic-bezier(.42,0,.58,1)', fill: 'forwards' };
+      tail.animate([{ strokeDashoffset: '34px' }, { strokeDashoffset: -len + 'px' }], opts);
+      head.animate([{ strokeDashoffset: '10px' }, { strokeDashoffset: -(len + 24) + 'px' }], opts).onfinish = () => {
+        head.remove(); tail.remove(); lane.busy = false;
+      };
+      setTimeout(() => ripple(lane.to, COLOR[lane.dir]), duration * 0.9);
+    }
+
+    function tick() {
+      if (!document.hidden) {
+        const free = lanes.filter(l => !l.busy);
+        if (free.length && lanes.length - free.length < MAX_AT_ONCE) {
+          launch(free[Math.floor(Math.random() * free.length)]);
+        }
+      }
+      setTimeout(tick, 450 + Math.random() * 1000);
+    }
+
+    [0, 350, 800].forEach(delay => setTimeout(() => {
+      const free = lanes.filter(l => !l.busy);
+      if (free.length) launch(free[Math.floor(Math.random() * free.length)]);
+    }, delay));
+    setTimeout(tick, 1200);
   })();
   </script>
 
