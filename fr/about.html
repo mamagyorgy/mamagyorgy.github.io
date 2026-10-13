@@ -242,6 +242,19 @@
     /* Subtle cian inline accent */
     .about-texto p strong { color: var(--cian); font-weight: 300; }
 
+    /* External links inside running text */
+    .ext-link {
+      color: var(--cian);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.22em;
+      text-decoration-color: rgba(0,212,232,0.5);
+      transition: color 0.2s, text-decoration-color 0.2s;
+    }
+    .ext-link:hover { color: var(--blanco); text-decoration-color: var(--blanco); }
+    .ext-link:focus-visible { outline: 1px solid var(--cian); outline-offset: 3px; }
+    .ext-link-arrow { font-size: 0.85em; margin-left: 0.2em; }
+
     /* Full-width text block continuing below the photo */
     .about-texto-full {
       margin-top: 1.2rem;
@@ -462,6 +475,9 @@
         qui comprend une commande pour la saison 2026–2027 de l'ensemble. Il compose
         actuellement une nouvelle œuvre pour l'Ensemble Contrechamps, commandée dans le
         cadre du Prix Contrechamps.
+        Pour la saison 2026–2027, il est également compositeur en résidence à la
+        <a href="https://www.singer-polignac.org/jorge-care/" target="_blank" rel="noopener" class="ext-link">Fondation Singer-Polignac<span class="ext-link-arrow" aria-hidden="true">&#8599;</span></a> à Paris,
+        où il compose une nouvelle œuvre pour le <a href="https://www.singer-polignac.org/quatuor-marto/" target="_blank" rel="noopener" class="ext-link">Quatuor Marto<span class="ext-link-arrow" aria-hidden="true">&#8599;</span></a>.
       </p>
       <p>
         En juin 2026, il a effectué une tournée européenne avec <em>Des Visages</em>, son duo

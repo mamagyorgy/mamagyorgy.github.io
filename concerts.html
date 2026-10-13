@@ -459,6 +459,174 @@
     .concierto-link-extra:hover { opacity: 1; }
     .concierto-link-extra svg { width: 9px; height: 9px; fill: currentColor; }
 
+    /* External links inside running text */
+    .ext-link {
+      color: var(--cian);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.22em;
+      text-decoration-color: rgba(0,212,232,0.5);
+      transition: color 0.2s, text-decoration-color 0.2s;
+    }
+    .ext-link:hover { color: var(--blanco); text-decoration-color: var(--blanco); }
+    .ext-link:focus-visible { outline: 1px solid var(--cian); outline-offset: 3px; }
+    .ext-link-arrow { font-size: 0.85em; margin-left: 0.2em; }
+
+    /* Work and role lines under a concert title */
+    .concierto-obra { font-size: 0.86rem; color: #c0c0bd; }
+    .concierto-rol {
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      color: var(--cian);
+      opacity: 0.8;
+    }
+
+    /* ── FEATURED PAST CONCERT (expandable: photos, credits, programme) ── */
+    .concierto-destacado {
+      margin-bottom: 2.5rem;
+      border-left: 2px solid var(--cian);
+      border-bottom: 1px solid #2e2e2e;
+      background: rgba(0,212,232,0.03);
+    }
+    .concierto-destacado summary {
+      display: block;
+      list-style: none;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .concierto-destacado summary::-webkit-details-marker { display: none; }
+    .concierto-destacado summary:hover { background: rgba(0,212,232,0.04); }
+    .concierto-destacado summary:focus-visible { outline: 1px solid var(--cian); outline-offset: -1px; }
+    .concierto-destacado-fila {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.4rem 0.75rem;
+    }
+    .concierto-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cian);
+      white-space: nowrap;
+    }
+    .concierto-toggle svg {
+      width: 10px; height: 10px;
+      fill: none; stroke: currentColor; stroke-width: 2;
+      transition: transform 0.25s ease;
+    }
+    .concierto-destacado[open] .concierto-toggle svg { transform: rotate(180deg); }
+    .concierto-detalle { padding: 0.4rem 0.75rem 1.75rem; }
+
+    .concierto-galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    .concierto-galeria .gallery-item {
+      display: block;
+      padding: 0;
+      border: 0;
+      background: #0d0d0d;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+    .concierto-galeria .gallery-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.45s ease;
+    }
+    .concierto-galeria .gallery-item:hover img { transform: scale(1.03); }
+    .concierto-galeria .gallery-item:focus-visible { outline: 2px solid var(--cian); outline-offset: 2px; }
+    .concierto-galeria figcaption,
+    .lightbox-caption {
+      margin-top: 0.7rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #777;
+    }
+
+    .concierto-creditos {
+      list-style: none;
+      margin-top: 1.6rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.35rem 2rem;
+      font-size: 0.84rem;
+      color: #c0c0bd;
+    }
+    .concierto-creditos span { color: #888; }
+    .concierto-programa { margin-top: 1.4rem; font-size: 0.84rem; }
+
+    /* ── LIGHTBOX (same component as the works pages) ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10,10,10,0.96);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 80vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border: 1px solid #2a2a2a;
+    }
+    .lightbox-close,
+    .lightbox-arrow {
+      position: absolute;
+      background: rgba(10,10,10,0.6);
+      border: 1px solid #555;
+      color: var(--blanco);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lightbox-close:hover,
+    .lightbox-arrow:hover,
+    .lightbox-close:focus-visible,
+    .lightbox-arrow:focus-visible { border-color: var(--cian); color: var(--cian); outline: none; }
+    .lightbox-close {
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 42px;
+      height: 42px;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+    .lightbox-arrow {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+    }
+    .lightbox-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .lightbox-prev { left: 1.5rem; }
+    .lightbox-next { right: 1.5rem; }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid #3a3a3a;
@@ -505,6 +673,15 @@
       }
       .concierto-arrow { display: none; }
       .concierto-links-col { align-items: flex-start; margin-top: 0.3rem; }
+      .concierto-destacado-fila { grid-template-columns: 70px 1fr; gap: 1rem; }
+      .concierto-toggle { grid-column: 2; }
+      .concierto-galeria-grid,
+      .concierto-creditos { grid-template-columns: 1fr; }
+      .lightbox { padding: 1rem; }
+      .lightbox-arrow { width: 38px; height: 38px; }
+      .lightbox-prev { left: 0.5rem; }
+      .lightbox-next { right: 0.5rem; }
+      .lightbox-close { top: 1rem; right: 1rem; width: 36px; height: 36px; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
     }
   </style>
@@ -549,23 +726,13 @@
         <div class="seccion-linea"></div>
       </div>
 
-      <a href="https://www.contrechamps.ch/fr/saison/chants-d-oiseaux" target="_blank" rel="noopener" class="concierto-fila concierto-fila-first">
-        <div class="concierto-fecha">
-          <strong>10</strong>Oct 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">"Chants d'oiseaux" — Ensemble Contrechamps season — <em>Bird Concerto with Pianosong</em> by Jonathan Harvey (RIM)</span>
-          <span class="concierto-lugar">Auditorium Ansermet <span>/</span> Geneva, Switzerland</span>
-        </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
-
       <a href="https://www.ponticello.ch/edition-2026" target="_blank" rel="noopener" class="concierto-fila">
         <div class="concierto-fecha">
           <strong>19</strong>Nov 2026
         </div>
         <div class="concierto-info">
-          <span class="concierto-evento">Ponticello Festival — <em>Naturale</em> by Luciano Berio (musical informatics, RIM)</span>
+          <span class="concierto-evento">Ponticello Festival — <em>Naturale</em> by Luciano Berio</span>
+          <span class="concierto-rol">RIM (computer music designer)</span>
           <span class="concierto-lugar">Auditorium Ansermet <span>/</span> Geneva, Switzerland</span>
         </div>
         <span class="concierto-arrow">&#8599;</span>
@@ -593,8 +760,8 @@
       <div class="concerts-intro" style="margin-top: 2.75rem;">
         <span class="tour-tag">New Work — Premiere 2027</span>
         <p>
-          New work commissioned for <em>Quatuor Marto</em>, premiering in Paris, France in 2027,
-          created within the <em>Fondation Singer-Polignac</em> artistic residency.
+          New work commissioned for <em><a href="https://www.singer-polignac.org/quatuor-marto/" target="_blank" rel="noopener" class="ext-link">Quatuor Marto<span class="ext-link-arrow" aria-hidden="true">&#8599;</span></a></em>, premiering in Paris, France in 2027,
+          created within the <em><a href="https://www.singer-polignac.org/jorge-care/" target="_blank" rel="noopener" class="ext-link">Fondation Singer-Polignac<span class="ext-link-arrow" aria-hidden="true">&#8599;</span></a></em> artistic residency.
         </p>
       </div>
 
@@ -620,6 +787,70 @@
         <span class="concierto-year-text">2026</span>
         <div class="concierto-year-linea"></div>
       </div>
+
+      <details class="concierto-destacado">
+        <summary>
+          <div class="concierto-destacado-fila">
+            <div class="concierto-fecha">
+              <strong>10</strong>Oct 2026
+            </div>
+            <div class="concierto-info">
+              <span class="concierto-evento">"Chants d'oiseaux", Ensemble Contrechamps season</span>
+              <span class="concierto-obra"><em>Bird Concerto with Pianosong</em>, by Jonathan Harvey</span>
+              <span class="concierto-rol">RIM (computer music designer)</span>
+              <span class="concierto-lugar">Auditorium Ansermet <span>/</span> Geneva, Switzerland</span>
+            </div>
+            <span class="concierto-toggle">
+              Photos and credits
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4,9 12,17 20,9"/></svg>
+            </span>
+          </div>
+        </summary>
+        <div class="concierto-detalle">
+          <figure class="concierto-galeria">
+            <div class="concierto-galeria-grid">
+              <button type="button" class="gallery-item" data-full="img/concerts/2026-10-contrechamps/chants-oiseaux-01-1600.webp">
+                <img src="img/concerts/2026-10-contrechamps/chants-oiseaux-01-800.webp"
+                     srcset="img/concerts/2026-10-contrechamps/chants-oiseaux-01-800.webp 800w, img/concerts/2026-10-contrechamps/chants-oiseaux-01-1600.webp 1600w"
+                     sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                     width="1600" height="1067" loading="lazy"
+                     alt="High-angle view of the stage: Ensemble Contrechamps in a semicircle around the conductor, piano soloist on the left, harp on the right." />
+              </button>
+              <button type="button" class="gallery-item" data-full="img/concerts/2026-10-contrechamps/chants-oiseaux-02-1600.webp">
+                <img src="img/concerts/2026-10-contrechamps/chants-oiseaux-02-800.webp"
+                     srcset="img/concerts/2026-10-contrechamps/chants-oiseaux-02-800.webp 800w, img/concerts/2026-10-contrechamps/chants-oiseaux-02-1600.webp 1600w"
+                     sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                     width="1600" height="1067" loading="lazy"
+                     alt="The sound desk in the dark: Jorge Care and David Poissonnier, in silhouette, facing a digital mixing console and the screens of the live electronics." />
+              </button>
+              <button type="button" class="gallery-item" data-full="img/concerts/2026-10-contrechamps/chants-oiseaux-03-1600.webp">
+                <img src="img/concerts/2026-10-contrechamps/chants-oiseaux-03-800.webp"
+                     srcset="img/concerts/2026-10-contrechamps/chants-oiseaux-03-800.webp 800w, img/concerts/2026-10-contrechamps/chants-oiseaux-03-1600.webp 1600w"
+                     sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                     width="1600" height="1067" loading="lazy"
+                     alt="Final applause seen from the sound desk: Gregory Charette raises an arm to greet the audience, with the musicians of Ensemble Contrechamps standing on stage." />
+              </button>
+              <button type="button" class="gallery-item" data-full="img/concerts/2026-10-contrechamps/chants-oiseaux-04-1600.webp">
+                <img src="img/concerts/2026-10-contrechamps/chants-oiseaux-04-800.webp"
+                     srcset="img/concerts/2026-10-contrechamps/chants-oiseaux-04-800.webp 800w, img/concerts/2026-10-contrechamps/chants-oiseaux-04-1600.webp 1600w"
+                     sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                     width="1600" height="1067" loading="lazy"
+                     alt="Bows at the front of the stage: Jorge Care, David Poissonnier and Gilbert Nouno stand smiling while the musicians of Ensemble Contrechamps applaud behind them." />
+              </button>
+            </div>
+            <figcaption>Photos © Guillaume Collignon</figcaption>
+          </figure>
+          <ul class="concierto-creditos">
+            <li>Antoine Françoise, <span>piano</span></li>
+            <li>Gregory Charette, <span>conductor</span></li>
+            <li>David Poissonnier, <span>sound engineer</span></li>
+            <li>Gilbert Nouno, <span>live electronics</span></li>
+          </ul>
+          <p class="concierto-programa">
+            <a href="https://www.contrechamps.ch/fr/saison/chants-d-oiseaux" target="_blank" rel="noopener" class="ext-link">Concert programme<span class="ext-link-arrow" aria-hidden="true">&#8599;</span></a>
+          </p>
+        </div>
+      </details>
 
       <div class="concerts-intro" style="margin-bottom: 1.75rem;">
         <span class="tour-tag">European Tour — June 2026</span>
@@ -982,6 +1213,87 @@
     <span>2026 Jorge Care</span>
     <span><span class="rojo">·</span> Composer · Digital artist · Improviser</span>
   </footer>
+
+  <!-- ── LIGHTBOX MODAL (gallery) ── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,4 7,12 15,20"/></svg>
+    </button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImg" />
+      <p class="lightbox-caption">Photo © Guillaume Collignon</p>
+    </div>
+    <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Next image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg>
+    </button>
+  </div>
+
+  <script>
+  // ── GALLERY LIGHTBOX ── same behaviour as the works pages, opened from the
+  // photo buttons of the featured concert. Keeps keyboard focus inside while open.
+  (function() {
+    const triggers = Array.from(document.querySelectorAll('.concierto-galeria .gallery-item'));
+    if (!triggers.length) return;
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const prevBtn = document.getElementById('lightboxPrev');
+    const nextBtn = document.getElementById('lightboxNext');
+    const controls = [closeBtn, prevBtn, nextBtn];
+
+    let currentIndex = 0;
+    let lastTrigger = null;
+
+    function showImage(index) {
+      currentIndex = (index + triggers.length) % triggers.length;
+      const trigger = triggers[currentIndex];
+      lightboxImg.src = trigger.dataset.full;
+      lightboxImg.alt = trigger.querySelector('img').alt;
+    }
+
+    function openLightbox(index) {
+      lastTrigger = triggers[index];
+      showImage(index);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastTrigger) lastTrigger.focus();
+    }
+
+    triggers.forEach((trigger, index) => {
+      trigger.addEventListener('click', () => openLightbox(index));
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+    nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const i = controls.indexOf(document.activeElement);
+        controls[(i + (e.shiftKey ? -1 : 1) + controls.length) % controls.length].focus();
+      }
+    });
+  })();
+  </script>
 
   <script>
   // ── AMBIENT PAGE-HEADER BACKGROUND ──
