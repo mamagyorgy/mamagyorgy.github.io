@@ -1362,7 +1362,7 @@
         const to = box(!opening);
 
         panel.style.overflow = 'hidden';
-        anim = panel.animate([from, to], { duration: 800, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' });
+        anim = panel.animate([from, to], { duration: 700, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' });
         anim.onfinish = function() {
           if (!opening) { details.open = false; details.classList.remove('is-closing'); }
           panel.style.overflow = '';
