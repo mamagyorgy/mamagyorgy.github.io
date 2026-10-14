@@ -892,7 +892,7 @@
           </div>
         </summary>
         <div class="concierto-detalle">
-          <figure class="concierto-galeria concierto-galeria--lugares" data-credit="Foto © Loïc Baillod">
+          <figure class="concierto-galeria concierto-galeria--lugares">
             <div class="concierto-galeria-grid">
               <div class="gallery-cell">
                 <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-1600.webp" data-lugar="Londres, The Horse Hospital">
@@ -905,14 +905,14 @@
                 <span class="gallery-lugar">Londres, The Horse Hospital</span>
               </div>
               <div class="gallery-cell">
-                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-02-bern-1600.webp" data-lugar="Berna, Pakt Bern">
-                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-02-bern-800.webp"
-                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-02-bern-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-02-bern-1600.webp 1600w"
+                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-1600.webp" data-lugar="Copenhague, Mayhem">
+                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-800.webp"
+                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-1600.webp 1600w"
                        sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
                        width="1600" height="899" loading="lazy"
-                       alt="Jorge Care ante una mesa de electrónica y César Vidal al saxofón, bajo una luz violeta en una sala oscura de Pakt Bern." />
+                       alt="Jorge Care ante una mesa de electrónica y César Vidal al saxofón, bajo una luz violeta en una sala oscura de Mayhem, Copenhague." />
                 </button>
-                <span class="gallery-lugar">Berna, Pakt Bern</span>
+                <span class="gallery-lugar">Copenhague, Mayhem</span>
               </div>
               <div class="gallery-cell">
                 <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-1600.webp" data-lugar="París, Café Heloïse">
@@ -925,17 +925,16 @@
                 <span class="gallery-lugar">París, Café Heloïse</span>
               </div>
               <div class="gallery-cell">
-                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-04-copenhagen-1600.webp" data-lugar="Copenhague, Mayhem">
-                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-04-copenhagen-800.webp"
-                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-04-copenhagen-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-04-copenhagen-1600.webp 1600w"
+                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-1600.webp" data-lugar="Berna, Pakt Bern" data-credit="Foto © Loïc Baillod">
+                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-800.webp"
+                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-1600.webp 1600w"
                        sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
                        width="1600" height="1280" loading="lazy" style="object-position: center 30%;"
-                       alt="Jorge Care, con sombrero de pescador, inclinado sobre su electrónica y su portátil bajo una luz violeta, en Mayhem, Copenhague." />
+                       alt="Jorge Care, con sombrero de pescador, inclinado sobre su electrónica y su portátil bajo una luz violeta, en Pakt Bern." />
                 </button>
-                <span class="gallery-lugar">Copenhague, Mayhem</span>
+                <span class="gallery-lugar">Berna, Pakt Bern · Foto © Loïc Baillod</span>
               </div>
             </div>
-            <figcaption>Fotos © Loïc Baillod</figcaption>
           </figure>
           <ul class="concierto-creditos">
             <li>César Vidal, <span>saxofón</span></li>
@@ -1334,7 +1333,7 @@
       const trigger = group[currentIndex];
       lightboxImg.src = trigger.dataset.full;
       lightboxImg.alt = trigger.querySelector('img').alt;
-      const credit = trigger.closest('.concierto-galeria').dataset.credit;
+      const credit = trigger.dataset.credit || trigger.closest('.concierto-galeria').dataset.credit;
       captionEl.textContent = [trigger.dataset.lugar, credit].filter(Boolean).join(' · ');
     }
 
