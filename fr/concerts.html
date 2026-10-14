@@ -519,7 +519,7 @@
       fill: none; stroke: currentColor; stroke-width: 2;
       transition: transform 0.25s ease;
     }
-    .concierto-destacado[open] .concierto-toggle svg { transform: rotate(180deg); }
+    .concierto-destacado[open]:not(.is-closing) .concierto-toggle svg { transform: rotate(180deg); }
     .concierto-detalle { padding: 0.4rem 0.75rem 1.75rem; }
 
     .concierto-galeria-grid {
@@ -573,6 +573,25 @@
     }
     .concierto-creditos span { color: #888; }
     .concierto-programa { margin-top: 1.4rem; font-size: 0.84rem; }
+
+    /* ── GROUPED ENTRIES (one tour: intro, photos and dates in a single panel) ── */
+    .concierto-grupo {
+      padding: 1.5rem 1.5rem 0.35rem;
+      border: 1px solid #2a2a2a;
+      border-left: 2px solid var(--cian);
+      background: rgba(0,212,232,0.03);
+    }
+    .concierto-grupo .concerts-intro {
+      max-width: 640px;
+      padding: 0 0.75rem;
+      border-left: 0;
+      background: none;
+    }
+    .concierto-grupo .concierto-destacado {
+      border: 1px solid #2e2e2e;
+      background: rgba(10,10,10,0.45);
+    }
+    .concierto-grupo > :last-child { border-bottom: 0; }
 
     /* ── LIGHTBOX (same component as the works pages) ── */
     .lightbox {
@@ -687,6 +706,7 @@
       .concierto-toggle { grid-column: 2; }
       .concierto-galeria-grid,
       .concierto-creditos { grid-template-columns: 1fr; }
+      .concierto-grupo { padding: 1.1rem 0.5rem 0.25rem; }
       .lightbox { padding: 1rem; }
       .lightbox-arrow { width: 38px; height: 38px; }
       .lightbox-prev { left: 0.5rem; }
@@ -851,6 +871,7 @@
             <figcaption>Photos © Guillaume Collignon</figcaption>
           </figure>
           <ul class="concierto-creditos">
+            <li>Ensemble Contrechamps</li>
             <li>Antoine Françoise, <span>piano solo</span></li>
             <li>Gregory Charette, <span>direction musicale</span></li>
             <li>David Poissonnier, <span>ingénieur du son</span></li>
@@ -863,156 +884,158 @@
         </div>
       </details>
 
-      <div class="concerts-intro" style="margin-bottom: 1.75rem;">
-        <span class="tour-tag">Tournée européenne — Juin 2026</span>
-        <p>
-          <em>Des Visages</em>, duo de saxophone et électronique en temps réel formé par César
-          Vidal et Jorge Care, a présenté sa <strong>Tournée européenne 2026</strong>, six concerts
-          à travers l'Europe en juin 2026.
-        </p>
-        <p class="ministry-note">
-          Tournée soutenue par le ministère chilien de la Culture, des Arts et du Patrimoine.
-        </p>
-      </div>
+      <div class="concierto-grupo">
+        <div class="concerts-intro" style="margin-bottom: 1.75rem;">
+          <span class="tour-tag">Tournée européenne — Juin 2026</span>
+          <p>
+            <em>Des Visages</em>, duo de saxophone et électronique en temps réel formé par César
+            Vidal et Jorge Care, a présenté sa <strong>Tournée européenne 2026</strong>, six concerts
+            à travers l'Europe en juin 2026.
+          </p>
+          <p class="ministry-note">
+            Tournée soutenue par le ministère chilien de la Culture, des Arts et du Patrimoine.
+          </p>
+        </div>
 
-      <details class="concierto-destacado" style="margin-bottom: 0.75rem;">
-        <summary>
-          <div class="concierto-destacado-fila">
-            <div class="concierto-fecha">
-              <strong>Juin</strong>2026
+        <details class="concierto-destacado" style="margin-bottom: 0.75rem;">
+          <summary>
+            <div class="concierto-destacado-fila">
+              <div class="concierto-fecha">
+                <strong>Juin</strong>2026
+              </div>
+              <div class="concierto-info">
+                <span class="concierto-evento">Des Visages, Tournée européenne 2026</span>
+                <span class="concierto-obra"><em>aleas</em>, pour saxophone, électronique et lumière</span>
+              </div>
+              <span class="concierto-toggle">
+                Photos et crédits
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4,9 12,17 20,9"/></svg>
+              </span>
             </div>
-            <div class="concierto-info">
-              <span class="concierto-evento">Des Visages, Tournée européenne 2026</span>
-              <span class="concierto-obra"><em>aleas</em>, pour saxophone, électronique et lumière</span>
-            </div>
-            <span class="concierto-toggle">
-              Photos et crédits
-              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4,9 12,17 20,9"/></svg>
-            </span>
+          </summary>
+          <div class="concierto-detalle">
+            <figure class="concierto-galeria concierto-galeria--lugares">
+              <div class="concierto-galeria-grid">
+                <div class="gallery-cell">
+                  <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-1600.webp" data-lugar="Londres, The Horse Hospital">
+                    <img src="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-800.webp"
+                         srcset="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-01-london-1600.webp 1600w"
+                         sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                         width="1600" height="899" loading="lazy"
+                         alt="César Vidal au saxophone et Jorge Care à l'électronique, éclairés en vert devant un mur de couleurs projetées, à The Horse Hospital, Londres." />
+                  </button>
+                  <span class="gallery-lugar">Londres, The Horse Hospital</span>
+                </div>
+                <div class="gallery-cell">
+                  <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-1600.webp" data-lugar="Copenhague, Mayhem">
+                    <img src="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-800.webp"
+                         srcset="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-1600.webp 1600w"
+                         sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                         width="1600" height="899" loading="lazy"
+                         alt="Jorge Care à une table d'électronique et César Vidal au saxophone, sous une lumière violette dans une salle sombre de Mayhem, Copenhague." />
+                  </button>
+                  <span class="gallery-lugar">Copenhague, Mayhem</span>
+                </div>
+                <div class="gallery-cell">
+                  <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-1600.webp" data-lugar="Paris, Café Heloïse">
+                    <img src="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-800.webp"
+                         srcset="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-1600.webp 1600w"
+                         sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                         width="1600" height="899" loading="lazy"
+                         alt="Jorge Care à l'électronique et César Vidal au saxophone devant une toile peinte et une guirlande lumineuse, au Café Heloïse, Paris." />
+                  </button>
+                  <span class="gallery-lugar">Paris, Café Heloïse</span>
+                </div>
+                <div class="gallery-cell">
+                  <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-1600.webp" data-lugar="Berne, Pakt Bern" data-credit="Photo © Loïc Baillod">
+                    <img src="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-800.webp"
+                         srcset="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-1600.webp 1600w"
+                         sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
+                         width="1600" height="1280" loading="lazy" style="object-position: center 30%;"
+                         alt="Jorge Care, coiffé d'un bob, penché sur son électronique et son ordinateur sous une lumière violette, au Pakt Bern." />
+                  </button>
+                  <span class="gallery-lugar">Berne, Pakt Bern · Photo © Loïc Baillod</span>
+                </div>
+              </div>
+            </figure>
+            <ul class="concierto-creditos">
+              <li>César Vidal, <span>saxophone</span></li>
+              <li>Jorge Care, <span>électronique en temps réel</span></li>
+            </ul>
           </div>
-        </summary>
-        <div class="concierto-detalle">
-          <figure class="concierto-galeria concierto-galeria--lugares">
-            <div class="concierto-galeria-grid">
-              <div class="gallery-cell">
-                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-1600.webp" data-lugar="Londres, The Horse Hospital">
-                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-800.webp"
-                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-01-london-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-01-london-1600.webp 1600w"
-                       sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
-                       width="1600" height="899" loading="lazy"
-                       alt="César Vidal au saxophone et Jorge Care à l'électronique, éclairés en vert devant un mur de couleurs projetées, à The Horse Hospital, Londres." />
-                </button>
-                <span class="gallery-lugar">Londres, The Horse Hospital</span>
-              </div>
-              <div class="gallery-cell">
-                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-1600.webp" data-lugar="Copenhague, Mayhem">
-                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-800.webp"
-                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-02-copenhagen-1600.webp 1600w"
-                       sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
-                       width="1600" height="899" loading="lazy"
-                       alt="Jorge Care à une table d'électronique et César Vidal au saxophone, sous une lumière violette dans une salle sombre de Mayhem, Copenhague." />
-                </button>
-                <span class="gallery-lugar">Copenhague, Mayhem</span>
-              </div>
-              <div class="gallery-cell">
-                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-1600.webp" data-lugar="Paris, Café Heloïse">
-                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-800.webp"
-                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-03-paris-1600.webp 1600w"
-                       sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
-                       width="1600" height="899" loading="lazy"
-                       alt="Jorge Care à l'électronique et César Vidal au saxophone devant une toile peinte et une guirlande lumineuse, au Café Heloïse, Paris." />
-                </button>
-                <span class="gallery-lugar">Paris, Café Heloïse</span>
-              </div>
-              <div class="gallery-cell">
-                <button type="button" class="gallery-item" data-full="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-1600.webp" data-lugar="Berne, Pakt Bern" data-credit="Photo © Loïc Baillod">
-                  <img src="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-800.webp"
-                       srcset="../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-800.webp 800w, ../img/concerts/2026-06-des-visages-tour/des-visages-04-bern-1600.webp 1600w"
-                       sizes="(max-width: 768px) calc(100vw - 4.5rem), 490px"
-                       width="1600" height="1280" loading="lazy" style="object-position: center 30%;"
-                       alt="Jorge Care, coiffé d'un bob, penché sur son électronique et son ordinateur sous une lumière violette, au Pakt Bern." />
-                </button>
-                <span class="gallery-lugar">Berne, Pakt Bern · Photo © Loïc Baillod</span>
-              </div>
-            </div>
-          </figure>
-          <ul class="concierto-creditos">
-            <li>César Vidal, <span>saxophone</span></li>
-            <li>Jorge Care, <span>électronique en temps réel</span></li>
-          </ul>
-        </div>
-      </details>
+        </details>
 
-      <a href="https://mayhemkbh.dk/" target="_blank" rel="noopener" class="concierto-fila-past">
-        <div class="concierto-fecha">
-          <strong>26</strong>Juin 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">Mayhem — Des Visages</span>
-          <span class="concierto-lugar">Mayhem <span>/</span> Copenhague, Danemark</span>
-        </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
+        <a href="https://mayhemkbh.dk/" target="_blank" rel="noopener" class="concierto-fila-past">
+          <div class="concierto-fecha">
+            <strong>26</strong>Juin 2026
+          </div>
+          <div class="concierto-info">
+            <span class="concierto-evento">Mayhem — Des Visages</span>
+            <span class="concierto-lugar">Mayhem <span>/</span> Copenhague, Danemark</span>
+          </div>
+          <span class="concierto-arrow">&#8599;</span>
+        </a>
 
-      <a href="https://www.thehorsehospital.com/events/dirarkalash-momokogill-desvisages" target="_blank" rel="noopener" class="concierto-fila-past">
-        <div class="concierto-fecha">
-          <strong>15</strong>Juin 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">The Horse Hospital — Des Visages</span>
-          <span class="concierto-lugar">The Horse Hospital <span>/</span> Londres, Angleterre</span>
-        </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
+        <a href="https://www.thehorsehospital.com/events/dirarkalash-momokogill-desvisages" target="_blank" rel="noopener" class="concierto-fila-past">
+          <div class="concierto-fecha">
+            <strong>15</strong>Juin 2026
+          </div>
+          <div class="concierto-info">
+            <span class="concierto-evento">The Horse Hospital — Des Visages</span>
+            <span class="concierto-lugar">The Horse Hospital <span>/</span> Londres, Angleterre</span>
+          </div>
+          <span class="concierto-arrow">&#8599;</span>
+        </a>
 
-      <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=6" target="_blank" rel="noopener" class="concierto-fila-past">
-        <div class="concierto-fecha">
-          <strong>13</strong>Juin 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">SubWaves — Des Visages</span>
-          <span class="concierto-lugar">SubWaves <span>/</span> Amsterdam, Pays-Bas</span>
-        </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
+        <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=6" target="_blank" rel="noopener" class="concierto-fila-past">
+          <div class="concierto-fecha">
+            <strong>13</strong>Juin 2026
+          </div>
+          <div class="concierto-info">
+            <span class="concierto-evento">SubWaves — Des Visages</span>
+            <span class="concierto-lugar">SubWaves <span>/</span> Amsterdam, Pays-Bas</span>
+          </div>
+          <span class="concierto-arrow">&#8599;</span>
+        </a>
 
-      <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=5" target="_blank" rel="noopener" class="concierto-fila-past">
-        <div class="concierto-fecha">
-          <strong>05</strong>Juin 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">DATA — Des Visages</span>
-          <span class="concierto-lugar">DATA <span>/</span> Marseille, France</span>
-        </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
+        <a href="https://www.instagram.com/p/DY1b_AyDjG7/?img_index=5" target="_blank" rel="noopener" class="concierto-fila-past">
+          <div class="concierto-fecha">
+            <strong>05</strong>Juin 2026
+          </div>
+          <div class="concierto-info">
+            <span class="concierto-evento">DATA — Des Visages</span>
+            <span class="concierto-lugar">DATA <span>/</span> Marseille, France</span>
+          </div>
+          <span class="concierto-arrow">&#8599;</span>
+        </a>
 
-      <a href="https://www.instagram.com/p/DY2k9OYOg2j/" target="_blank" rel="noopener" class="concierto-fila-past">
-        <div class="concierto-fecha">
-          <strong>03</strong>Juin 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">Café Heloïse — Des Visages</span>
-          <span class="concierto-lugar">Beaux-Arts <span>/</span> Paris, France</span>
-        </div>
-        <span class="concierto-arrow">&#8599;</span>
-      </a>
+        <a href="https://www.instagram.com/p/DY2k9OYOg2j/" target="_blank" rel="noopener" class="concierto-fila-past">
+          <div class="concierto-fecha">
+            <strong>03</strong>Juin 2026
+          </div>
+          <div class="concierto-info">
+            <span class="concierto-evento">Café Heloïse — Des Visages</span>
+            <span class="concierto-lugar">Beaux-Arts <span>/</span> Paris, France</span>
+          </div>
+          <span class="concierto-arrow">&#8599;</span>
+        </a>
 
-      <div class="concierto-fila-static">
-        <div class="concierto-fecha">
-          <strong>01</strong>Juin 2026
-        </div>
-        <div class="concierto-info">
-          <span class="concierto-evento">Impakt Jam — Des Visages</span>
-          <span class="concierto-lugar">Pakt Bern <span>/</span> Berne, Suisse</span>
-          <a href="https://pakt-bern.ch/de/veranstaltungen/impaktjam-mit-des-visages-ft-cesar-vidal-and-jorge-care/" target="_blank" rel="noopener" class="concierto-recording">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-            Page de l'événement
-          </a>
-          <a href="https://youtu.be/M2Cn6_n5CJc?si=XpMtbzcmHm8ynong" target="_blank" rel="noopener" class="concierto-recording">
-            <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
-            Enregistrement
-          </a>
+        <div class="concierto-fila-static">
+          <div class="concierto-fecha">
+            <strong>01</strong>Juin 2026
+          </div>
+          <div class="concierto-info">
+            <span class="concierto-evento">Impakt Jam — Des Visages</span>
+            <span class="concierto-lugar">Pakt Bern <span>/</span> Berne, Suisse</span>
+            <a href="https://pakt-bern.ch/de/veranstaltungen/impaktjam-mit-des-visages-ft-cesar-vidal-and-jorge-care/" target="_blank" rel="noopener" class="concierto-recording">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+              Page de l'événement
+            </a>
+            <a href="https://youtu.be/M2Cn6_n5CJc?si=XpMtbzcmHm8ynong" target="_blank" rel="noopener" class="concierto-recording">
+              <svg class="yt-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+              Enregistrement
+            </a>
+          </div>
         </div>
       </div>
 
@@ -1308,6 +1331,49 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg>
     </button>
   </div>
+
+  <script>
+  // ── FEATURED ENTRIES ── slide open and closed instead of snapping.
+  // <details> stays the source of truth, so the entries still work without this script.
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const SIZE = ['height', 'paddingTop', 'paddingBottom'];
+
+    document.querySelectorAll('.concierto-destacado').forEach(function(details) {
+      const summary = details.querySelector('summary');
+      const panel = details.querySelector('.concierto-detalle');
+      if (!summary || !panel || !panel.animate) return;
+      let anim = null;
+
+      // Current box of the panel (mid-animation values included), or a collapsed one
+      function box(collapsed) {
+        const cs = getComputedStyle(panel);
+        const b = { opacity: collapsed ? 0 : cs.opacity };
+        SIZE.forEach(p => { b[p] = collapsed ? '0px' : cs[p]; });
+        return b;
+      }
+
+      summary.addEventListener('click', function(e) {
+        e.preventDefault();
+        const opening = !details.open || details.classList.contains('is-closing');
+        const from = box(!details.open);
+        if (anim) { anim.onfinish = null; anim.cancel(); }
+        details.open = true;
+        details.classList.toggle('is-closing', !opening);
+        const to = box(!opening);
+
+        panel.style.overflow = 'hidden';
+        anim = panel.animate([from, to], { duration: 450, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' });
+        anim.onfinish = function() {
+          if (!opening) { details.open = false; details.classList.remove('is-closing'); }
+          panel.style.overflow = '';
+          anim.cancel();
+          anim = null;
+        };
+      });
+    });
+  })();
+  </script>
 
   <script>
   // ── GALLERY LIGHTBOX ── same behaviour as the works pages, opened from the
